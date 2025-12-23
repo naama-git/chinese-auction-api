@@ -2,7 +2,7 @@
 
 namespace ChineseAuctionAPI.Models
 {
-    public class Donator
+    public class Donor
     {
         public int Id { get; set; }
         [MaxLength(100)]
@@ -13,9 +13,9 @@ namespace ChineseAuctionAPI.Models
         [EmailAddress]
         public string Email { get; set; }
         [Phone]
-        public string PhoneNumber {  get; set; }
+        public string PhoneNumber { get; set; }
 
-        public List<int> PrizesId {  get; set; }
+        public List<int> PrizesId { get; set; }
         public List<Prize> Prizes { get; set; }
 
 

@@ -11,7 +11,7 @@ namespace ChineseAuctionAPI.Models
         public string Description { get; set; }
 
         public int DonatorId { get; set; }
-        public Donator Donator { get; set; }
+        public Donor Donor { get; set; }
 
         public bool IsPremium { get; set; }
 
