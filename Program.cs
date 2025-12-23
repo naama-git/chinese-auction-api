@@ -1,7 +1,6 @@
 
 using ChineseAuctionAPI.Data;
-using ChineseAuctionAPI.Interface;
-using ChineseAuctionAPI.Repositories;
+using ChineseAuctionAPI.Intrefaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChineseAuctionAPI
@@ -27,7 +26,10 @@ namespace ChineseAuctionAPI
             // db factory
             builder.Services.AddSingleton<DbContextFactory>();
 
-            builder.Services.AddScoped<IDonorRepo,DonorRepository>();
+
+            // DI
+            builder.Services.AddScoped<IDonorRepo, DonorRepository>();
+
 
             var app = builder.Build();
 

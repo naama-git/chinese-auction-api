@@ -10,7 +10,7 @@ namespace ChineseAuctionAPI.Models
         [MaxLength(100)]
         public string Description { get; set; }
 
-        public int DonatorId { get; set; }
+        public int DonorId { get; set; }
         public Donor Donor { get; set; }
 
         public bool IsPremium { get; set; }
