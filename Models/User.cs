@@ -8,9 +8,6 @@ namespace ChineseAuctionAPI.Models
         public bool IsAdmin { get; set; }
 
         [MaxLength(100)]
-        public string UserName { get; set; }
-
-        [MaxLength(100)]
         public string FirstName { get; set; }
 
         [MaxLength(100)]

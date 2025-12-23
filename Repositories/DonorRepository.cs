@@ -1,5 +1,5 @@
 ﻿using ChineseAuctionAPI.Data;
-using ChineseAuctionAPI.Intrefaces;
+using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,7 +21,7 @@ public class DonorRepository : IDonorRepo
     }
 
     //add new donor
-    public async Task AddDonorAsync(Donor donor)
+    public async Task AddDonor(Donor donor)
     {
         await _context.donors.AddAsync(donor);
         await _context.SaveChangesAsync();
@@ -37,7 +37,7 @@ public class DonorRepository : IDonorRepo
 
 
     // delete a donor
-    public async Task deleteDonor(int id)
+    public async Task DeleteDonor(int id)
     {
         await _context.donors
         .Where(d => d.Id == id)
@@ -51,3 +51,4 @@ public class DonorRepository : IDonorRepo
         return await _context.donors.FirstOrDefaultAsync(d => d.Id == id);
     }
 }
+

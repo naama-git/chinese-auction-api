@@ -7,9 +7,7 @@
         public User User { get; set; }
 
         public DateTime OrderDate { get; set; }
-        public List<int> PackagesId { get; set; }
         public List<Package> Packages { get; set; }
-        public List<int> PrizesId { get; set; }
         public List<Prize> Prizes { get; set; } 
 
     }
