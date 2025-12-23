@@ -14,9 +14,7 @@ namespace ChineseAuctionAPI.Models
         public string Email { get; set; }
         [Phone]
         public string PhoneNumber { get; set; }
-
-        public List<int> PrizesId { get; set; }
-        public List<Prize> Prizes { get; set; }
+        public List<Prize> Prizes { get; set; } = new List<Prize>();
 
 
     }
