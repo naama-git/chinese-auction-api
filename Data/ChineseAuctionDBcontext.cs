@@ -7,7 +7,7 @@ namespace ChineseAuctionAPI.Data
     {
         public ChineseAuctionDBcontext(DbContextOptions<ChineseAuctionDBcontext> options) : base(options) { }
 
-        public DbSet<Donor> donators { get; set; }
+        public DbSet<Donor> donors { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<Prize> prizes { get; set; }
         public DbSet<Package> packages { get; set; }
