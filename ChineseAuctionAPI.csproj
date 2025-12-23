@@ -24,7 +24,6 @@
     <Folder Include="Controllers\" />
     <Folder Include="DTO\" />
     <Folder Include="Public\" />
-    <Folder Include="Repositories\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
