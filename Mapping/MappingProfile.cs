@@ -2,6 +2,8 @@
 using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Models;
 using static ChineseAuctionAPI.DTO.UserDTO;
+using static ChineseAuctionAPI.DTO.CategoryDTO;
+
 
 namespace ChineseAuctionAPI.Mapping
 {
@@ -13,11 +15,13 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Donor, DonorReadDTO>();
             CreateMap<DonorCreateDTO,Donor>();
             CreateMap<DonorUpdateDTO, Donor>();
-
             //User
             CreateMap<SignInDTO, User>();
             CreateMap<LogInDTO, User>();
-
+            //Category
+            CreateMap<Category, CategoriesDTO>();
+            CreateMap<CategoriesDTO, Category>();
+            CreateMap<UpdateCategory, Category>();
             //Prizes
             CreateMap<Prize, ReadPrizeDTO>();
             CreateMap<CreatePrizeDTO,Prize>();
