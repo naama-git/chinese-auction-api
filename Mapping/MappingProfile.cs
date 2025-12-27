@@ -12,6 +12,8 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Donor, DonorReadDTO>();
             CreateMap<DonorCreateDTO,Donor>();
             CreateMap<DonorUpdateDTO, Donor>();
+
+            
         }
     }
 }
