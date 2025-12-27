@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Models;
+using static ChineseAuctionAPI.DTO.UserDTO;
 
 namespace ChineseAuctionAPI.Mapping
 {
@@ -11,6 +12,9 @@ namespace ChineseAuctionAPI.Mapping
             //Donors
             CreateMap<Donor, DonorReadDTO>();
             CreateMap<DonorCreateDTO,Donor>();
+            //User
+            CreateMap<SignInDTO, User>();
+            CreateMap<LogInDTO, User>();
         }
     }
 }

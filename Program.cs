@@ -1,6 +1,7 @@
 
 using ChineseAuctionAPI.Data;
 using ChineseAuctionAPI.Interface;
+using ChineseAuctionAPI.Repositories;
 using ChineseAuctionAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,8 +34,9 @@ namespace ChineseAuctionAPI
             // DI
             builder.Services.AddScoped<IDonorRepo, DonorRepository>();
             builder.Services.AddScoped<IDonorService, DonorService>();
+            builder.Services.AddScoped<IUserRepo, UserRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
-            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
