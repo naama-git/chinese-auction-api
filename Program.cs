@@ -41,6 +41,9 @@ namespace ChineseAuctionAPI
             //Category
             builder.Services.AddScoped<ICategoryRepo, CategoryRepository>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            //Prize
+            builder.Services.AddScoped<IPrizeRepo, PrizeRepository>();
+            builder.Services.AddScoped<IPrizeService, PrizeService>();
 
 
             var app = builder.Build();
