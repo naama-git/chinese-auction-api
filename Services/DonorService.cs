@@ -38,7 +38,7 @@ namespace ChineseAuctionAPI.Services
             return _mapper.Map<IEnumerable<DonorReadDTO>>(donors);
         }
 
-        public async Task UpdateDonor(DonorCreateDTO donor)
+        public async Task UpdateDonor(DonorUpdateDTO donor)
         {
             Donor donorEntity = _mapper.Map<Donor>(donor);
             await _repo.UpdateDonor(donorEntity);
