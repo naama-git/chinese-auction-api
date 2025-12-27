@@ -32,10 +32,16 @@ namespace ChineseAuctionAPI
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // DI
+            //Donor
             builder.Services.AddScoped<IDonorRepo, DonorRepository>();
             builder.Services.AddScoped<IDonorService, DonorService>();
+            //User
             builder.Services.AddScoped<IUserRepo, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
+            //Category
+            builder.Services.AddScoped<ICategoryRepo, CategoryRepository>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 
             var app = builder.Build();
             
