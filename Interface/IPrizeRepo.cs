@@ -10,5 +10,7 @@ namespace ChineseAuctionAPI.Interface
         public Task UpdatePrize(Prize prize);
 
         public Task DeletePrize(int id);
+
+        public Task<Prize> GetPrizeById(int id);
     }
 }
