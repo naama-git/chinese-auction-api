@@ -19,12 +19,18 @@ namespace ChineseAuctionAPI.Repositories
 
         public async Task<IEnumerable<Prize>> GetPrizes()
         {
-            return await _context.prizes.ToListAsync();
+            return await _context.prizes
+                .Include(p => p.Donor)
+                .Include(p => p.Category)
+                .ToListAsync();
         }
 
         public async Task<Prize> GetPrizeById(int id)
         {
-            return await _context.prizes.FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.prizes
+                .Include(p => p.Donor)
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task AddPrize(Prize prize)
