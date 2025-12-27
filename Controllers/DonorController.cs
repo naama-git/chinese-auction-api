@@ -32,7 +32,7 @@ public class DonorController : ControllerBase
     public async Task<IActionResult> CreateDonor(DonorCreateDTO donorCreateDTO)
     {
         await _donorService.AddDonor(donorCreateDTO);
-        return StatusCode(201); 
+        return Ok(201); 
     }
 
     [HttpDelete("{id}")]
@@ -40,5 +40,12 @@ public class DonorController : ControllerBase
     {
         await _donorService.DeleteDonor(id);
         return NoContent();
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateDonor(int id,DonorCreateDTO donor)
+    {
+        await _donorService.UpdateDonor(donor);
+        return Ok();
     }
 }
