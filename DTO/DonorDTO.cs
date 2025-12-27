@@ -18,7 +18,7 @@ namespace ChineseAuctionAPI.DTO
         public string Email { get; set; }
         [Phone]
         public string PhoneNumber { get; set; }
-        public List<Prize> Prizes { get; set; }
+        public List<ReadPrizeForDonorsDTO> Prizes { get; set; }
     }
     public class DonorCreateDTO
     {
