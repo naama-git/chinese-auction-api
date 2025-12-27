@@ -67,6 +67,23 @@ namespace ChineseAuctionAPI.DTO
         public int Qty { get; set; }
 
     }
+
+    public class ReadPrizeForDonorsDTO
+    {
+        public int Id { get; set; }
+        [MaxLength(100)]
+        public string Name { get; set; }
+        [MaxLength(100)]
+        public string Description { get; set; }
+
+        public bool IsPremium { get; set; }
+
+        public string CategoryName { get; set; }
+
+        public string ImagePath { get; set; }
+
+        [Range(0, 50)]
+    }
 }
 
 
