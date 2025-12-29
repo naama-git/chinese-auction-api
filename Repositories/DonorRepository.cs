@@ -17,7 +17,9 @@ public class DonorRepository : IDonorRepo
     // get all donors
     public async Task<IEnumerable<Donor>> GetDonors()
     {
-        return await _context.donors.ToListAsync();
+        return await _context.donors.
+            Include(d=>d.Prizes)
+            .ToListAsync();
     }
 
     //add new donor
@@ -48,7 +50,9 @@ public class DonorRepository : IDonorRepo
     // find donor by id
     public async Task<Donor> FindDonorById(int id)
     {
-        return await _context.donors.FirstOrDefaultAsync(d => d.Id == id);
+        return await _context.donors.
+            Include(d => d.Prizes)
+            .FirstOrDefaultAsync(d => d.Id == id);
     }
 }
 

@@ -15,6 +15,7 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Donor, DonorReadDTO>();
             CreateMap<DonorCreateDTO,Donor>();
             CreateMap<DonorUpdateDTO, Donor>();
+            CreateMap<Donor, DonorForReadPrizesDTO>();
             //User
             CreateMap<SignInDTO, User>();
             CreateMap<LogInDTO, User>();
@@ -27,6 +28,15 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Prize, ReadPrizeDTO>();
             CreateMap<CreatePrizeDTO,Prize>();
             CreateMap<UpdatePrizeDTO, Prize>();
+<<<<<<< HEAD
+=======
+            CreateMap<Prize, ReadPrizeForDonorsDTO>();
+
+
+
+
+
+>>>>>>> 240785c40f600dedee22ed05d674ea6951d95f0d
         }
     }
 }
