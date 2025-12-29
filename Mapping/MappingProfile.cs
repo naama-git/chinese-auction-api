@@ -23,16 +23,20 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Category, CategoriesDTO>();
             CreateMap<CategoriesDTO, Category>();
             CreateMap<UpdateCategory, Category>();
+
             //Prizes
             CreateMap<Prize, ReadPrizeDTO>();
             CreateMap<CreatePrizeDTO,Prize>();
             CreateMap<UpdatePrizeDTO, Prize>();
+<<<<<<< HEAD
+=======
             CreateMap<Prize, ReadPrizeForDonorsDTO>();
 
 
 
 
 
+>>>>>>> 240785c40f600dedee22ed05d674ea6951d95f0d
         }
     }
 }
