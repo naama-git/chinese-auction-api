@@ -22,7 +22,7 @@ namespace ChineseAuctionAPI.Services
             _mapper = mapper;
             _configuration = configuration;
         }
-        public async Task AddUser(SignInDTO user)
+        public async Task<ResponseUserDTO> AddUser(SignInDTO user)
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
@@ -30,10 +30,24 @@ namespace ChineseAuctionAPI.Services
 
             User userEntity = _mapper.Map<User>(user);
             userEntity.IsAdmin = false;
+
             await _repo.AddUser(userEntity);
+
+            string token = createToken(userEntity);
+
+            ResponseUserDTO resUser = new ResponseUserDTO()
+            {
+                Token = token,
+                Email = userEntity.Email,
+                Name = userEntity.FirstName + " " + userEntity.LastName
+
+            };
+            return resUser;
+
+
         }
 
-        public async Task<ResponseLogInDTO> LogInUser(LogInDTO user)
+        public async Task<ResponseUserDTO> LogInUser(LogInDTO user)
         {
 
             User existingUser = await _repo.GetUserByEmail(user.Email);
@@ -44,7 +58,7 @@ namespace ChineseAuctionAPI.Services
             bool isPasswordCorrect = BCrypt.Net.BCrypt.Verify(user.Password, existingUser.Password);
 
 
-            ResponseLogInDTO resUser = new ResponseLogInDTO()
+            ResponseUserDTO resUser = new ResponseUserDTO()
             {
                 
                 Email = existingUser.Email,
