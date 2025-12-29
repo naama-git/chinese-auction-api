@@ -1,6 +1,7 @@
 ﻿using ChineseAuctionAPI.Data;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 
 namespace ChineseAuctionAPI.Repositories
@@ -22,10 +23,10 @@ namespace ChineseAuctionAPI.Repositories
 
     
         // find user
-        public User GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
-            return _context.userss
-                .FirstOrDefault(u => u.Email == email);
+            return await _context.users
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }

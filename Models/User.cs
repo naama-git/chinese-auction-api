@@ -5,6 +5,7 @@ namespace ChineseAuctionAPI.Models
     public class User
     {
         public int Id { get; set; }
+
         public bool IsAdmin { get; set; }
 
         [MaxLength(100)]
