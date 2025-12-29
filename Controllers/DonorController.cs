@@ -43,7 +43,7 @@ public class DonorController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDonor(int id,DonorUpdateDTO donor)
+    public async Task<IActionResult> UpdateDonor(DonorUpdateDTO donor)
     {
         await _donorService.UpdateDonor(donor);
         return Ok();

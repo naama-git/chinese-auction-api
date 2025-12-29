@@ -30,6 +30,7 @@ namespace ChineseAuctionAPI.Services
         public async Task AddPrize(CreatePrizeDTO prize)
         {
             Prize PrizeEntity = _mapper.Map<Prize>(prize);
+            
             await _prizeRepo.AddPrize(PrizeEntity);
         }
 
