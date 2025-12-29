@@ -21,8 +21,13 @@ namespace ChineseAuctionAPI.Controllers
         {
             try
             {
-                string token = await _userService.AddUser(signIn);
-                return CreatedAtAction(nameof(AddUser), new { token });
+                var user = await _userService.AddUser(signIn);
+                 return Ok(new
+                   {
+                     user,
+                      token = user.Token,
+                      message = "You Logged In successfully!"
+                   });   
             }
             catch (Exception ex)
             {
@@ -34,17 +39,18 @@ namespace ChineseAuctionAPI.Controllers
         [HttpPost("LogIn")]
         public async Task<IActionResult> LogInUser([FromBody] LogInDTO logInDTO)
         {
-            string token = await _userService.LogInUser(logInDTO);
+            var user = await _userService.LogInUser(logInDTO);
 
-            if (string.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(user.Token))
             {
                 return Unauthorized(new { message = "שם משתמש או סיסמה שגויים" });
             }
 
             return Ok(new
             {
-                token = token,
-                message = "התחברת בהצלחה!"
+                 user,
+                token = user.Token,
+                message = "You Logged In successfully!"
             });
         }
     }
