@@ -1,10 +1,11 @@
 ﻿using ChineseAuctionAPI.Data;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
+using Microsoft.Identity.Client;
 
 namespace ChineseAuctionAPI.Repositories
 {
-    public class UserRepository :IUserRepo
+    public class UserRepository : IUserRepo
     {
         private readonly ChineseAuctionDBcontext _context;
 
@@ -18,18 +19,13 @@ namespace ChineseAuctionAPI.Repositories
             await _context.users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
-        //LogIn -Exsist User
-        public async Task LogInUser(User user)
+
+    
+        // find user
+        public User GetUserByEmail(string email)
         {
-            try
-            {
-                await _context.users.FindAsync(user);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("UserName Or Password is Invalide");
-            }
+            return _context.userss
+                .FirstOrDefault(u => u.Email == email);
         }
     }
 }

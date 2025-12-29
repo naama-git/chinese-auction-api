@@ -14,6 +14,8 @@ namespace ChineseAuctionAPI.Controllers
         {
             _userService = userService;
         }
+
+
         [HttpPost("SignIn")]
         public async Task<IActionResult> AddUser([FromBody] SignInDTO signIn)
         {
