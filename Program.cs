@@ -68,9 +68,10 @@ namespace ChineseAuctionAPI
             //Prize
             builder.Services.AddScoped<IPrizeRepo, PrizeRepository>();
             builder.Services.AddScoped<IPrizeService, PrizeService>();
+            //Ticket
+            builder.Services.AddScoped<ITicketRepo, TicketRepository>();
+            builder.Services.AddScoped<ITicketService, TicketService>();
 
-            builder.Services.AddScoped<IPrizeRepo, PrizeRepository>();
-            builder.Services.AddScoped<IPrizeService, PrizeService>();
             var app = builder.Build();
             
             // Configure the HTTP request pipeline.

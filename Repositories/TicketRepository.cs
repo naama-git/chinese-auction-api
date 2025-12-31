@@ -20,16 +20,20 @@ namespace ChineseAuctionAPI.Repositories
             await _context.SaveChangesAsync();
         }
         // צפיה בכל הכרטיסים שנרכשו למתנה מסוימת - יעזור לביצוע ההגרלה
-        public async Task<IEnumerable<TicketReadDTO>> GetTicketsByPrizeId(int prizeId)
+        public async Task<IEnumerable<Ticket>> GetTicketsByPrizeId(int prizeId)
         {
-                 return (IEnumerable<TicketReadDTO>)await _context.tickets
+                 return await _context.tickets
                 .Where(t => t.PrizeId == prizeId)
+                .Include(d=>d.User)
+                .Include(g=>g.Prize)
                 .ToListAsync();
         }
         //כל משתמש יוכל לצפות בכמות הכרטיסים שהזמין לכל מוצר 
-        public async Task<IEnumerable<TicketReadDTO>> GetTicketsByUserIdAndprizeId(int userId,int prizeId)
+        public async Task<IEnumerable<Ticket>> GetTicketsByUserIdAndprizeId(int userId,int prizeId)
         {
-                 return (IEnumerable<TicketReadDTO>)await _context.tickets
+                 return await _context.tickets
+                .Include(d => d.User)
+                .Include(g => g.Prize)
                 .Where(t => t.UserId == userId & t.PrizeId == prizeId)
                 .ToListAsync();
         } 
