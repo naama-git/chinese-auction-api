@@ -95,8 +95,8 @@ namespace ChineseAuctionAPI.DTO
         public string CategoryName { get; set; }
 
         public string ImagePath { get; set; }
-
     }
+    
 
 }
 
