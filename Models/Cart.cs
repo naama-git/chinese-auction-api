@@ -10,6 +10,6 @@ namespace ChineseAuctionAPI.Models
         public int UserId { get; set; }
         public User User { get; set; }
 
-        public List<Prize> Prizes { get; set; }= new List<Prize>();
+        public List<CartItem> CartItems { get; set; } = new List<CartItem>();
     }
 }

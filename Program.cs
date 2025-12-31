@@ -101,6 +101,9 @@ namespace ChineseAuctionAPI
             //Winner
             builder.Services.AddScoped<IWinnerService,WinnerService>();
             builder.Services.AddScoped<IWinnerRepo,WinnerRepository>();
+            //Cart
+            builder.Services.AddScoped<ICartRepo, CartRepository>();
+            builder.Services.AddScoped<ICartService, CartService>();
 
             var app = builder.Build();
 

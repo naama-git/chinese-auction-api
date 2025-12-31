@@ -6,6 +6,7 @@ using static ChineseAuctionAPI.DTO.CategoryDTO;
 using static ChineseAuctionAPI.DTO.TicketDTO;
 using static ChineseAuctionAPI.DTO.PackageDTO;
 using static ChineseAuctionAPI.DTO.WinnerDTO;
+using static ChineseAuctionAPI.DTO.CartDTO;
 
 
 namespace ChineseAuctionAPI.Mapping
@@ -47,6 +48,12 @@ namespace ChineseAuctionAPI.Mapping
             //Winner
             CreateMap<CreateWinnerDTO,Winner>();
             CreateMap<Winner, ReadWinnerDTO>();
+            CreateMap<User, ResponseUserDTO>();
+            CreateMap<Prize, PrizeForWinnerDTO>();
+            //Cart
+            CreateMap<addCartDTO, Cart>();
+            CreateMap<Cart, ReadCartDTO>();
+            CreateMap<CartItem, CartItemReadDTO>();
             CreateMap<User, ResponseUserDTO>();
             CreateMap<Prize, PrizeForWinnerDTO>();
         }
