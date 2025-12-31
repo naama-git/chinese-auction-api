@@ -29,7 +29,7 @@ namespace ChineseAuctionAPI.Services
             user.Password = passwordHash;
 
             User userEntity = _mapper.Map<User>(user);
-            userEntity.IsAdmin = false;
+            userEntity.Role = "User";
 
             await _repo.AddUser(userEntity);
 
