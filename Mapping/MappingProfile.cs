@@ -4,6 +4,7 @@ using ChineseAuctionAPI.Models;
 using static ChineseAuctionAPI.DTO.UserDTO;
 using static ChineseAuctionAPI.DTO.CategoryDTO;
 using static ChineseAuctionAPI.DTO.TicketDTO;
+using static ChineseAuctionAPI.DTO.PackageDTO;
 
 
 namespace ChineseAuctionAPI.Mapping
@@ -37,6 +38,10 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Ticket, TicketReadDTO>();
             CreateMap<User,ResponseUserDTO>();
             CreateMap<Prize, ReadPrizeDTO>();
+
+            //Package
+            CreateMap<Package,ReadPackageDTO>();
+            CreateMap<CreatePackageDTO,Package>();
         }
     }
 }
