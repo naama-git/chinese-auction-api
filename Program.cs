@@ -68,8 +68,10 @@ namespace ChineseAuctionAPI
             //Prize
             builder.Services.AddScoped<IPrizeRepo, PrizeRepository>();
             builder.Services.AddScoped<IPrizeService, PrizeService>();
+            //Ticket
+            builder.Services.AddScoped<ITicketRepo, TicketRepository>();
+            builder.Services.AddScoped<ITicketService, TicketService>();
 
-<<<<<<< HEAD
             // modify autentication
 
             var jwtSettings=builder.Configuration.GetSection("Jwt");
@@ -95,10 +97,9 @@ namespace ChineseAuctionAPI
             });
 
 
-=======
+
             builder.Services.AddScoped<IPrizeRepo, PrizeRepository>();
             builder.Services.AddScoped<IPrizeService, PrizeService>();
->>>>>>> 26399361d9bbb75d112a83244c0081cc626afe8b
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -109,12 +110,8 @@ namespace ChineseAuctionAPI
             }
 
             app.UseHttpsRedirection();
-<<<<<<< HEAD
 
-            app.UseAuthentication();
-=======
             app.UseAuthentication(); 
->>>>>>> 26399361d9bbb75d112a83244c0081cc626afe8b
             app.UseAuthorization();
 
             app.MapControllers();

@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChineseAuctionAPI.Controllers
 {
-    public class TicketController : Controller
+    //לבדיקה ולא לשימוש!!!
+    [ApiController]
+    [Route("api/[controller]")]
+    public class TicketController : ControllerBase
+
     {
         private readonly ITicketService _ticketService;
         public TicketController(ITicketService ticketService)
@@ -12,7 +16,7 @@ namespace ChineseAuctionAPI.Controllers
             _ticketService = ticketService;
         }
         [HttpPost("AddTicket")]
-        public async Task<IActionResult> AddTicket([FromBody] TicketDTO ticketDTO)
+        public async Task<ActionResult<TicketDTO.TicketCreateDTO>> AddTicket([FromBody] TicketDTO.TicketCreateDTO ticketDTO)
         {
             try
             {

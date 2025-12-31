@@ -17,21 +17,22 @@ namespace ChineseAuctionAPI.Services
             _mapper = mapper;
             _configuration = configuration;
         }
-        public Task AddTicket(TicketDTO ticketDTO)
+        public async Task AddTicket(TicketDTO.TicketCreateDTO ticketDTO)
         {
             Ticket ticketEntity = _mapper.Map<Ticket>(ticketDTO);
-            return _repo.AddTicket(ticketEntity);
+            await _repo.AddTicket(ticketEntity);
         }
 
         public async Task<IEnumerable<TicketReadDTO>> GetTicketsByPrizeId(int prizeId)
         {
-
-
+            var tickets = await _repo.GetTicketsByPrizeId(prizeId);
+            return _mapper.Map<IEnumerable<TicketReadDTO>>(tickets);
         }
 
-        public Task<List<Ticket>> GetTicketsByUserIdAndprizeId(int userId, int prizeId)
+        public async Task<IEnumerable<TicketDTO.TicketReadDTO>> GetTicketsByUserIdAndprizeId(int userId, int prizeId)
         {
-            throw new NotImplementedException();
+            var tickets = await _repo.GetTicketsByUserIdAndprizeId(userId,prizeId);
+            return _mapper.Map<IEnumerable<TicketReadDTO>>(tickets);
         }
     }
 }
