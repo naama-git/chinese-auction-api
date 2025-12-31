@@ -39,6 +39,7 @@ namespace ChineseAuctionAPI.Services
         public async Task<IEnumerable<ReadOrderDTO>> GetOrders()
         {
             var orders = await _orderRepo.GetOrders();
+
             return _mapper.Map<IEnumerable<ReadOrderDTO>>(orders);
         }
 
