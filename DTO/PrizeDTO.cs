@@ -84,8 +84,17 @@ namespace ChineseAuctionAPI.DTO
         public string CategoryName { get; set; }
 
         public string ImagePath { get; set; }
+    }
+    public class PrizeForWinnerDTO
+    {
+        [MaxLength(100)]
+        public string Name { get; set; }
+        public bool IsPremium { get; set; }
 
-       
+        public string CategoryName { get; set; }
+
+        public string ImagePath { get; set; }
+
     }
 
 }

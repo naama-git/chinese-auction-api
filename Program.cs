@@ -74,10 +74,10 @@ namespace ChineseAuctionAPI
             //Package
             builder.Services.AddScoped<IPackageRepo, PackageRepository>();
             builder.Services.AddScoped<IPackageService, PackageService>();
-            // modify autentication
+            //Winner
+            builder.Services.AddScoped<IWinnerService,WinnerService>();
+            builder.Services.AddScoped<IWinnerRepo,WinnerRepository>();
 
-            builder.Services.AddScoped<IPrizeRepo, PrizeRepository>();
-            builder.Services.AddScoped<IPrizeService, PrizeService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -1,5 +1,6 @@
 ﻿using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.DTO;
+using static ChineseAuctionAPI.DTO.UserDTO;
 
 namespace ChineseAuctionAPI.DTO
 {
@@ -14,7 +15,7 @@ namespace ChineseAuctionAPI.DTO
         {
             public int Id { get; set; }
             public ReadPrizeDTO Prize { get; set; }
-            public UserDTO.ResponseUserDTO User { get; set; }
+            public ResponseUserDTO User { get; set; }
         }
     }
 }
