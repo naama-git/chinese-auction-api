@@ -2,6 +2,7 @@
 using ChineseAuctionAPI.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ChineseAuctionAPI.Controllers
 {
@@ -18,6 +19,7 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpGet]
+       
         public async Task<ActionResult<IEnumerable<ReadPrizeDTO>>> GetAllPrizes()
         {
             var prizes = await _prizeService.GetPrizes();
@@ -25,6 +27,7 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        
         public async Task<ActionResult<ReadPrizeDTO>> GetPrizeById(int id)
         {
             var prize = await _prizeService.GetPrizeById(id);
@@ -33,13 +36,15 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDonor(CreatePrizeDTO prizeCreateDTO)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreatePrize(CreatePrizeDTO prizeCreateDTO)
         {
             await _prizeService.AddPrize(prizeCreateDTO);
             return Ok(201);
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePrize(int id)
         {
             await _prizeService.DeletePrize(id);
@@ -47,6 +52,7 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdatePrize(int id, UpdatePrizeDTO prize)
         {
             await _prizeService.UpdatePrize(prize);
