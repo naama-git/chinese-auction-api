@@ -33,5 +33,29 @@ namespace ChineseAuctionAPI.Services
             return _mapper.Map<ReadPackageDTO>(packageEntity);
         }
 
+        public async Task UpdatePackage(int id, UpdatePackageDTO updatePackageDTO)
+        {
+            Package packageEntity = await _packageRepo.GetPackageById(id);
+            if (packageEntity == null)
+            {
+                throw new Exception("Package not found");
+            }
+
+            _mapper.Map(updatePackageDTO, packageEntity);
+
+            await _packageRepo.UpdatePackage(packageEntity);
+        }
+
+        public async Task DeletePackage(int id)
+        {
+            await _packageRepo.DeletePackage(id);
+        }
+
+        public async Task<IEnumerable<ReadPackageDTO>> GetPackagesByIds(List<int> packageIds)
+        {
+            var packages = await _packageRepo.GetPackagesByIds(packageIds);
+            return _mapper.Map<IEnumerable<ReadPackageDTO>>(packages);
+        }
+
     }
 }

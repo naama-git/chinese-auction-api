@@ -87,6 +87,7 @@ namespace ChineseAuctionAPI.DTO
     }
     public class PrizeForWinnerDTO
     {
+
         [MaxLength(100)]
         public string Name { get; set; }
         public bool IsPremium { get; set; }

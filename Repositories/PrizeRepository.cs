@@ -60,7 +60,15 @@ namespace ChineseAuctionAPI.Repositories
             .ExecuteDeleteAsync();
         }
 
-
+        public async Task<IEnumerable<Prize>> GetPrizesByIds(List<int> prizeIds)
+        {
+            return await _context.prizes
+                .Where(p => prizeIds.Contains(p.Id))
+                .Include(p => p.Donor.FirstName)
+                .Include(p => p.Category.Name)
+                .ToListAsync();
+        }
+    
 
     }
 }

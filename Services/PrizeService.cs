@@ -50,6 +50,12 @@ namespace ChineseAuctionAPI.Services
             Prize prizeEntity = _mapper.Map<Prize>(prize);
             await _prizeRepo.UpdatePrize(prizeEntity);
         }
+
+        public async Task<IEnumerable<Prize>> GetPrizesByIds(List<int> prizesIds)
+        {
+            return await _prizeRepo.GetPrizesByIds(prizesIds);
+
+        }
     }
 
 }

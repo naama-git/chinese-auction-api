@@ -1,6 +1,7 @@
 ﻿using ChineseAuctionAPI.Interface;
 using Microsoft.AspNetCore.Mvc;
 using static ChineseAuctionAPI.DTO.WinnerDTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ChineseAuctionAPI.Controllers
 {
@@ -13,7 +14,9 @@ namespace ChineseAuctionAPI.Controllers
         {
             _winnerService = winnerService;
         }
+
         [HttpPost("AddWinnerToPrize/{prizeId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddWinnerToPrize([FromBody]CreateWinnerDTO createWinnerDTO, int prizeId)
         {
             try

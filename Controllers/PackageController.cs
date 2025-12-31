@@ -16,12 +16,14 @@ namespace ChineseAuctionAPI.Controllers
         {
             _packageService = packageService;
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ReadPackageDTO>>> GetAllPackages()
         {
             var packages = await _packageService.GetPackages();
             return Ok(packages);
         }
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<ReadPackageDTO>> GetPackageById(int id)
         {
