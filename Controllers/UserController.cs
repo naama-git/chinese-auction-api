@@ -19,20 +19,22 @@ namespace ChineseAuctionAPI.Controllers
         [HttpPost("SignIn")]
         public async Task<IActionResult> AddUser([FromBody] SignInDTO signIn)
         {
-            try
-            {
+            
                 var user = await _userService.AddUser(signIn);
+               
+                 if (string.IsNullOrEmpty(user.Token))
+                 {
+                    return Unauthorized(new { message ="Unauthorized user" });
+                 }
+                
                  return Ok(new
                    {
                      user,
                       token = user.Token,
                       message = "You Logged In successfully!"
                    });   
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            
+           
         }
 
      
