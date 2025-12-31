@@ -3,11 +3,15 @@ using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using static ChineseAuctionAPI.DTO.CategoryDTO;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace ChineseAuctionAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
+
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;

@@ -6,6 +6,7 @@ using ChineseAuctionAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 namespace ChineseAuctionAPI
@@ -17,6 +18,7 @@ namespace ChineseAuctionAPI
             var builder = WebApplication.CreateBuilder(args);
             var jwtSettings = builder.Configuration.GetSection("Jwt");
             var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
+
             //add Authentication
             builder.Services.AddAuthentication(options =>
             {
@@ -34,11 +36,13 @@ namespace ChineseAuctionAPI
                         ValidateAudience = true, 
                         ValidAudience = jwtSettings["Audience"],
                         ValidateLifetime = true, 
-                        ClockSkew = TimeSpan.Zero 
+                        ClockSkew = TimeSpan.Zero,
+                        RoleClaimType = ClaimTypes.Role
+
                     };
                 });
-            // Add services to the container.
 
+            // Add services to the container
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -69,36 +73,8 @@ namespace ChineseAuctionAPI
             builder.Services.AddScoped<IPrizeRepo, PrizeRepository>();
             builder.Services.AddScoped<IPrizeService, PrizeService>();
 
-<<<<<<< HEAD
-            // modify autentication
-
-            var jwtSettings=builder.Configuration.GetSection("Jwt");
-            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
-
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-                };
-            });
-
-
-=======
             builder.Services.AddScoped<IPrizeRepo, PrizeRepository>();
             builder.Services.AddScoped<IPrizeService, PrizeService>();
->>>>>>> 26399361d9bbb75d112a83244c0081cc626afe8b
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -109,12 +85,7 @@ namespace ChineseAuctionAPI
             }
 
             app.UseHttpsRedirection();
-<<<<<<< HEAD
-
-            app.UseAuthentication();
-=======
             app.UseAuthentication(); 
->>>>>>> 26399361d9bbb75d112a83244c0081cc626afe8b
             app.UseAuthorization();
 
             app.MapControllers();
