@@ -1,9 +1,11 @@
 ﻿using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController] 
 [Route("api/[controller]")] 
+[Authorize(Roles = "Admin")]
 public class DonorController : ControllerBase 
 {
     private readonly IDonorService _donorService;
