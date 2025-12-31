@@ -41,6 +41,9 @@ namespace ChineseAuctionAPI.Controllers
         [HttpPost("LogIn")]
         public async Task<IActionResult> LogInUser([FromBody] LogInDTO logInDTO)
         {
+            var authHeader = Request.Headers["Authorization"].ToString();
+            Console.WriteLine($"Received Authorization Header: {authHeader}");
+            
             var user = await _userService.LogInUser(logInDTO);
 
             if (string.IsNullOrEmpty(user.Token))
