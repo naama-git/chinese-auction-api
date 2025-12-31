@@ -5,7 +5,7 @@ namespace ChineseAuctionAPI.Interface
 {
     public interface IUserService
     {
-        public Task AddUser(SignInDTO signInDTO);
-        public Task LogInUser(LogInDTO logInDTO);
+        public Task<ResponseUserDTO> AddUser(SignInDTO signInDTO);
+        public Task<ResponseUserDTO> LogInUser(LogInDTO user);
     }
 }

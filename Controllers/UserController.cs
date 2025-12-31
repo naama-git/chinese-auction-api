@@ -1,7 +1,8 @@
-﻿using ChineseAuctionAPI.DTO;
+﻿using Microsoft.AspNetCore.Mvc;
+using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
-using Microsoft.AspNetCore.Mvc;
 using static ChineseAuctionAPI.DTO.UserDTO;
+
 namespace ChineseAuctionAPI.Controllers
 {
     [ApiController]
@@ -9,22 +10,48 @@ namespace ChineseAuctionAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-
         public UserController(IUserService userService)
         {
             _userService = userService;
         }
+
+
         [HttpPost("SignIn")]
-        public async Task<IActionResult> AddUser(SignInDTO signIn)
+        public async Task<IActionResult> AddUser([FromBody] SignInDTO signIn)
         {
-            await _userService.AddUser(signIn);
-            return StatusCode(201);
+            try
+            {
+                var user = await _userService.AddUser(signIn);
+                 return Ok(new
+                   {
+                     user,
+                      token = user.Token,
+                      message = "You Logged In successfully!"
+                   });   
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
+
+     
         [HttpPost("LogIn")]
-        public async Task<IActionResult> LogInUser(LogInDTO logInDTO)
+        public async Task<IActionResult> LogInUser([FromBody] LogInDTO logInDTO)
         {
-            await _userService.LogInUser(logInDTO);
-            return StatusCode(201);
+            var user = await _userService.LogInUser(logInDTO);
+
+            if (string.IsNullOrEmpty(user.Token))
+            {
+                return Unauthorized(new { message = "שם משתמש או סיסמה שגויים" });
+            }
+
+            return Ok(new
+            {
+                 user,
+                token = user.Token,
+                message = "You Logged In successfully!"
+            });
         }
     }
 }
