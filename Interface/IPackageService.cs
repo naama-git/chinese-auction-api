@@ -15,5 +15,7 @@ namespace ChineseAuctionAPI.Interface
 
         public  Task DeletePackage(int id);
 
+        public Task<IEnumerable<ReadPackageDTO>> GetPackagesByIds(List<int> packageIds);
+
     }
 }

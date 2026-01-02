@@ -30,6 +30,7 @@ namespace ChineseAuctionAPI.Services
             if (cart != null)
             {
                 var cartItems = cart.CartItems;
+                var prizes = _mapper.Map<List<Prize>>(cartItems.Select(ci => ci.Prize));
 
                 foreach (var item in cartItems)
                 {
@@ -37,22 +38,26 @@ namespace ChineseAuctionAPI.Services
 
                     for(int i = 0; i < item.Quantity; i++)
                     {
-                        await _ticketService.AddTicket(new Order { UserId = userId, PrizeId = prize.Id });
+                        await _ticketService.AddTicket(new TicketDTO.TicketCreateDTO { UserId = userId, PrizeId = prize.Id });
                     }
                 }
 
-                var packages = _packageService.GetPackagesByIds(PackagesIds);
+                //var packages = await _packageService.GetPackagesByIds(PackagesIds);
+                var packages = _mapper.Map<List<Package>>(await _packageService.GetPackagesByIds(PackagesIds)).ToList();
+
                 double totalPrice = 0;
                 foreach (var package in packages)
                 {
                     totalPrice += package.Price;
                 }
-                
+
+
+
                 var order = new Order
                 {
                     UserId = userId,
-                    Prizes= cartItems.Select(ci => ci.Prize).ToList(),
-                    Packages = packages.ToList(),
+                    Prizes = prizes,
+                    Packages = packages,
                     OrderDate = DateTime.UtcNow,
                     TotalPrice = totalPrice
                 };

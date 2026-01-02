@@ -26,8 +26,8 @@ namespace ChineseAuctionAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrder(int userId, List<int> PackagesIds)
         {
-            var order = await _orderService.CreateOrder(userId, PackagesIds);
-            return Ok(order);
+             await _orderService.AddOrder(userId, PackagesIds);
+            return Ok(201);
         }
 
    

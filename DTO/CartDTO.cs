@@ -23,10 +23,13 @@ namespace ChineseAuctionAPI.DTO
 
         public class CartItemReadDTO
         {
+            
             public int PrizeId { get; set; }
             public PrizeForWinnerDTO Prize { get; set; }   
+            public int Quantity { get; set; }
         }
 
-        
+
+
     }
 }

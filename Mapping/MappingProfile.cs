@@ -53,7 +53,6 @@ namespace ChineseAuctionAPI.Mapping
 
 
             //Order
-            CreateMap<CreateOrderDTO, Order>();
             CreateMap<Order,ReadOrderDTO>();
 
             //Cart
