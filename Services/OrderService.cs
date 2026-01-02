@@ -37,15 +37,15 @@ namespace ChineseAuctionAPI.Services
 
                     for(int i = 0; i < item.Quantity; i++)
                     {
-                        await _ticketService.AddTicket({userId, prize.Id}); 
+                        await _ticketService.AddTicket(new Order { UserId = userId, PrizeId = prize.Id });
                     }
                 }
 
                 var packages = _packageService.GetPackagesByIds(PackagesIds);
-                double totalAmount = 0;
+                double totalPrice = 0;
                 foreach (var package in packages)
                 {
-                    totalAmount += package.Price;
+                    totalPrice += package.Price;
                 }
                 
                 var order = new Order
@@ -54,10 +54,8 @@ namespace ChineseAuctionAPI.Services
                     Prizes= cartItems.Select(ci => ci.Prize).ToList(),
                     Packages = packages.ToList(),
                     OrderDate = DateTime.UtcNow,
-                    TotalAmount = totalAmount
+                    TotalPrice = totalPrice
                 };
-
-
                 await _orderRepo.AddOrder(order);
                 await _cartService.PurchaseCart(userId);
             }

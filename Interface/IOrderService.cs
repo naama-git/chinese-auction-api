@@ -6,7 +6,7 @@ namespace ChineseAuctionAPI.Interface
 {
     public interface IOrderService
     {
-        public Task AddOrder(CreateOrderDTO createOrderDTO);
+        public Task AddOrder(int userId, List<int> PackagesIds);
         public Task<IEnumerable<ReadOrderDTO>> GetOrders();
     }
 }

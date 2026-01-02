@@ -24,11 +24,13 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddOrder(CreateOrderDTO order)
+        public async Task<IActionResult> AddOrder(int userId, List<int> PackagesIds)
         {
-            await _orderService.AddOrder(order);
-            return Ok(201);
+            var order = await _orderService.CreateOrder(userId, PackagesIds);
+            return Ok(order);
         }
+
+   
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
