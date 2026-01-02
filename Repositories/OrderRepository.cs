@@ -22,7 +22,6 @@ namespace ChineseAuctionAPI.Repositories
         }
 
        
-
         public async Task<IEnumerable<Order>> GetOrders()
         {
             return await _context.orders.Include(d=>d.Prizes).Include(u=>u.User).ToListAsync();

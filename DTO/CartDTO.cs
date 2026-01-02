@@ -6,14 +6,7 @@ namespace ChineseAuctionAPI.DTO
 {
     public class CartDTO
     {
-        public class addAndDeletePrizeToCartDTO
-        {
-            [Required(ErrorMessage = "User ID is required")]
-            public int UserId { get; set; }
-            [Required(ErrorMessage = "Prize ID is required")]
-            public int PrizeId { get; set; }
-            public int Quantity { get; set; } = 1;
-        }
+       
 
         public class addCartDTO
         {
@@ -31,8 +24,9 @@ namespace ChineseAuctionAPI.DTO
         public class CartItemReadDTO
         {
             public int PrizeId { get; set; }
-            public PrizeForWinnerDTO Prize { get; set; } 
-            public int Quantity { get; set; } 
+            public PrizeForWinnerDTO Prize { get; set; }   
         }
+
+        
     }
 }

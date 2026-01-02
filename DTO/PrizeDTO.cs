@@ -85,6 +85,7 @@ namespace ChineseAuctionAPI.DTO
 
         public string ImagePath { get; set; }
     }
+    
     public class PrizeForWinnerDTO
     {
 

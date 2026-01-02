@@ -11,6 +11,7 @@ namespace ChineseAuctionAPI.DTO
             public int PrizeId { get; set; }
             public int UserId { get; set; }
         }
+        
         public class TicketReadDTO
         {
             public int Id { get; set; }

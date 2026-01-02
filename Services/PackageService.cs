@@ -22,11 +22,15 @@ namespace ChineseAuctionAPI.Services
 
             await _packageRepo.AddPackage(PackageEntity);
         }
+
+
         public async Task<IEnumerable<ReadPackageDTO>> GetPackages()
         {
             var packages = await _packageRepo.GetPackages();
             return _mapper.Map<IEnumerable<ReadPackageDTO>>(packages);
         }
+
+        
         public async Task<ReadPackageDTO> GetPackageById(int id)
         {
             Package packageEntity = await _packageRepo.GetPackageById(id);

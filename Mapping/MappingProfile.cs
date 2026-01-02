@@ -50,19 +50,19 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Winner, ReadWinnerDTO>();
             CreateMap<User, ResponseUserDTO>();
             CreateMap<Prize, PrizeForWinnerDTO>();
-<<<<<<< HEAD
+
 
             //Order
             CreateMap<CreateOrderDTO, Order>();
             CreateMap<Order,ReadOrderDTO>();
-=======
+
             //Cart
             CreateMap<addCartDTO, Cart>();
             CreateMap<Cart, ReadCartDTO>();
             CreateMap<CartItem, CartItemReadDTO>();
             CreateMap<User, ResponseUserDTO>();
             CreateMap<Prize, PrizeForWinnerDTO>();
->>>>>>> origin/main
+
         }
     }
 }
