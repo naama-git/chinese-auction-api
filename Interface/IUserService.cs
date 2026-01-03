@@ -7,5 +7,6 @@ namespace ChineseAuctionAPI.Interface
     {
         public Task<ResponseUserDTO> AddUser(SignInDTO signInDTO);
         public Task<ResponseUserDTO> LogInUser(LogInDTO user);
+        public Task<List<ResponseUserDTO>> GetAllUsers();
     }
 }

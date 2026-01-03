@@ -23,6 +23,7 @@ namespace ChineseAuctionAPI.Mapping
             //User
             CreateMap<SignInDTO, User>();
             CreateMap<LogInDTO, User>();
+            CreateMap<ResponseUserDTO, User>();
             //Category
             CreateMap<Category, CategoriesDTO>();
             CreateMap<CategoriesDTO, Category>();

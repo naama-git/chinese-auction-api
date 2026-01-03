@@ -2,6 +2,7 @@
 using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -21,6 +22,11 @@ namespace ChineseAuctionAPI.Services
             _repo = repo;
             _mapper = mapper;
             _configuration = configuration;
+        }
+
+        public async Task<List<ResponseUserDTO>> GetAllUsers()
+        {
+            return _mapper.Map<List<ResponseUserDTO>>(await _repo.GetAllUsers());
         }
         public async Task<ResponseUserDTO> AddUser(SignInDTO user)
         {

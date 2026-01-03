@@ -28,5 +28,12 @@ namespace ChineseAuctionAPI.Repositories
             return await _context.users
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
+
+        // get all users
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _context.users.ToListAsync();
+        }
+
     }
 }

@@ -15,6 +15,12 @@ namespace ChineseAuctionAPI.Controllers
             _userService = userService;
         }
 
+        [HttpGet]
+        public IActionResult GetAllUsers() { 
+            var users=_userService.GetAllUsers();
+            return Ok(users);
+        }
+
 
         [HttpPost("SignIn")]
         public async Task<IActionResult> AddUser([FromBody] SignInDTO signIn)
