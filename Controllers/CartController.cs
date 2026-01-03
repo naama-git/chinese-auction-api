@@ -16,12 +16,21 @@ namespace ChineseAuctionAPI.Controllers
             _cartService = cartService;
         }
 
-
-        [HttpPost("AddPrizeToCart/{userId}/{prizeId}")]
-        public async Task<IActionResult> AddPrizeToCart(int userId, int prizeId, [FromQuery] int quantity = 1)
+        [Authorize(Roles="User")]
+        [HttpPost("AddPrizeToCart/{prizeId}")]
+        public async Task<IActionResult> AddPrizeToCart(int prizeId, [FromQuery] int quantity = 1)
         {
             try
             {
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("Unauthorized user");
+                }
+
+                int userId = int.Parse(userIdClaim.Value);
+
                 await _cartService.AddPrizeToCart(userId, prizeId, quantity);
                 return Ok(new { message = $"Successfully added {quantity} ticket(s) to cart." });
             }

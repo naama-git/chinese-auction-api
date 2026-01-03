@@ -37,15 +37,16 @@ namespace ChineseAuctionAPI
                     options.Events = new JwtBearerEvents
                     {
                         OnAuthenticationFailed = context =>
-                        {
-                            Console.WriteLine("JWT FAILED: " + context.Exception.Message);
-                            return Task.CompletedTask;
-                        },
-                        OnChallenge = context =>
-                        {
-                            Console.WriteLine("JWT CHALLENGE ERROR");
-                            return Task.CompletedTask;
-                        }
+                            {
+                                Console.WriteLine("--- JWT Authentication Failed ---");
+                                Console.WriteLine($"Error: {context.Exception.Message}");
+                                return Task.CompletedTask;
+                            },
+                            OnChallenge = context =>
+                            {
+                                Console.WriteLine("--- JWT Challenge Triggered ---");
+                                return Task.CompletedTask;
+                            }
                     };
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
