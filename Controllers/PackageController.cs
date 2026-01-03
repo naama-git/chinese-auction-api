@@ -18,6 +18,7 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpGet]
+
         public async Task<ActionResult<IEnumerable<ReadPackageDTO>>> GetAllPackages()
         {
             var packages = await _packageService.GetPackages();
@@ -31,12 +32,15 @@ namespace ChineseAuctionAPI.Controllers
             if (package == null) return NotFound();
             return Ok(package);
         }
+
         [HttpPost]
         public async Task<IActionResult> CreatePackage(CreatePackageDTO createPackageDTO)
         {
             await _packageService.AddPackage(createPackageDTO);
             return Ok(201);
         }
+
+        // חסר פונקציות PUT ןDELETE
 
     }
 }

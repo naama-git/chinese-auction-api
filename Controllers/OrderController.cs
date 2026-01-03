@@ -12,10 +12,7 @@ namespace ChineseAuctionAPI.Controllers
     [Route("api/[controller]")]
     public class OrderController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+     
 
         private readonly IOrderService _orderService;
         public OrderController(IOrderService orderService)
@@ -24,6 +21,7 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> AddOrder(int userId, List<int> PackagesIds)
         {
              await _orderService.AddOrder(userId, PackagesIds);
@@ -33,6 +31,7 @@ namespace ChineseAuctionAPI.Controllers
    
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
             var orders = await _orderService.GetOrders();
