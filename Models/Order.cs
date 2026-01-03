@@ -20,5 +20,8 @@ namespace ChineseAuctionAPI.Models
         [Required(ErrorMessage = "Prizes are required")]
         public List<Prize> Prizes { get; set; } 
 
+        [Required(ErrorMessage = "Total price is required"), Range(0.01, double.MaxValue, ErrorMessage = "Total price must be greater than zero")]
+        public double TotalPrice { get; set; }
+
     }
 }

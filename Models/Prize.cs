@@ -6,23 +6,26 @@ namespace ChineseAuctionAPI.Models
     {
         public int Id { get; set; }
 
-        [MaxLength(100)]
+        [Required(ErrorMessage = "Name is required"), MaxLength(100)]
         public string Name { get; set; }
-        
-        [MaxLength(100)]
+
+        [Required(ErrorMessage = "Description is required"), MaxLength(100)]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Donor ID is required")]
         public int DonorId { get; set; }
         public Donor Donor { get; set; }
 
+        [Required(ErrorMessage = "IsPremium is required")]
         public bool IsPremium { get; set; }
 
+        [Required(ErrorMessage = "Category ID is required")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
         public string ImagePath {  get; set; }
 
-        [Range(0,50)]
+        [Required(ErrorMessage = "Quantity is required"), Range(1, 50)]
         public int Qty { get; set; }
 
 

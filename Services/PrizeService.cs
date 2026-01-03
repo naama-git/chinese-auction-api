@@ -27,6 +27,14 @@ namespace ChineseAuctionAPI.Services
 
         }
 
+        public async Task<IEnumerable<Prize>> GetPrizesEntities()
+        {
+
+            var prizes = await _prizeRepo.GetPrizes();
+            return prizes;
+
+        }
+
         public async Task AddPrize(CreatePrizeDTO prize)
         {
             Prize PrizeEntity = _mapper.Map<Prize>(prize);
@@ -50,6 +58,14 @@ namespace ChineseAuctionAPI.Services
             Prize prizeEntity = _mapper.Map<Prize>(prize);
             await _prizeRepo.UpdatePrize(prizeEntity);
         }
+
+        public async Task<IEnumerable<Prize>> GetPrizesByIds(List<int> prizesIds)
+        {
+            return await _prizeRepo.GetPrizesByIds(prizesIds);
+
+        }
+
+        
     }
 
 }

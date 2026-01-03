@@ -6,9 +6,10 @@ using ChineseAuctionAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace ChineseAuctionAPI
@@ -16,7 +17,10 @@ namespace ChineseAuctionAPI
     public class Program
     {
         public static void Main(string[] args)
+
         {
+            
+            
             var builder = WebApplication.CreateBuilder(args);
             var jwtSettings = builder.Configuration.GetSection("Jwt");
             var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
@@ -28,7 +32,21 @@ namespace ChineseAuctionAPI
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
+
                 {
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            Console.WriteLine("JWT FAILED: " + context.Exception.Message);
+                            return Task.CompletedTask;
+                        },
+                        OnChallenge = context =>
+                        {
+                            Console.WriteLine("JWT CHALLENGE ERROR");
+                            return Task.CompletedTask;
+                        }
+                    };
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
@@ -37,10 +55,11 @@ namespace ChineseAuctionAPI
                         ValidIssuer = jwtSettings["Issuer"],
                         ValidateAudience = true, 
                         ValidAudience = jwtSettings["Audience"],
-                        ValidateLifetime = true, 
+                        ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero,
+
                         RoleClaimType = ClaimTypes.Role
-                        
+
                     };
                 });
 
@@ -101,11 +120,17 @@ namespace ChineseAuctionAPI
             //Winner
             builder.Services.AddScoped<IWinnerService,WinnerService>();
             builder.Services.AddScoped<IWinnerRepo,WinnerRepository>();
+
+            //Order
+            builder.Services.AddScoped<IOrderRepo, OrderRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            
             //Cart
             builder.Services.AddScoped<ICartRepo, CartRepository>();
             builder.Services.AddScoped<ICartService, CartService>();
             //Raffle
             builder.Services.AddScoped<IRaffleService, RaffleService>();
+
 
             var app = builder.Build();
 
@@ -116,8 +141,9 @@ namespace ChineseAuctionAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseHttpsRedirection();
+            
+            //לזכור לעבור לHTTPS!!!!
+            //app.UseHttpsRedirection();
 
             app.UseAuthentication(); 
             app.UseAuthorization();

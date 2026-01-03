@@ -5,9 +5,10 @@ namespace ChineseAuctionAPI.Interface
 {
     public interface ICartService
     {
-            public Task AddPrizeToCart(int userId, int prizeId, int quantity = 1);
-            public Task<ReadCartDTO> GetCartByUserId(int userId);
-            public Task addcart(addCartDTO _cartDto);
-            public Task RemovePrizeFromCart(int userId, int prizeId);
+            public  Task AddPrizeToCart(int userId, int prizeId, int quantity = 1);
+            public  Task RemovePrizeFromCart(int userId, int prizeId);
+            public  Task addcart(addCartDTO cartDto);
+            public  Task<ReadCartDTO> GetCartByUserId(int userId);
+            public  Task PurchaseCart(int userId);
     }
 }

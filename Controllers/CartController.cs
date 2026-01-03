@@ -1,4 +1,5 @@
 ﻿using ChineseAuctionAPI.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static ChineseAuctionAPI.DTO.CartDTO;
 
@@ -15,6 +16,7 @@ namespace ChineseAuctionAPI.Controllers
             _cartService = cartService;
         }
 
+
         [HttpPost("AddPrizeToCart/{userId}/{prizeId}")]
         public async Task<IActionResult> AddPrizeToCart(int userId, int prizeId, [FromQuery] int quantity = 1)
         {
@@ -28,6 +30,7 @@ namespace ChineseAuctionAPI.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
 
         [HttpDelete("RemovePrizeFromCart/{userId}/{prizeId}")]
         public async Task<IActionResult> RemovePrizeFromCart(int userId, int prizeId)
@@ -43,6 +46,7 @@ namespace ChineseAuctionAPI.Controllers
             }
         }
 
+
         [HttpPost("AddCart")]
         public async Task<IActionResult> AddCart([FromBody] addCartDTO cartDTO)
         {
@@ -57,11 +61,21 @@ namespace ChineseAuctionAPI.Controllers
             }
         }
 
-        [HttpGet("GetCartByUserId/{userId}")]
-        public async Task<IActionResult> GetCartByUserId(int userId)
+        [Authorize(Roles="User")]
+        [HttpGet("GetCartByUserId")]
+        public async Task<ActionResult<ReadCartDTO>> GetCartByUserId()
         {
             try
             {
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("Unauthorized user");
+                }
+
+                int userId = int.Parse(userIdClaim.Value);
+
                 var cart = await _cartService.GetCartByUserId(userId);
                 if (cart == null)
                 {
@@ -75,4 +89,4 @@ namespace ChineseAuctionAPI.Controllers
             }
         }
     }
- }
+}

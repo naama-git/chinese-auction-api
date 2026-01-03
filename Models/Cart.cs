@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel; 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; 
 
 namespace ChineseAuctionAPI.Models
 {
@@ -8,6 +10,7 @@ namespace ChineseAuctionAPI.Models
 
         [Required(ErrorMessage = "User ID is required")]
         public int UserId { get; set; }
+
         public User User { get; set; }
 
         public List<CartItem> CartItems { get; set; } = new List<CartItem>();

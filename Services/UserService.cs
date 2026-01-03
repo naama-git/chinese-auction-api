@@ -2,6 +2,7 @@
 using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -22,6 +23,18 @@ namespace ChineseAuctionAPI.Services
             _mapper = mapper;
             _configuration = configuration;
         }
+
+        public async Task<IEnumerable<ReadUserDTO>> GetAllUsers()
+        {
+
+            var users = await _repo.GetAllUsers();
+            return _mapper.Map<IEnumerable<ReadUserDTO>>(users);
+
+           
+           
+        }
+
+
         public async Task<ResponseUserDTO> AddUser(SignInDTO user)
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
@@ -98,7 +111,7 @@ namespace ChineseAuctionAPI.Services
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.Now.AddDays(1),
+            expires: DateTime.UtcNow.AddDays(1),
             signingCredentials: creds);
 
 

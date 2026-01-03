@@ -22,10 +22,28 @@ namespace ChineseAuctionAPI.Repositories
         {
             return await _context.packages.ToListAsync();
         }
+
         public async Task<Package> GetPackageById(int id)
         {
             return await _context.packages.FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task UpdatePackage(Package package)
+        {
+            _context.packages.Update(package);
+            await _context.SaveChangesAsync();
+        }
+        public async Task DeletePackage(int id)
+        {
+            await _context.packages
+            .Where(p => p.Id == id)
+            .ExecuteDeleteAsync();
+        }
+        public async Task<IEnumerable<Package>> GetPackagesByIds(List<int> packageIds)
+        {
+            return await _context.packages
+                .Where(p => packageIds.Contains(p.Id))
+                .ToListAsync();
+        }
     }
 }
