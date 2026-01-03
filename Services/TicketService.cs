@@ -23,8 +23,13 @@ namespace ChineseAuctionAPI.Services
             Ticket ticketEntity = _mapper.Map<Ticket>(ticketDTO);
             await _repo.AddTicket(ticketEntity);
         }
+        public async Task AddTicketsRange(List<TicketCreateDTO> tickets)
+        {
+            List<Ticket> ticketEntities= _mapper.Map<List<Ticket>>(tickets);
+            await _repo.AddTicketsRange(ticketEntities);
+        }
 
-        
+
         public async Task<IEnumerable<TicketReadDTO>> GetTicketsByPrizeId(int prizeId)
         {
             var tickets = await _repo.GetTicketsByPrizeId(prizeId);

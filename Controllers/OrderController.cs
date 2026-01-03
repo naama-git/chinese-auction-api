@@ -22,10 +22,21 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> AddOrder(int userId, List<int> PackagesIds)
+        public async Task<IActionResult> AddOrder(List<int> PackagesIds)
         {
-             await _orderService.AddOrder(userId, PackagesIds);
-            return Ok(201);
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null)
+            {
+                return Unauthorized("Unauthorized user");
+            }
+
+            int userId = int.Parse(userIdClaim.Value);
+
+            
+            await _orderService.AddOrder(userId, PackagesIds);
+
+            return Ok(new { message = "Order created successfully" });
         }
 
    

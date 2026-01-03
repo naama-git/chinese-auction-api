@@ -20,6 +20,7 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<DonorCreateDTO,Donor>();
             CreateMap<DonorUpdateDTO, Donor>();
             CreateMap<Donor, DonorForReadPrizesDTO>();
+
             //User
             CreateMap<SignInDTO, User>();
             CreateMap<LogInDTO, User>();
@@ -45,7 +46,7 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Prize, ReadPrizeDTO>();
 
             //Package
-            CreateMap<Package,ReadPackageDTO>();
+            CreateMap<Package,ReadPackageDTO>().ReverseMap();
             CreateMap<CreatePackageDTO,Package>();
 
             //Winner
@@ -63,7 +64,7 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Cart, ReadCartDTO>();
             CreateMap<CartItem, CartItemReadDTO>();
             CreateMap<User, ResponseUserDTO>();
-            CreateMap<Prize, PrizeForWinnerDTO>();
+            CreateMap<Prize, ReadSimplePrizeDTO>().ReverseMap();
 
         }
     }

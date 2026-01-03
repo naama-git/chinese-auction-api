@@ -9,7 +9,8 @@ namespace ChineseAuctionAPI.DTO
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public string Description { get; set; }
+            public int NumOfClassicTickets { get; set; }
+            public int NumberOfPremiumTickets { get; set; }
             public double Price { get; set; }
         }
         
@@ -18,11 +19,14 @@ namespace ChineseAuctionAPI.DTO
             [Required(ErrorMessage = "Name is required")]
             public string Name { get; set; }
 
+
             [Range(0, 999), Required(ErrorMessage = "Number of classic tickets is required"), DefaultValue(0)]
             public int NumOfClassicTickets { get; set; }
 
+
             [Range(0, 999), Required(ErrorMessage = "Number of premium tickets is required"), DefaultValue(0)]
             public int NumberOfPremiumTickets { get; set; }
+
 
             [Range(0, 99999999999999), Required(ErrorMessage = "Price is required")]
             public int Price { get; set; }

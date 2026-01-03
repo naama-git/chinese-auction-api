@@ -5,8 +5,9 @@ namespace ChineseAuctionAPI.Interface
 {
     public interface ITicketService
     {
-        public Task AddTicket(TicketDTO.TicketCreateDTO ticketDTO);
-        public Task<IEnumerable<TicketDTO.TicketReadDTO>> GetTicketsByPrizeId(int prizeId);
-        public Task<IEnumerable<TicketDTO.TicketReadDTO>> GetTicketsByUserIdAndprizeId(int userId, int prizeId);
+        public Task AddTicket(TicketCreateDTO ticketDTO);
+        public Task AddTicketsRange(List<TicketCreateDTO> tickets);
+        public Task<IEnumerable<TicketReadDTO>> GetTicketsByPrizeId(int prizeId);
+        public Task<IEnumerable<TicketReadDTO>> GetTicketsByUserIdAndprizeId(int userId, int prizeId);
     }
 }

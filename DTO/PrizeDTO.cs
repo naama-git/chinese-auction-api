@@ -93,6 +93,21 @@ namespace ChineseAuctionAPI.DTO
         public string ImagePath { get; set; }
     }
     
+
+    public class ReadSimplePrizeDTO
+    {
+        [Required(ErrorMessage = "Id is required")]
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "Name is required"), MaxLength(100)]
+        public string Name { get; set; }
+        public string Category{ get; set; }
+
+        public string ImagePath { get; set; }
+
+
+        
+    }
     public class PrizeForWinnerDTO
     {
         public int Id { get; set; }
@@ -100,6 +115,7 @@ namespace ChineseAuctionAPI.DTO
         [Required(ErrorMessage = "Name is required"), MaxLength(100)]
         public string Name { get; set; }
         
+        //donor
         public bool IsPremium { get; set; }
 
         public string CategoryName { get; set; }

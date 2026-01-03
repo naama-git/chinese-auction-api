@@ -25,7 +25,7 @@ namespace ChineseAuctionAPI.DTO
         {
             
             public int PrizeId { get; set; }
-            public PrizeForWinnerDTO Prize { get; set; }   
+            public ReadSimplePrizeDTO Prize { get; set; }   
             public int Quantity { get; set; }
         }
 

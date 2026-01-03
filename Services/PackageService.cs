@@ -30,7 +30,14 @@ namespace ChineseAuctionAPI.Services
             return _mapper.Map<IEnumerable<ReadPackageDTO>>(packages);
         }
 
-        
+        public async Task<IEnumerable<Package>> GetPackagesEntities()
+        {
+            var packages = await _packageRepo.GetPackages();
+            return packages;
+        }
+
+
+
         public async Task<ReadPackageDTO> GetPackageById(int id)
         {
             Package packageEntity = await _packageRepo.GetPackageById(id);
