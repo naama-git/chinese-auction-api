@@ -24,10 +24,17 @@ namespace ChineseAuctionAPI.Services
             _configuration = configuration;
         }
 
-        public async Task<List<ResponseUserDTO>> GetAllUsers()
+        public async Task<IEnumerable<ReadUserDTO>> GetAllUsers()
         {
-            return _mapper.Map<List<ResponseUserDTO>>(await _repo.GetAllUsers());
+
+            var users = await _repo.GetAllUsers();
+            return _mapper.Map<IEnumerable<ReadUserDTO>>(users);
+
+           
+           
         }
+
+
         public async Task<ResponseUserDTO> AddUser(SignInDTO user)
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);

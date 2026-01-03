@@ -32,9 +32,23 @@ namespace ChineseAuctionAPI.DTO
 
             [EmailAddress]
             public string Email { get; set; }
+
             public string Name { get; set; } = string.Empty;
 
-            public string Token;
+             public string Token { get; set; }
         }
+
+        public class ReadUserDTO
+        {
+            public int Id { get; set; }
+
+            [EmailAddress]
+            public string Email { get; set; }
+
+            public string Name { get; set; } = string.Empty;
+
+           
+        }
+
     }
 }

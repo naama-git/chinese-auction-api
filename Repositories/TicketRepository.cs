@@ -19,6 +19,15 @@ namespace ChineseAuctionAPI.Repositories
             await _context.tickets.AddAsync(ticket);
             await _context.SaveChangesAsync();
         }
+
+
+        public async Task AddTicketsRange(List<Ticket> tickets)
+        {
+             await _context.tickets.AddRangeAsync(tickets);
+             await _context.SaveChangesAsync();
+        }
+
+
         // צפיה בכל הכרטיסים שנרכשו למתנה מסוימת - יעזור לביצוע ההגרלה
         public async Task<IEnumerable<Ticket>> GetTicketsByPrizeId(int prizeId)
         {
@@ -37,6 +46,8 @@ namespace ChineseAuctionAPI.Repositories
                 .Where(t => t.UserId == userId & t.PrizeId == prizeId)
                 .ToListAsync();
         } 
+
+
 
     }
 }

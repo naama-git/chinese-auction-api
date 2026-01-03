@@ -2,6 +2,7 @@ using AutoMapper;
 using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
+using static ChineseAuctionAPI.DTO.PackageDTO;
 
 namespace ChineseAuctionAPI.Services
 {
@@ -11,7 +12,7 @@ namespace ChineseAuctionAPI.Services
         private readonly ITicketService _ticketService;
         private readonly IPackageService _packageService;
         private readonly ICartService _cartService;
-        
+
         private readonly IMapper _mapper;
 
         public OrderService(IOrderRepo orderRepo, ITicketService ticketService, IPrizeService prizeService, IPackageService packageService, IMapper mapper)
@@ -25,45 +26,45 @@ namespace ChineseAuctionAPI.Services
 
         public async Task AddOrder(int userId, List<int> PackagesIds)
         {
-            var cart = await _cartService.GetCartByUserId(userId);
+            var cart = await _cartService.GetCartByUserId(userId) ?? throw new Exception("no cart found");
 
-            if (cart != null)
+            var cartItems = cart.CartItems;
+            if (cartItems == null || cartItems.Count==0)
+                throw new Exception("cart is empty");
+
+            var prizesList = cartItems.Where(ci => ci.Prize != null).Select(ci => ci.Prize).ToList();
+            if (prizesList.Count==0)
+                throw new Exception("no prizes in cart");
+
+            var prizes = _mapper.Map<List<Prize>>(prizesList);
+
+            foreach (var item in cartItems)
             {
-                var cartItems = cart.CartItems;
-                var prizes = _mapper.Map<List<Prize>>(cartItems.Select(ci => ci.Prize));
+                var prize = item.Prize;
+                if (prize == null) continue;
 
-                foreach (var item in cartItems)
+                for (int i = 0; i < item.Quantity; i++)
                 {
-                    var prize = item.Prize;
-
-                    for(int i = 0; i < item.Quantity; i++)
-                    {
-                        await _ticketService.AddTicket(new TicketDTO.TicketCreateDTO { UserId = userId, PrizeId = prize.Id });
-                    }
+                    await _ticketService.AddTicket(new TicketDTO.TicketCreateDTO { UserId = userId, PrizeId = prize.Id });
                 }
-
-                //var packages = await _packageService.GetPackagesByIds(PackagesIds);
-                var packages = _mapper.Map<List<Package>>(await _packageService.GetPackagesByIds(PackagesIds)).ToList();
-
-                double totalPrice = 0;
-                foreach (var package in packages)
-                {
-                    totalPrice += package.Price;
-                }
-
-
-
-                var order = new Order
-                {
-                    UserId = userId,
-                    Prizes = prizes,
-                    Packages = packages,
-                    OrderDate = DateTime.UtcNow,
-                    TotalPrice = totalPrice
-                };
-                await _orderRepo.AddOrder(order);
-                await _cartService.PurchaseCart(userId);
             }
+
+            var packagesFromService = await _packageService.GetPackagesByIds(PackagesIds) ?? new List<ReadPackageDTO>();
+            var packages = _mapper.Map<List<Package>>(packagesFromService);
+
+            double totalPrice = packages.Sum(p => p.Price);
+
+            var order = new Order
+            {
+                UserId = userId,
+                Prizes = prizes,
+                Packages = packages,
+                OrderDate = DateTime.UtcNow,
+                TotalPrice = totalPrice
+            };
+
+            await _orderRepo.AddOrder(order);
+            await _cartService.PurchaseCart(userId);
         }
 
         public async Task<IEnumerable<ReadOrderDTO>> GetOrders()

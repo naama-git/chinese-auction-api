@@ -16,8 +16,8 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllUsers() { 
-            var users=_userService.GetAllUsers();
+        public async Task<ActionResult<List<ReadUserDTO>>> GetAllUsers() { 
+            var users=await _userService.GetAllUsers();
             return Ok(users);
         }
 
