@@ -30,11 +30,7 @@ namespace ChineseAuctionAPI.Services
             return _mapper.Map<IEnumerable<ReadPackageDTO>>(packages);
         }
 
-        public async Task<IEnumerable<Package>> GetPackagesEntities()
-        {
-            var packages = await _packageRepo.GetPackages();
-            return packages;
-        }
+        
 
 
 
@@ -62,10 +58,10 @@ namespace ChineseAuctionAPI.Services
             await _packageRepo.DeletePackage(id);
         }
 
-        public async Task<IEnumerable<ReadPackageDTO>> GetPackagesByIds(List<int> packageIds)
+        public async Task<IEnumerable<Package>> GetPackagesByIds(List<int> packageIds)
         {
             var packages = await _packageRepo.GetPackagesByIds(packageIds);
-            return _mapper.Map<IEnumerable<ReadPackageDTO>>(packages);
+            return packages;
         }
 
     }

@@ -64,8 +64,8 @@ namespace ChineseAuctionAPI.Repositories
         {
             return await _context.prizes
                 .Where(p => prizeIds.Contains(p.Id))
-                .Include(p => p.Donor.FirstName)
-                .Include(p => p.Category.Name)
+                .Include(p => p.Donor)
+                .Include(p => p.Category)
                 .ToListAsync();
         }
     

@@ -13,8 +13,10 @@ namespace ChineseAuctionAPI.Services
         private readonly IOrderRepo _orderRepo;
 
         private readonly ITicketService _ticketService;
+        private readonly IPrizeService _prizeService;
         private readonly IPackageService _packageService;
         private readonly ICartService _cartService;
+        
 
         private readonly IMapper _mapper;
 
@@ -23,6 +25,7 @@ namespace ChineseAuctionAPI.Services
             _orderRepo = orderRepo;
 
             _ticketService = ticketService;
+            _prizeService = prizeService;
             _packageService = packageService;
             _cartService=cartService;
 
@@ -52,22 +55,21 @@ namespace ChineseAuctionAPI.Services
                         throw new Exception("cart is empty");
 
 
-                    var prizesList = cartItems.Where(ci => ci.Prize != null).Select(ci => ci.Prize).ToList();
+                    var prizesList = cartItems.Where(ci => ci.Prize != null).Select(ci => ci.PrizeId).ToList();
+
                     if (prizesList.Count == 0)
                         throw new Exception("no prizes in cart");
-
-                    var prizes = _mapper.Map<List<Prize>>(prizesList);
-
+                    var prizes=await _prizeService.GetPrizesByIds(prizesList);
 
                     // add tickets to DB
-                    List<TicketCreateDTO> tickets = new List<TicketCreateDTO>();
+                    List <TicketCreateDTO> tickets = new List<TicketCreateDTO>();
                     foreach (var item in cartItems)
                     {
-                        var prize = item.Prize;
-                        if (prize == null) continue;
+                        var prizeId = item.PrizeId;
+                        if (prizeId == null) continue;
                         for (int i = 0; i < item.Quantity; i++)
                         {
-                            tickets.Add(new TicketCreateDTO { UserId = userId, PrizeId = prize.Id });
+                            tickets.Add(new TicketCreateDTO { UserId = userId, PrizeId = prizeId });
 
                         }
 
@@ -76,16 +78,16 @@ namespace ChineseAuctionAPI.Services
 
 
                     // calculate price
-                    var packagesList = await _packageService.GetPackagesByIds(PackagesIds) ?? new List<ReadPackageDTO>();
-                    var packages = _mapper.Map<List<Package>>(packagesList);
+                    
+                    var packages = await _packageService.GetPackagesByIds(PackagesIds);
                     
                     double totalPrice = packages.Sum(p => p.Price);
 
                     var order = new Order
                     {
                         UserId = userId,
-                        Prizes = prizes,
-                        Packages = packages,
+                        Prizes = prizes.ToList(),
+                        Packages = packages.ToList(),
                         OrderDate = DateTime.UtcNow,
                         TotalPrice = totalPrice
                     };

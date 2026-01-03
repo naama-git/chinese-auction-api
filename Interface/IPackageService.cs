@@ -8,6 +8,7 @@ namespace ChineseAuctionAPI.Interface
         public Task AddPackage(CreatePackageDTO createPackageDTO);
 
         public Task<IEnumerable<ReadPackageDTO>> GetPackages();
+        
 
         public Task<ReadPackageDTO> GetPackageById(int id);
 
@@ -15,7 +16,7 @@ namespace ChineseAuctionAPI.Interface
 
         public  Task DeletePackage(int id);
 
-        public Task<IEnumerable<ReadPackageDTO>> GetPackagesByIds(List<int> packageIds);
+        public Task<IEnumerable<Package>> GetPackagesByIds(List<int> packageIds);
 
     }
 }
