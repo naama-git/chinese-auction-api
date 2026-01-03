@@ -104,6 +104,8 @@ namespace ChineseAuctionAPI
             //Cart
             builder.Services.AddScoped<ICartRepo, CartRepository>();
             builder.Services.AddScoped<ICartService, CartService>();
+            //Raffle
+            builder.Services.AddScoped<IRaffleService, RaffleService>();
 
             var app = builder.Build();
 
