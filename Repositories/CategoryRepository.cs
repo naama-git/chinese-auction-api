@@ -23,7 +23,7 @@ namespace ChineseAuctionAPI.Repositories
             if (categories == null || !categories.Any())
                 {
                 
-                    throw new ErrorResponse(500, "GetAllCategories", "Internal Server Error", "Couldn't get categories");
+                    throw new ErrorResponse(500, "GetAllCategories", "Internal Server Error", "Couldn't get categories", DateTime.UtcNow);
                 }
 
             return categories;

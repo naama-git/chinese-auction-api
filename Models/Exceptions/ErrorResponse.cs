@@ -12,7 +12,7 @@
 
         public string? Location { get; set; } // repo, srv, cont, mid ...
 
-        public ErrorResponse(int statusCode, string func, string message, string detailedMessage, DateTime timestamp, string? method, string? location)
+        public ErrorResponse(int statusCode, string func, string message, string detailedMessage, DateTime timestamp, string? method=null, string? location=null)
         {
             StatusCode = statusCode;
             Func = func;
