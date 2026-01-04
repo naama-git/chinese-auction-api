@@ -12,6 +12,8 @@ using Serilog;
 using Serilog.Enrichers.Sensitive;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
+using Swashbuckle.AspNetCore.Filters;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 
@@ -54,6 +56,7 @@ namespace ChineseAuctionAPI
             })
             .AddJwtBearer(options =>
                 {
+
                     options.Events = new JwtBearerEvents
                     {
                         OnAuthenticationFailed = context =>
@@ -76,10 +79,10 @@ namespace ChineseAuctionAPI
                         ValidIssuer = jwtSettings["Issuer"],
                         ValidateAudience = true,
                         ValidAudience = jwtSettings["Audience"],
-                        ValidateLifetime = true,
+                        ValidateLifetime = true, 
                         ClockSkew = TimeSpan.Zero,
                         RoleClaimType = ClaimTypes.Role
-
+                        
                     };
                 });
 
@@ -139,6 +142,8 @@ namespace ChineseAuctionAPI
             builder.Services.AddScoped<IPackageRepo, PackageRepository>();
             builder.Services.AddScoped<IPackageService, PackageService>();
             //Winner
+            builder.Services.AddScoped<IWinnerService,WinnerService>();
+            builder.Services.AddScoped<IWinnerRepo,WinnerRepository>();
             builder.Services.AddScoped<IWinnerService, WinnerService>();
             builder.Services.AddScoped<IWinnerRepo, WinnerRepository>();
 
@@ -152,10 +157,6 @@ namespace ChineseAuctionAPI
 
             //Raffle
             builder.Services.AddScoped<IRaffleService, RaffleService>();
-
-
-
-
             var app = builder.Build();
 
             //error middleware
@@ -172,8 +173,7 @@ namespace ChineseAuctionAPI
                 app.UseSwaggerUI();
             }
 
-            //לזכור לעבור לHTTPS!!!!
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();
