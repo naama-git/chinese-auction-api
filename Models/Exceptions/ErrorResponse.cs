@@ -1,6 +1,5 @@
 ﻿namespace ChineseAuctionAPI.Models.Exceptions
 {
-
     public class ErrorResponse : Exception
     {
         public int StatusCode { get; set; }
