@@ -22,9 +22,15 @@ namespace ChineseAuctionAPI
             
             
             var builder = WebApplication.CreateBuilder(args);
+
+            Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console() 
+            .WriteTo.File("logs/ChALogs.txt", rollingInterval: RollingInterval.Day) 
+            .CreateLogger();
+
+
             var jwtSettings = builder.Configuration.GetSection("Jwt");
             var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
-
             //add Authentication
             builder.Services.AddAuthentication(options =>
             {

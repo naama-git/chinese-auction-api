@@ -41,11 +41,20 @@ namespace ChineseAuctionAPI.Controllers
         }
 
 
-        [HttpDelete("RemovePrizeFromCart/{userId}/{prizeId}")]
-        public async Task<IActionResult> RemovePrizeFromCart(int userId, int prizeId)
+        [HttpDelete("RemovePrizeFromCart/{prizeId}")]
+        public async Task<IActionResult> RemovePrizeFromCart(int prizeId)
         {
             try
             {
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("Unauthorized user");
+                }
+
+                int userId = int.Parse(userIdClaim.Value);
+
                 await _cartService.RemovePrizeFromCart(userId, prizeId);
                 return Ok(new { message = "Prize removed from cart successfully!" });
             }
