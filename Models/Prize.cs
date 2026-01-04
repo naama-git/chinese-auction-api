@@ -16,8 +16,8 @@ namespace ChineseAuctionAPI.Models
         public int DonorId { get; set; }
         public Donor Donor { get; set; }
 
-        [Required(ErrorMessage = "IsPremium is required")]
-        public bool IsPremium { get; set; }
+        //[Required(ErrorMessage = "IsPremium is required")]
+        //public bool IsPremium { get; set; }
 
         [Required(ErrorMessage = "Category ID is required")]
         public int CategoryId { get; set; }
