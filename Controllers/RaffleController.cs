@@ -2,6 +2,7 @@
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using static ChineseAuctionAPI.DTO.WinnerDTO;
 
 namespace ChineseAuctionAPI.Controllers
 {
@@ -18,8 +19,9 @@ namespace ChineseAuctionAPI.Controllers
         {
             _raffleService = raffleService;
         }
+
         [HttpPost("{id}")]
-        public async Task<IActionResult> ExecuteRaffle(int id)
+        public async Task<ActionResult<CreateWinnerDTO>> ExecuteRaffle(int id)
         {
             var winner = await _raffleService.PerformRaffle(id);
 
