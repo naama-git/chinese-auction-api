@@ -13,23 +13,35 @@ namespace ChineseAuctionAPI.Repositories
         {
             _context = context;
         }
+
         // get all categories
         public async Task<IEnumerable<Category>> GetAllCategory()
         {
-            return await _context.categories.ToListAsync();
+           var categories = await _context.categories.ToListAsync();
+
+        if (categories == null || !categories.Any())
+            {
+              
+                throw new Exception("No categories found.");
+            }
+
+    return categories;
         }
+
         // add new category
         public async Task AddCategory(Category category)
         {
             await _context.categories.AddAsync(category);
             await _context.SaveChangesAsync();
         }
+
         // update category
         public async Task UpdateCategory(Category category)
         {
             _context.categories.Update(category);
             await _context.SaveChangesAsync();
         }
+        
         // delete category
         public async Task DeleteCategory(int id )
         {
