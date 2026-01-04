@@ -24,7 +24,6 @@ namespace ChineseAuctionAPI
         public static void Main(string[] args)
         {
 
-
             // serilog setting
             var configuration = new ConfigurationBuilder()
              .AddJsonFile("appsettings.json")
@@ -57,6 +56,7 @@ namespace ChineseAuctionAPI
             })
             .AddJwtBearer(options =>
                 {
+
                     options.Events = new JwtBearerEvents
                     {
                         OnAuthenticationFailed = context =>
@@ -142,6 +142,8 @@ namespace ChineseAuctionAPI
             builder.Services.AddScoped<IPackageRepo, PackageRepository>();
             builder.Services.AddScoped<IPackageService, PackageService>();
             //Winner
+            builder.Services.AddScoped<IWinnerService,WinnerService>();
+            builder.Services.AddScoped<IWinnerRepo,WinnerRepository>();
             builder.Services.AddScoped<IWinnerService, WinnerService>();
             builder.Services.AddScoped<IWinnerRepo, WinnerRepository>();
 
@@ -155,10 +157,6 @@ namespace ChineseAuctionAPI
 
             //Raffle
             builder.Services.AddScoped<IRaffleService, RaffleService>();
-
-
-
-
             var app = builder.Build();
 
             //error middleware
@@ -175,8 +173,7 @@ namespace ChineseAuctionAPI
                 app.UseSwaggerUI();
             }
 
-            //לזכור לעבור לHTTPS!!!!
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();
