@@ -7,13 +7,10 @@ using ChineseAuctionAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-<<<<<<< HEAD
-=======
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Enrichers.Sensitive;
 using Swashbuckle.AspNetCore.Filters;
->>>>>>> b9dc3813efe7a9760884398a19ca8c2352073226
 using System.Security.Claims;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
@@ -26,9 +23,6 @@ namespace ChineseAuctionAPI
     {
         public static void Main(string[] args)
         {
-<<<<<<< HEAD
-=======
-
 
             // serilog setting
             var configuration = new ConfigurationBuilder()
@@ -47,7 +41,6 @@ namespace ChineseAuctionAPI
             
 
 
->>>>>>> b9dc3813efe7a9760884398a19ca8c2352073226
             var builder = WebApplication.CreateBuilder(args);
 
 
@@ -63,8 +56,7 @@ namespace ChineseAuctionAPI
             })
             .AddJwtBearer(options =>
                 {
-<<<<<<< HEAD
-=======
+
                     options.Events = new JwtBearerEvents
                     {
                         OnAuthenticationFailed = context =>
@@ -79,7 +71,6 @@ namespace ChineseAuctionAPI
                             return Task.CompletedTask;
                         }
                     };
->>>>>>> b9dc3813efe7a9760884398a19ca8c2352073226
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
@@ -151,10 +142,8 @@ namespace ChineseAuctionAPI
             builder.Services.AddScoped<IPackageRepo, PackageRepository>();
             builder.Services.AddScoped<IPackageService, PackageService>();
             //Winner
-<<<<<<< HEAD
             builder.Services.AddScoped<IWinnerService,WinnerService>();
             builder.Services.AddScoped<IWinnerRepo,WinnerRepository>();
-=======
             builder.Services.AddScoped<IWinnerService, WinnerService>();
             builder.Services.AddScoped<IWinnerRepo, WinnerRepository>();
 
@@ -162,7 +151,6 @@ namespace ChineseAuctionAPI
             builder.Services.AddScoped<IOrderRepo, OrderRepository>();
             builder.Services.AddScoped<IOrderService, OrderService>();
 
->>>>>>> b9dc3813efe7a9760884398a19ca8c2352073226
             //Cart
             builder.Services.AddScoped<ICartRepo, CartRepository>();
             builder.Services.AddScoped<ICartService, CartService>();
@@ -170,12 +158,10 @@ namespace ChineseAuctionAPI
             //Raffle
             builder.Services.AddScoped<IRaffleService, RaffleService>();
 
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> b9dc3813efe7a9760884398a19ca8c2352073226
+
             var app = builder.Build();
 
             //error middleware
@@ -192,18 +178,12 @@ namespace ChineseAuctionAPI
                 app.UseSwaggerUI();
             }
 
-<<<<<<< HEAD
-
 
 
 
 
 
             app.UseHttpsRedirection();
-=======
-            //לזכור לעבור לHTTPS!!!!
-            //app.UseHttpsRedirection();
->>>>>>> b9dc3813efe7a9760884398a19ca8c2352073226
 
             app.UseAuthentication();
             app.UseAuthorization();
