@@ -157,11 +157,6 @@ namespace ChineseAuctionAPI
 
             //Raffle
             builder.Services.AddScoped<IRaffleService, RaffleService>();
-
-
-
-
-
             var app = builder.Build();
 
             //error middleware
@@ -177,11 +172,6 @@ namespace ChineseAuctionAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-
-
-
-
 
             app.UseHttpsRedirection();
 

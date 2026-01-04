@@ -17,19 +17,18 @@
             {
                 await _next(context); 
             }
-            catch (Exception ex)
+            catch (ErrorResponse ex)
             {
-               
                 _logger.LogError(ex, "An unhandled exception occurred during request {RequestId}", context.TraceIdentifier);
 
                 await HandleExceptionAsync(context, ex);
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private static Task HandleExceptionAsync(HttpContext context, ErrorResponse exception)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = 500; 
+            context.Response.StatusCode = exception.StatusCode; 
             return context.Response.WriteAsJsonAsync(new { Message = "Internal Server Error. Please try again later." });
         }
 
