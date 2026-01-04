@@ -1,10 +1,11 @@
 ﻿using ChineseAuctionAPI.Models;
+using static ChineseAuctionAPI.DTO.WinnerDTO;
 
 namespace ChineseAuctionAPI.Interface
 {
     public interface IRaffleService
     {
-        public Task<Winner> PerformRaffle(int prizeId);
+        public Task<CreateWinnerDTO> PerformRaffle(int prizeId);
 
     }
 }

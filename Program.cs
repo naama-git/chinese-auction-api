@@ -21,6 +21,8 @@ namespace ChineseAuctionAPI
 {
     public class Program
     {
+        
+
         public static void Main(string[] args)
         {
 
@@ -28,23 +30,21 @@ namespace ChineseAuctionAPI
             var configuration = new ConfigurationBuilder()
              .AddJsonFile("appsettings.json")
              .Build();
+             Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .CreateBootstrapLogger();
 
-            Log.Logger = new LoggerConfiguration()
-            .ReadFrom.Configuration(configuration)
-            //.Enrich.WithSensitiveDataMasking(options =>
-            //{
-                
-            //    // options.MaskingOperators.Add(new RegexMaskingOperator("Password"))// StringMaskingOperator("Password", "Secret", "CreditCard","Key"));
-            //})
-            .Enrich.WithCorrelationId()
-            .CreateLogger();
-            
+            try{
+
+                Log.Information("Starting up the service...");
+
+                var builder = WebApplication.CreateBuilder(args);
 
 
-            var builder = WebApplication.CreateBuilder(args);
-
-
-            builder.Host.UseSerilog();
+                builder.Host.UseSerilog((context, services, configuration) => configuration
+                        .ReadFrom.Configuration(context.Configuration)
+                        .Enrich.FromLogContext()
+                        .Enrich.WithCorrelationId());
 
             //add Authentication
             var jwtSettings = builder.Configuration.GetSection("Jwt");
@@ -181,6 +181,14 @@ namespace ChineseAuctionAPI
             app.MapControllers();
 
             app.Run();
+            }
+
+
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Application start-up failed!");
+            }
+            
         }
     }
 }

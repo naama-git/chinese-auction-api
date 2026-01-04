@@ -5,24 +5,25 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Collections;
+using static ChineseAuctionAPI.DTO.WinnerDTO;
 
 namespace ChineseAuctionAPI.Services
 {
     public class RaffleService : IRaffleService
     {
-        private readonly ITicketRepo _ticketRepo;
-        private readonly IWinnerRepo _winnerRepo;
+        private readonly ITicketService _ticketService;
+        private readonly IWinnerService _winnerService;
 
         private readonly IMapper _mapper;
-        public RaffleService(ITicketRepo ticketRepo, IMapper mapper, IWinnerRepo winnerRepo)
+        public RaffleService(ITicketService ticketService, IMapper mapper, IWinnerService winnerService)
         {
-            _ticketRepo = ticketRepo;
-            _winnerRepo = winnerRepo;
+            _ticketService = ticketService;
+            _winnerService = winnerService;
             _mapper = mapper;
         }
-        public async Task<Winner> PerformRaffle(int prizeId)
+        public async Task<CreateWinnerDTO> PerformRaffle(int prizeId)
         {
-            var tickets = await _ticketRepo.GetTicketsByPrizeId(prizeId);
+            var tickets = await _ticketService.GetTicketsByPrizeId(prizeId);
 
             if (tickets == null || !tickets.Any())
             {
@@ -33,13 +34,13 @@ namespace ChineseAuctionAPI.Services
             int winnerIndex = rnd.Next(tickets.Count());
             var winningTicket = tickets.ElementAt(winnerIndex);
 
-            Winner winner = new()
+            CreateWinnerDTO winner = new()
             {
-                UserId = winningTicket.UserId,
+                UserId = winningTicket.User.Id,
                 PrizeId = prizeId,
             };
 
-            await _winnerRepo.addWinnerToPrize(winner, prizeId);
+            await _winnerService.AddWinnerToPrize(winner, prizeId);
 
             return winner;
         }
