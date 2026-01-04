@@ -12,6 +12,8 @@ using Serilog;
 using Serilog.Enrichers.Sensitive;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
+using Swashbuckle.AspNetCore.Filters;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 
@@ -77,10 +79,10 @@ namespace ChineseAuctionAPI
                         ValidIssuer = jwtSettings["Issuer"],
                         ValidateAudience = true,
                         ValidAudience = jwtSettings["Audience"],
-                        ValidateLifetime = true,
+                        ValidateLifetime = true, 
                         ClockSkew = TimeSpan.Zero,
                         RoleClaimType = ClaimTypes.Role
-
+                        
                     };
                 });
 
