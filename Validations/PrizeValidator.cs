@@ -1,3 +1,5 @@
+using FluentValidation;
+using ChineseAuctionAPI.DTO;
 namespace ChineseAuctionAPI.Validations
 {
     public class PrizeValidator:AbstractValidator<CreatePrizeDTO>
@@ -14,8 +16,8 @@ namespace ChineseAuctionAPI.Validations
             RuleFor(prize => prize.DonorId)
                 .NotEmpty().WithMessage("Donor Id is required.");
 
-            RuleFor(prize=>prize.categoryId)
-                .NotEmpty().WithMessage("Category Id is required")
+            RuleFor(prize=>prize.CategoryId)
+                .NotEmpty().WithMessage("Category Id is required");
 
             RuleFor(prize => prize.Qty)
                 .NotEmpty().WithMessage("Quantity is required.")
@@ -37,8 +39,8 @@ namespace ChineseAuctionAPI.Validations
             RuleFor(prize => prize.DonorId)
                 .NotEmpty().WithMessage("Donor Id is required.");
 
-            RuleFor(prize=>prize.categoryId)
-                .NotEmpty().WithMessage("Category Id is required")
+            RuleFor(prize=>prize.CategoryId)
+                .NotEmpty().WithMessage("Category Id is required");
 
             RuleFor(prize => prize.Qty)
                 .NotEmpty().WithMessage("Quantity is required.")

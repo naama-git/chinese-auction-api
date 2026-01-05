@@ -1,6 +1,10 @@
-﻿namespace ChineseAuctionAPI.Validations
+﻿using FluentValidation;
+
+using static ChineseAuctionAPI.DTO.UserDTO;
+
+namespace ChineseAuctionAPI.Validations
 {
-    public class UserLoginValidator:AbstractValidator<LogInDTO>
+    public class UserLoginValidator : AbstractValidator<LogInDTO>
     {
 
         public UserLoginValidator()
@@ -10,7 +14,7 @@
                 .EmailAddress().WithMessage("Invalid email format.");
 
             RuleFor(user => user.Password)
-                .NotEmpty().WithMessage("Password is required.")
+                .NotEmpty().WithMessage("Password is required.");
                 
         }
     }

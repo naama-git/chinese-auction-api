@@ -10,17 +10,17 @@ namespace ChineseAuctionAPI.Services
     {
         private readonly IWinnerRepo _repo;
         private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;
+        
         public WinnerService(IWinnerRepo repo, IMapper mapper, IConfiguration configuration)
         {
             _repo = repo;
             _mapper = mapper;
-            _configuration = configuration;
+            
         }
         public async Task AddWinnerToPrize(CreateWinnerDTO createWinnerDTO)
         {
             var winnerEntity = _mapper.Map<Winner>(createWinnerDTO);
-            await _repo.addWinnerToPrize(winnerEntity, prizeId);
+            await _repo.addWinnerToPrize(winnerEntity);
         }
 
         public async Task<IEnumerable<ReadWinnerDTO>> GetWinnersByPrizeId(int prizeId)

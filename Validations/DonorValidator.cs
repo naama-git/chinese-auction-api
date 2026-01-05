@@ -1,3 +1,8 @@
+
+
+using FluentValidation;
+using ChineseAuctionAPI.DTO;
+
 namespace ChineseAuctionAPI.Validations
 {
 
@@ -24,7 +29,7 @@ namespace ChineseAuctionAPI.Validations
         }
     }
 
-    public class DonorUpdateValidator:AbstractValidator<UpdateDonorDTO>
+    public class DonorUpdateValidator:AbstractValidator<DonorUpdateDTO>
     {
 
         public DonorUpdateValidator()

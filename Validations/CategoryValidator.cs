@@ -1,3 +1,9 @@
+
+
+
+using FluentValidation;
+using static ChineseAuctionAPI.DTO.CategoryDTO;
+
 namespace ChineseAuctionAPI.Validations
 {
     public class CategoryValidator:AbstractValidator<CategoriesDTO>

@@ -1,3 +1,7 @@
+
+using FluentValidation;
+using static ChineseAuctionAPI.DTO.PackageDTO;
+
 namespace ChineseAuctionAPI.Validations
  {
 
