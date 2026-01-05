@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
-using Microsoft.EntityFrameworkCore;
+using ChineseAuctionAPI.Models.Exceptions;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -14,6 +13,8 @@ namespace ChineseAuctionAPI.Services
 {
     public class UserService : IUserService
     {
+
+        private const string Location = "UserService";
         private readonly IUserRepo _repo;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
@@ -28,25 +29,45 @@ namespace ChineseAuctionAPI.Services
         {
 
             var users = await _repo.GetAllUsers();
+            if(users == null || users.Any())
+            {
+                throw new ErrorResponse(500, "GetAllUsers", "Internal Server Error", "could not get users from repository", "GET", Location)
+            }
             return _mapper.Map<IEnumerable<ReadUserDTO>>(users);
-
-           
-           
         }
 
 
         public async Task<ResponseUserDTO> AddUser(SignInDTO user)
         {
+            var existingUser = await _repo.GetUserByEmail(user.Email);
+            if (existingUser != null)
+            {
+                throw new ErrorResponse(
+                    statusCode: 409, func: "AddUser",message: "Unable to complete registration with these details",
+                    detailedMessage: $"Registration failed: Email {user.Email} already exists in the system.",
+                    method: "POST", Location
+                );
+            }
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
             user.Password = passwordHash;
 
             User userEntity = _mapper.Map<User>(user);
+            if (userEntity == null) {
+                throw new ErrorResponse(500, "AddUser", "Internal Server Error", "AutoMapper failed to map SignInDTO to User entity.", "POST", Location);
+            }
             userEntity.Role = "User";
 
             await _repo.AddUser(userEntity);
+            if (userEntity.Id == 0)
+            {
+                throw new ErrorResponse(500, "AddUser", "Failed to save user", "Database insert operation returned no ID.", "POST", Location);
+            }
 
-            string token = createToken(userEntity);
+            string token = CreateToken(userEntity);
+            if (string.IsNullOrEmpty(token)) {
+                throw new ErrorResponse(500, "AddUser", "Internal Server Error", "JWT Token generation returned null or empty.", "POST", Location);
+            }
 
             ResponseUserDTO resUser = new ResponseUserDTO()
             {
@@ -57,41 +78,38 @@ namespace ChineseAuctionAPI.Services
             };
             return resUser;
 
-
         }
 
         public async Task<ResponseUserDTO> LogInUser(LogInDTO user)
         {
 
             User existingUser = await _repo.GetUserByEmail(user.Email);
+
+           
             if (existingUser == null)
             {
-                throw new Exception("Unauthorized user");
+                throw new ErrorResponse(401, "LogInUser", "Invalid email or password", "user not found", "POST",Location );
             }
+
+            
             bool isPasswordCorrect = BCrypt.Net.BCrypt.Verify(user.Password, existingUser.Password);
 
-
-            ResponseUserDTO resUser = new ResponseUserDTO()
+            if (!isPasswordCorrect)
             {
-                
-                Email = existingUser.Email,
-                Name = existingUser.FirstName + " " + existingUser.LastName
-
-            };
-            if (isPasswordCorrect)
-            {
-                string token=createToken(existingUser);
-                resUser.Token = token;
-                return resUser;
-
+                throw new ErrorResponse(401, "LogInUser", "Invalid email or password", "Password validation failed", "POST", Location);
             }
-            resUser.Token = null;
-            return resUser;
-           
+
+            return new ResponseUserDTO
+            {
+                Email = existingUser.Email,
+                Name = $"{existingUser.FirstName} {existingUser.LastName}",
+                Token = CreateToken(existingUser)
+            };
+
         }
 
 
-        private string createToken(User user)
+        private string CreateToken(User user)
         {
             // the token will include this user details
             var claims = new List<Claim>

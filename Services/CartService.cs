@@ -16,7 +16,6 @@ namespace ChineseAuctionAPI.Services
             _mapper = mapper;
         }
 
-
         public async Task AddPrizeToCart(int userId, int prizeId, int quantity = 1)
         {
             var cart = await _repo.GetCartByUserId(userId);
