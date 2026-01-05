@@ -25,8 +25,8 @@ namespace ChineseAuctionAPI.Middlewares
                 if (ex is ErrorResponse errorEx)
                 {
                   
-                    _logger.LogWarning("Business Logic Error: {Message} | Status: {StatusCode} | Detiled: {DetailedMessage} | Func: {Func} | Location: {Location} ",
-                        errorEx.Message, errorEx.StatusCode, errorEx.DetailedMessage, errorEx.Func, errorEx.Location);
+                    _logger.LogWarning("HTTP {Method} Business Logic Error: {Message} | Status: {StatusCode} | Detiled: {DetailedMessage} | Func: {Func} | Location: {Location} ",
+                       errorEx.Method, errorEx.Message, errorEx.StatusCode, errorEx.DetailedMessage, errorEx.Func, errorEx.Location);
                     
                 }
                 else
