@@ -23,7 +23,7 @@ namespace ChineseAuctionAPI.Repositories
             if (categories == null || !categories.Any())
                 {
                 
-                    throw new ErrorResponse(500, "GetAllCategories", "Internal Server Error", "Couldn't get categories", DateTime.UtcNow);
+                    throw new ErrorResponse(500, "GetAllCategories", "Internal Server Error", "Couldn't get categories" , null, "CategoryRepository");
                 }
 
             return categories;
@@ -32,22 +32,49 @@ namespace ChineseAuctionAPI.Repositories
         // add new category
         public async Task AddCategory(Category category)
         {
-            await _context.categories.AddAsync(category);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.categories.AddAsync(category);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) {
+                throw new ErrorResponse(500, "AddCategory", "Internal Server Error", "Couldn't add category", null, "CategoryRepository");
+            }
+           
         }
 
         // update category
         public async Task UpdateCategory(Category category)
         {
-            _context.categories.Update(category);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.categories.Update(category);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ErrorResponse(500, "UpdateCategory", "Internal Server Error", "Couldn't update category", null, "CategoryRepository");
+            }
         }
         
         // delete category
         public async Task DeleteCategory(int id )
         {
-           _context.categories.Remove( await _context.categories.FindAsync(id));
-            await _context.SaveChangesAsync();
+            var category = await _context.categories.FindAsync(id);
+            if (category == null)
+            {
+                throw new ErrorResponse(404, "DeleteCategory", "Category not found", "Couldn't find category",  null, "CategoryRepository");
+            }
+
+            try
+            {
+                _context.categories.Remove(category);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) {
+                throw new ErrorResponse(500, "DeleteCategory", "Internal Server Error", "Couldn't delete category", null, "CategoryRepository");
+            }
+
         }
     }
 }

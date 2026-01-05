@@ -2,18 +2,20 @@
 using ChineseAuctionAPI.Data;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Middlewares;
+using ChineseAuctionAPI.Models.Exceptions;
 using ChineseAuctionAPI.Repositories;
 using ChineseAuctionAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Enrichers.Sensitive;
+using Serilog.Events;
+using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
-using Swashbuckle.AspNetCore.Filters;
-using Microsoft.OpenApi.Models;
 using System.Text;
 
 
@@ -163,7 +165,17 @@ namespace ChineseAuctionAPI
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             // log HTTP requests
-            app.UseSerilogRequestLogging();
+            app.UseSerilogRequestLogging(options=>
+                options.GetLevel = (httpContext, elapsed, ex) =>
+                {
+                    
+                    if (ex is ErrorResponse || httpContext.Response.StatusCode < 500)
+                    {
+                        return LogEventLevel.Information;
+                    }
+                    return LogEventLevel.Error;
+                }
+            );
 
 
             // Configure the HTTP request pipeline.

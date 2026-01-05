@@ -17,7 +17,7 @@ namespace ChineseAuctionAPI.Services
         }
         public async Task<IEnumerable<CategoriesDTO>> GetAllCategory()
         {
-            var categories = await _repo.GetAllCategory();
+            var categories = await _repo.GetAllCategories();
             return _mapper.Map<IEnumerable<CategoriesDTO>>(categories);
         }
         public async Task AddCategory(CategoriesDTO categoryName)
