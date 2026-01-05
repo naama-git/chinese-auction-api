@@ -40,7 +40,7 @@ namespace ChineseAuctionAPI.Services
                 PrizeId = prizeId,
             };
 
-            await _winnerService.AddWinnerToPrize(winner, prizeId);
+            await _winnerService.AddWinnerToPrize(winner);
 
             return winner;
         }

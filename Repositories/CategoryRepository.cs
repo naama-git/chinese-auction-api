@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChineseAuctionAPI.Repositories
 {
-    public class CategoryRepository:ICategoryRepo
+    public class CategoryRepository : ICategoryRepo
     {
         private readonly ChineseAuctionDBcontext _context;
-
+        private const string RepoLocation = "CategoryRepository";
         public CategoryRepository(ChineseAuctionDBcontext context)
         {
             _context = context;
@@ -21,10 +21,10 @@ namespace ChineseAuctionAPI.Repositories
             var categories = await _context.categories.ToListAsync();
 
             if (categories == null || !categories.Any())
-                {
-                
-                    throw new ErrorResponse(500, "GetAllCategories", "Internal Server Error", "Couldn't get categories" , null, "CategoryRepository");
-                }
+            {
+
+                throw new ErrorResponse(500, "GetAllCategories", "Internal Server Error", "Couldn't get categories", "Get", RepoLocation);
+            }
 
             return categories;
         }
@@ -37,10 +37,11 @@ namespace ChineseAuctionAPI.Repositories
                 await _context.categories.AddAsync(category);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex) {
-                throw new ErrorResponse(500, "AddCategory", "Internal Server Error", "Couldn't add category", null, "CategoryRepository");
+            catch (Exception ex)
+            {
+                throw new ErrorResponse(500, "AddCategory", "Internal Server Error", "Couldn't add category", "POST", RepoLocation);
             }
-           
+
         }
 
         // update category
@@ -53,17 +54,17 @@ namespace ChineseAuctionAPI.Repositories
             }
             catch (Exception ex)
             {
-                throw new ErrorResponse(500, "UpdateCategory", "Internal Server Error", "Couldn't update category", null, "CategoryRepository");
+                throw new ErrorResponse(500, "UpdateCategory", "Internal Server Error", "Couldn't update category", "PUT", RepoLocation);
             }
         }
-        
+
         // delete category
-        public async Task DeleteCategory(int id )
+        public async Task DeleteCategory(int id)
         {
             var category = await _context.categories.FindAsync(id);
             if (category == null)
             {
-                throw new ErrorResponse(404, "DeleteCategory", "Category not found", "Couldn't find category",  null, "CategoryRepository");
+                throw new ErrorResponse(404, "DeleteCategory", "Category not found", "Couldn't find category", "DELETE", RepoLocation);
             }
 
             try
@@ -71,8 +72,9 @@ namespace ChineseAuctionAPI.Repositories
                 _context.categories.Remove(category);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex) {
-                throw new ErrorResponse(500, "DeleteCategory", "Internal Server Error", "Couldn't delete category", null, "CategoryRepository");
+            catch (Exception ex)
+            {
+                throw new ErrorResponse(500, "DeleteCategory", "Internal Server Error", "Couldn't delete category", "DELETE", RepoLocation);
             }
 
         }

@@ -2,6 +2,7 @@
 using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using static ChineseAuctionAPI.DTO.WinnerDTO;
+using ChineseAuctionAPI.Models;
 
 namespace ChineseAuctionAPI.Services
 {
@@ -16,16 +17,18 @@ namespace ChineseAuctionAPI.Services
             _mapper = mapper;
             _configuration = configuration;
         }
-        public async Task AddWinnerToPrize(CreateWinnerDTO createWinnerDTO, int prizeId)
+        public async Task AddWinnerToPrize(CreateWinnerDTO createWinnerDTO)
         {
-            var winnerEntity = _mapper.Map<Models.Winner>(createWinnerDTO);
+            var winnerEntity = _mapper.Map<Winner>(createWinnerDTO);
             await _repo.addWinnerToPrize(winnerEntity, prizeId);
         }
+
         public async Task<IEnumerable<ReadWinnerDTO>> GetWinnersByPrizeId(int prizeId)
         {
             var winners = await _repo.getWinnersByPrizeId(prizeId);
             return _mapper.Map<IEnumerable<ReadWinnerDTO>>(winners);
         }
+
         public async Task<IEnumerable<ReadWinnerDTO>> GetAllWinners()
         {
             var winners = await _repo.getAllWinners();
