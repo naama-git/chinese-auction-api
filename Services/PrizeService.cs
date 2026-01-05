@@ -99,7 +99,20 @@ namespace ChineseAuctionAPI.Services
 
         public async Task<IEnumerable<Prize>> GetPrizesByIds(List<int> prizesIds)
         {
-            return await _prizeRepo.GetPrizesByIds(prizesIds);
+            if (prizesIds == null || !prizesIds.Any())
+            {
+                return Enumerable.Empty<Prize>();
+            }
+
+            var prizes = await _prizeRepo.GetPrizesByIds(prizesIds);
+
+           
+            if (prizes.Count() != prizesIds.Count)
+            {
+                return Enumerable.Empty<Prize>();
+            }
+
+            return prizes;
 
         }
 
