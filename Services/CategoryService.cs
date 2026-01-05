@@ -2,12 +2,15 @@
 using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
+using ChineseAuctionAPI.Models.Exceptions;
 using static ChineseAuctionAPI.DTO.CategoryDTO;
 
 namespace ChineseAuctionAPI.Services
 {
     public class CategoryService : ICategoryService
     {
+        private const string Location = "CategoryService";
+
         private readonly ICategoryRepo _repo;
         private readonly IMapper _mapper;
         public CategoryService(ICategoryRepo repo, IMapper mapper)
@@ -18,20 +21,37 @@ namespace ChineseAuctionAPI.Services
         public async Task<IEnumerable<CategoriesDTO>> GetAllCategory()
         {
             var categories = await _repo.GetAllCategories();
+            if (categories == null) { 
+                 return Enumerable.Empty<CategoriesDTO>();
+            }
             return _mapper.Map<IEnumerable<CategoriesDTO>>(categories);
         }
         public async Task AddCategory(CategoriesDTO categoryName)
         {
+
             Category categoryEntity = _mapper.Map<Category>(categoryName);
             await _repo.AddCategory(categoryEntity);
         }
         public async Task UpdateCategory(UpdateCategory category)
         {
+            var categories= await _repo.GetAllCategories();
+            bool exist = categories.Any(c => c.Id == category.Id);
+            if (!exist)
+            {
+                throw new ErrorResponse(404, "UpdateCategory", "Category not found.", $"Update failed: Category ID {category.Id} does not exist.", "PUT", Location);
+            }
+
             Category categoryEntity = _mapper.Map<Category>(category);
             await _repo.UpdateCategory(categoryEntity);
         }
         public async Task DeleteCategory(int id)
         {
+            var categories = await _repo.GetAllCategories();
+            bool exist = categories.Any(c => c.Id == id);
+            if (!exist)
+            {
+                throw new ErrorResponse(404, "UpdateCategory", "Category not found.", $"Update failed: Category ID {category.Id} does not exist.", "PUT", Location);
+            }
             await _repo.DeleteCategory(id);
         }
     }
