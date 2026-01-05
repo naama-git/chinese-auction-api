@@ -8,5 +8,6 @@ namespace ChineseAuctionAPI.Interface
         public Task<ResponseUserDTO> AddUser(SignInDTO signInDTO);
         public Task<ResponseUserDTO> LogInUser(LogInDTO user);
         public Task<IEnumerable<ReadUserDTO>> GetAllUsers();
+        public Task<ReadUserDTO> GetUserById(int id);
     }
 }

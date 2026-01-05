@@ -72,15 +72,7 @@ namespace ChineseAuctionAPI.Repositories
         {
             
                 var user= await _context.users.FirstOrDefaultAsync(u=>u.Id==id);
-
-
-                if (user == null)
-                {
-                    throw new ErrorResponse(404, "GetUserById", "User not found.", $"No user exists with the email: {id}.", "GET", RepoLocation);
-                }
-            return user;
-            
-            
+                return user;
         }
 
     }
