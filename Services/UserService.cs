@@ -29,22 +29,24 @@ namespace ChineseAuctionAPI.Services
         {
 
             var users = await _repo.GetAllUsers();
-            if(users == null || users.Any())
+            if(users == null || !users.Any())
             {
-                throw new ErrorResponse(500, "GetAllUsers", "Internal Server Error", "could not get users from repository", "GET", Location);
+                return Enumerable.Empty<ReadUserDTO>();
             }
             return _mapper.Map<IEnumerable<ReadUserDTO>>(users);
         }
+
 
         public async Task<ReadUserDTO> GetUserById(int id)
         {
             var user= await _repo.GetUserById(id);
             if (user == null)
             {
-                throw new ErrorResponse(404, "GetUserById", "User not found.", $"No user exists with the email: {id}.", "GET", Location);
+                throw new ErrorResponse(404, "GetUserById", "User not found.", $"No user exists with the Id: {id}.", "GET", Location);
             }
             return _mapper.Map<ReadUserDTO>(user);
         }
+
 
         public async Task<ResponseUserDTO> AddUser(SignInDTO user)
         {

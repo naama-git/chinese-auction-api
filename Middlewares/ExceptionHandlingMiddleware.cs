@@ -54,7 +54,8 @@ namespace ChineseAuctionAPI.Middlewares
                 {
                     errorResponse.Message,
                     errorResponse.StatusCode,
-                    Timestamp = DateTime.UtcNow 
+                    Timestamp = DateTime.UtcNow,
+                    func= errorResponse.Func,
                 };
             }
             else

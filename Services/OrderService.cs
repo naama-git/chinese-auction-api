@@ -2,6 +2,7 @@ using AutoMapper;
 using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
+using ChineseAuctionAPI.Models.Exceptions;
 using System.Transactions;
 using static ChineseAuctionAPI.DTO.PackageDTO;
 using static ChineseAuctionAPI.DTO.TicketDTO;
@@ -54,7 +55,7 @@ namespace ChineseAuctionAPI.Services
                     if (user == null){
                         throw new ErrorResponse(404, "AddOrder", "User not found", $"User with the provided ID {userId} does not exist.", "POST", Location);
                     }
-                    var cart = await _cartService.GetCartByUserId(userId) 
+                    var cart = await _cartService.GetCartByUserId(userId);
                     if (cart == null)
                     {
                         throw new ErrorResponse(404, "AddOrder", "Cart not found", $"Cart for user with the provided ID {userId} does not exist.", "POST", Location);
@@ -88,10 +89,10 @@ namespace ChineseAuctionAPI.Services
                     // check total quantity of prizes vs total number of tickets in packages
                     var packages = await _packageService.GetPackagesByIds(PackagesIds);
                     var totalQty= cartItems.Sum(ci => ci.Quantity);
-                    var totalNumOfTIckets=packages.Sum(p => p.NumberOfTickets);
+                    var totalNumOfTIckets=packages.Sum(p => p.NumOfTickets);
                     if(totalQty != totalNumOfTIckets )
                     {
-                        throw new ErrorResponse(400, "AddOrder", "Insufficient tickets", $"The total quantity of prizes in the cart exceeds the total number of tickets in the selected packages.", "POST", Location);
+                        throw new ErrorResponse(400, "AddOrder", $"Insufficient tickets: {totalQty} vs {totalNumOfTIckets}", $"The total quantity of prizes in the cart exceeds the total number of tickets in the selected packages.", "POST", Location);
                     }
 
                     // calculate price
@@ -115,7 +116,7 @@ namespace ChineseAuctionAPI.Services
 
                 catch (Exception ex)
                 {
-                    throw new Exception($"Someting went wrong :{ex.Message} ");
+                    throw new ErrorResponse(500, "AddOrder", "Internal Server Error", $"Something went wrong: {ex.Message}", "POST", Location);
                 }
 
 

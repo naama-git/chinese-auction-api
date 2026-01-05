@@ -44,13 +44,14 @@ namespace ChineseAuctionAPI.Services
             Category categoryEntity = _mapper.Map<Category>(category);
             await _repo.UpdateCategory(categoryEntity);
         }
+
         public async Task DeleteCategory(int id)
         {
             var categories = await _repo.GetAllCategories();
             bool exist = categories.Any(c => c.Id == id);
             if (!exist)
             {
-                throw new ErrorResponse(404, "UpdateCategory", "Category not found.", $"Update failed: Category ID {category.Id} does not exist.", "PUT", Location);
+                throw new ErrorResponse(404, "UpdateCategory", "Category not found.", $"Update failed: Category ID {id} does not exist.", "PUT", Location);
             }
             await _repo.DeleteCategory(id);
         }

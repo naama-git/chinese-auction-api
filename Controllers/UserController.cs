@@ -39,8 +39,6 @@ namespace ChineseAuctionAPI.Controllers
                 { 
                     return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
                 }
-
-    
                 var user = await _userService.AddUser(signIn);
 
                 

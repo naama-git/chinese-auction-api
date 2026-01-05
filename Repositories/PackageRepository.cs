@@ -96,9 +96,18 @@ namespace ChineseAuctionAPI.Repositories
         {
             try
             {
-                return await _context.packages
+                var uniquePackages = await _context.packages
                     .Where(p => packageIds.Contains(p.Id))
                     .ToListAsync();
+
+                    
+                    var result = packageIds
+                        .Select(id => uniquePackages.FirstOrDefault(p => p.Id == id))
+                        .Where(p => p != null) 
+                        .ToList();
+
+                    return result;
+
             }
             catch (Exception ex)
             {

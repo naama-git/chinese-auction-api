@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
+using ChineseAuctionAPI.Models.Exceptions;
 using static ChineseAuctionAPI.DTO.CartDTO;
+
 
 namespace ChineseAuctionAPI.Services
 {
@@ -116,6 +118,13 @@ namespace ChineseAuctionAPI.Services
                 throw new ErrorResponse(404, "GetCartByUserId", "User not found", $"User with the provided ID {userId} does not exist.", "GET", Location);
             }
             var cart = await _repo.GetCartByUserId(userId);
+
+            //sth not work
+            if(cart == null)
+            {
+                await this.addcart(new addCartDTO { UserId = userId });
+                cart = await _repo.GetCartByUserId(userId);
+            }
             return _mapper.Map<ReadCartDTO>(cart);
         }
 

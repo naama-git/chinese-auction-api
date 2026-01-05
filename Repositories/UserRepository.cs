@@ -41,14 +41,9 @@ namespace ChineseAuctionAPI.Repositories
                 var user = await _context.users
                     .FirstOrDefaultAsync(u => u.Email == email);
 
-                if (user == null)
-                {
-                    throw new ErrorResponse(404, "GetUserByEmail", "User not found.", $"No user exists with the email: {email}.", "GET", RepoLocation);
-                }
-
                 return user;
             }
-            catch (ErrorResponse) { throw; } // Pass through our custom 404
+            catch (ErrorResponse) { throw; } 
             catch (Exception ex)
             {
                 throw new ErrorResponse(500, "GetUserByEmail", "An error occurred while retrieving the user profile.", ex.Message, "GET", RepoLocation);
