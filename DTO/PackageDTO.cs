@@ -42,5 +42,6 @@ namespace ChineseAuctionAPI.DTO
             public int Price { get; set; }
 
         }
+     
     }
 }
