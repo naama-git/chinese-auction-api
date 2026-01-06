@@ -28,9 +28,9 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<User, ReadUserDTO>();
 
             //Category
-            CreateMap<Category, CategoriesDTO>();
-            CreateMap<CategoriesDTO, Category>();
-            CreateMap<UpdateCategory, Category>();
+            CreateMap<Category, CategoryDTOWithId>();
+            CreateMap<CategoryCreateDTO, Category>();
+            
 
             //Prizes
             CreateMap<Prize, ReadPrizeDTO>();

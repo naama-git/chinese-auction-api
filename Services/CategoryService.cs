@@ -18,21 +18,21 @@ namespace ChineseAuctionAPI.Services
             _repo = repo;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<CategoriesDTO>> GetAllCategory()
+        public async Task<IEnumerable<CategoryDTOWithId>> GetAllCategory()
         {
             var categories = await _repo.GetAllCategories();
             if (categories == null) { 
-                 return Enumerable.Empty<CategoriesDTO>();
+                 return Enumerable.Empty<CategoryDTOWithId>();
             }
-            return _mapper.Map<IEnumerable<CategoriesDTO>>(categories);
+            return _mapper.Map<IEnumerable<CategoryDTOWithId>>(categories);
         }
-        public async Task AddCategory(CategoriesDTO categoryName)
+        public async Task AddCategory(CategoryCreateDTO categoryName)
         {
 
             Category categoryEntity = _mapper.Map<Category>(categoryName);
             await _repo.AddCategory(categoryEntity);
         }
-        public async Task UpdateCategory(UpdateCategory category)
+        public async Task UpdateCategory(CategoryDTOWithId category)
         {
             var categories= await _repo.GetAllCategories();
             bool exist = categories.Any(c => c.Id == category.Id);

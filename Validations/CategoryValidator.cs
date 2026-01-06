@@ -6,7 +6,7 @@ using static ChineseAuctionAPI.DTO.CategoryDTO;
 
 namespace ChineseAuctionAPI.Validations
 {
-    public class CategoryValidator:AbstractValidator<CategoriesDTO>
+    public class CategoryValidator:AbstractValidator<CategoryCreateDTO>
     {
 
         public CategoryValidator()
@@ -16,7 +16,7 @@ namespace ChineseAuctionAPI.Validations
         }
     }
 
-    public class CategoryUpdateValidator:AbstractValidator<UpdateCategory>
+    public class CategoryUpdateValidator:AbstractValidator<CategoryDTOWithId>
     {
 
         public CategoryUpdateValidator()

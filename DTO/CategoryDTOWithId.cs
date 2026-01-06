@@ -2,12 +2,11 @@
 {
     public class CategoryDTO
     {
-        public class CategoriesDTO{
+        public class CategoryCreateDTO{
             
-            public int Id { get; set; }
             public string Name { get; set; }
         }
-        public class UpdateCategory
+        public class CategoryDTOWithId
         {
             public int Id { get; set; }
             public string Name { get; set; }

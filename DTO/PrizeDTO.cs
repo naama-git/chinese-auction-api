@@ -42,7 +42,7 @@ namespace ChineseAuctionAPI.DTO
 
         public DonorForReadPrizesDTO Donor { get; set; }
 
-        public CategoriesDTO Category { get; set; }
+        public CategoryDTOWithId Category { get; set; }
 
         public string ImagePath { get; set; }
 

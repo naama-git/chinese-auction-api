@@ -16,9 +16,9 @@ namespace ChineseAuctionAPI.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-        private readonly IValidator<CategoriesDTO> _createValidator;
-        private readonly IValidator<UpdateCategory> _updateValidator;
-        public CategoryController(ICategoryService categoryService, IValidator<CategoriesDTO> createValidator, IValidator<UpdateCategory> updateValidator   )
+        private readonly IValidator<CategoryCreateDTO> _createValidator;
+        private readonly IValidator<CategoryDTOWithId> _updateValidator;
+        public CategoryController(ICategoryService categoryService, IValidator<CategoryCreateDTO> createValidator, IValidator<CategoryDTOWithId> updateValidator   )
         {
             _categoryService = categoryService;
             _createValidator = createValidator;
@@ -34,7 +34,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateCategory(UpdateCategory category)
+        public async Task<IActionResult> UpdateCategory(CategoryDTOWithId category)
         {
             var validationResult = await _updateValidator.ValidateAsync(category);
 
@@ -50,7 +50,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddCategory(CategoriesDTO category)
+        public async Task<IActionResult> AddCategory(CategoryCreateDTO category)
         {
             var validationResult = await _createValidator.ValidateAsync(category);
 
