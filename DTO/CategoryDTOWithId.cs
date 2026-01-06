@@ -1,9 +1,10 @@
 ﻿namespace ChineseAuctionAPI.DTO
 {
-    public class CategoryDTO
+   
+    public class CategotyDTO
     {
-        public class CategoryCreateDTO{
-            
+        public class CategoryCreateDTO
+        {
             public string Name { get; set; }
         }
         public class CategoryDTOWithId
@@ -12,4 +13,5 @@
             public string Name { get; set; }
         }
     }
+
 }

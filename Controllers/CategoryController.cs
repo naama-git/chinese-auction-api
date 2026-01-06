@@ -2,9 +2,10 @@
 using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using static ChineseAuctionAPI.DTO.CategoryDTO;
+using  ChineseAuctionAPI.DTO;
 using Microsoft.AspNetCore.Authorization;
 using FluentValidation;
+using static ChineseAuctionAPI.DTO.CategotyDTO;
 
 
 namespace ChineseAuctionAPI.Controllers

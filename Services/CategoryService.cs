@@ -3,7 +3,8 @@ using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.Models.Exceptions;
-using static ChineseAuctionAPI.DTO.CategoryDTO;
+using static ChineseAuctionAPI.DTO.CategotyDTO;
+
 
 namespace ChineseAuctionAPI.Services
 {

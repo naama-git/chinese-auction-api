@@ -1,4 +1,7 @@
-﻿using static ChineseAuctionAPI.DTO.CategoryDTO;
+﻿using ChineseAuctionAPI.DTO;
+using static ChineseAuctionAPI.DTO.CategotyDTO;
+
+
 
 namespace ChineseAuctionAPI.Interface
 {

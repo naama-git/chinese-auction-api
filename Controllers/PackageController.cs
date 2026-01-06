@@ -43,7 +43,7 @@ namespace ChineseAuctionAPI.Controllers
         public async Task<IActionResult> CreatePackage(CreatePackageDTO createPackageDTO)
         {
             var validationResult=await _createValidator.ValidateAsync(createPackageDTO);
-            if (validationResult.IsValid)
+            if (!validationResult.IsValid)
             {
                 return BadRequest(validationResult);
             }
@@ -51,24 +51,23 @@ namespace ChineseAuctionAPI.Controllers
             return Ok(201);
         }
 
-        [HttpPut("{prizeId}")]
-        public async Task<IActionResult> UpdatePackage(int prizeId, UpdatePackageDTO updatePackageDTO)
+        [HttpPut("{packageId}")]
+        public async Task<IActionResult> UpdatePackage(int packageId, UpdatePackageDTO updatePackageDTO)
         {
             var validationResult = await _updateValidator.ValidateAsync(updatePackageDTO);
-            if (validationResult.IsValid)
+            if (!validationResult.IsValid)
             {
                 return BadRequest(validationResult);
             }
-            await _packageService.UpdatePackage(prizeId, updatePackageDTO);
+            await _packageService.UpdatePackage(packageId, updatePackageDTO);
             return Ok();
         }
 
-        [HttpDelete("{prizeId}")]
+        [HttpDelete("{packageId}")]
 
-
-        public async Task<IActionResult> DeletePackage(int prizeId)
+        public async Task<IActionResult> DeletePackage(int packageId)
         {
-            await _packageService.DeletePackage(prizeId);
+            await _packageService.DeletePackage(packageId);
             return Ok();
         }
 

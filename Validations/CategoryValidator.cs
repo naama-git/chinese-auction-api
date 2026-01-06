@@ -2,7 +2,7 @@
 
 
 using FluentValidation;
-using static ChineseAuctionAPI.DTO.CategoryDTO;
+using static ChineseAuctionAPI.DTO.CategotyDTO;
 
 namespace ChineseAuctionAPI.Validations
 {
