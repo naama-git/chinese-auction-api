@@ -4,6 +4,7 @@ using ChineseAuctionAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChineseAuctionAPI.Migrations
 {
     [DbContext(typeof(ChineseAuctionDBcontext))]
-    partial class ChineseAuctionDBcontextModelSnapshot : ModelSnapshot
+    [Migration("20260106155808_small_change")]
+    partial class small_change
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,6 +182,7 @@ namespace ChineseAuctionAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CategoryId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -352,7 +356,8 @@ namespace ChineseAuctionAPI.Migrations
                     b.HasOne("ChineseAuctionAPI.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.HasOne("ChineseAuctionAPI.Models.Donor", "Donor")
                         .WithMany("Prizes")

@@ -19,8 +19,8 @@ namespace ChineseAuctionAPI.Models
         //[Required(ErrorMessage = "IsPremium is required")]
         //public bool IsPremium { get; set; }
 
-        [Required(ErrorMessage = "Category ID is required")]
-        public int? CategoryId { get; set; } = 1;
+        
+        public int? CategoryId { get; set; } 
         public Category? Category { get; set; } 
 
         public string ImagePath {  get; set; }

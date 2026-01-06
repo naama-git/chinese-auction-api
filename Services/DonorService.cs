@@ -73,7 +73,7 @@ namespace ChineseAuctionAPI.Services
             }
 
             existingDonor = donors.Any(d => d.Email == donor.Email);
-            if (existingDonor)
+            if (existingDonor && donors.FirstOrDefault(d => d.Email == donor.Email)?.Id != donor.Id)
             {
                 throw new ErrorResponse(409, "UpdateDonor",
                     "This email is already taken.",
