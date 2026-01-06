@@ -46,8 +46,9 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Prize, ReadPrizeDTO>();
 
             //Package
-            CreateMap<Package,ReadPackageDTO>().ReverseMap();
+            CreateMap<Package,ReadPackageDTO>();
             CreateMap<CreatePackageDTO,Package>();
+            CreateMap<UpdatePackageDTO, Package>();
 
             //Winner
             CreateMap<CreateWinnerDTO,Winner>();

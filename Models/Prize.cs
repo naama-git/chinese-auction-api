@@ -24,6 +24,9 @@ namespace ChineseAuctionAPI.Models
         [Required(ErrorMessage = "Quantity is required"), Range(1, 50)]
         public int Qty { get; set; }
 
+        public List<Order> Orders { get; set; }
+         
+
 
     }
 }

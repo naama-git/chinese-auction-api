@@ -18,5 +18,7 @@ namespace ChineseAuctionAPI.Models
 
         [Range(0, 99999999999999), Required(ErrorMessage ="Price is required")]
         public int Price { get; set; }
+
+        public List<Order> Orders { get; set; }
     }
 }
