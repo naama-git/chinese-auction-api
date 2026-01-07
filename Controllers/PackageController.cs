@@ -1,5 +1,6 @@
 ﻿using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using static ChineseAuctionAPI.DTO.PackageDTO;
 
@@ -10,11 +11,16 @@ namespace ChineseAuctionAPI.Controllers
     public class PackageController : ControllerBase
     {
         private readonly IPackageService _packageService;
+        private readonly IValidator<CreatePackageDTO> _createValidator;
+        private readonly IValidator<UpdatePackageDTO> _updateValidator;
 
 
-        public PackageController(IPackageService packageService)
+
+        public PackageController(IPackageService packageService,IValidator<CreatePackageDTO> createValidator, IValidator<UpdatePackageDTO> updateValidator)
         {
             _packageService = packageService;
+            _createValidator = createValidator;
+            _updateValidator = updateValidator;
         }
 
         [HttpGet]
@@ -36,11 +42,34 @@ namespace ChineseAuctionAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePackage(CreatePackageDTO createPackageDTO)
         {
+            var validationResult=await _createValidator.ValidateAsync(createPackageDTO);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult);
+            }
             await _packageService.AddPackage(createPackageDTO);
             return Ok(201);
         }
 
-        // חסר פונקציות PUT ןDELETE
+        [HttpPut("{packageId}")]
+        public async Task<IActionResult> UpdatePackage(int packageId, UpdatePackageDTO updatePackageDTO)
+        {
+            var validationResult = await _updateValidator.ValidateAsync(updatePackageDTO);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult);
+            }
+            await _packageService.UpdatePackage(packageId, updatePackageDTO);
+            return Ok();
+        }
+
+        [HttpDelete("{packageId}")]
+
+        public async Task<IActionResult> DeletePackage(int packageId)
+        {
+            await _packageService.DeletePackage(packageId);
+            return Ok();
+        }
 
     }
 }

@@ -12,6 +12,7 @@ namespace ChineseAuctionAPI.DTO
             [Required(ErrorMessage = "Prize ID is required")]
             public int PrizeId { get; set; }
         }
+        
         public class ReadWinnerDTO
         {
             public int Id { get; set; }

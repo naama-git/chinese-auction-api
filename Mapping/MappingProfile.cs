@@ -2,11 +2,11 @@
 using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Models;
 using static ChineseAuctionAPI.DTO.UserDTO;
-using static ChineseAuctionAPI.DTO.CategoryDTO;
 using static ChineseAuctionAPI.DTO.TicketDTO;
 using static ChineseAuctionAPI.DTO.PackageDTO;
 using static ChineseAuctionAPI.DTO.WinnerDTO;
 using static ChineseAuctionAPI.DTO.CartDTO;
+using static ChineseAuctionAPI.DTO.CategotyDTO;
 
 
 namespace ChineseAuctionAPI.Mapping
@@ -28,9 +28,9 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<User, ReadUserDTO>();
 
             //Category
-            CreateMap<Category, CategoriesDTO>();
-            CreateMap<CategoriesDTO, Category>();
-            CreateMap<UpdateCategory, Category>();
+            CreateMap<Category, CategoryDTOWithId>().ReverseMap();
+            CreateMap<CategoryCreateDTO, Category>();
+            
 
             //Prizes
             CreateMap<Prize, ReadPrizeDTO>();
@@ -46,8 +46,10 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Prize, ReadPrizeDTO>();
 
             //Package
-            CreateMap<Package,ReadPackageDTO>().ReverseMap();
+            CreateMap<Package,ReadPackageDTO>();
             CreateMap<CreatePackageDTO,Package>();
+            CreateMap<UpdatePackageDTO, Package>();
+            
 
             //Winner
             CreateMap<CreateWinnerDTO,Winner>();

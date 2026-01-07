@@ -15,18 +15,17 @@ namespace ChineseAuctionAPI.Models
         [Required(ErrorMessage = "Donor ID is required")]
         public int DonorId { get; set; }
         public Donor Donor { get; set; }
-
-        //[Required(ErrorMessage = "IsPremium is required")]
-        //public bool IsPremium { get; set; }
-
-        [Required(ErrorMessage = "Category ID is required")]
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        
+        public int? CategoryId { get; set; } 
+        public Category? Category { get; set; } 
 
         public string ImagePath {  get; set; }
 
         [Required(ErrorMessage = "Quantity is required"), Range(1, 50)]
         public int Qty { get; set; }
+
+        public List<Order> Orders { get; set; }
+         
 
 
     }
