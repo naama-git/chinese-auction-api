@@ -43,7 +43,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<ReadOrderDTO>>> GetOrders()
         {
             var orders = await _orderService.GetOrders();
             return Ok(orders);

@@ -52,8 +52,16 @@ public class DonorRepository : IDonorRepo
     {
         try
         {
-            _context.donors.Update(donor);
-            await _context.SaveChangesAsync();
+            var donorInDb = await _context.donors.FindAsync(donor.Id);
+                if (donorInDb != null)
+                {
+                    _context.Entry(donorInDb).CurrentValues.SetValues(donor);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new ErrorResponse(404, "UpdateDonor", "Donor not found.", $"No donor with ID {donor.Id} exists to update.", "PUT", "DonorRepository");
+                }
         }
         catch (Exception ex)
         {

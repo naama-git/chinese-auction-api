@@ -6,8 +6,7 @@ namespace ChineseAuctionAPI.DTO
 {
     public class CartDTO
     {
-       
-
+    
         public class addCartDTO
         {
             [Required(ErrorMessage = "User ID is required")]

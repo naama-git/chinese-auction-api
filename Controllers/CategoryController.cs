@@ -2,8 +2,10 @@
 using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using static ChineseAuctionAPI.DTO.CategoryDTO;
+using  ChineseAuctionAPI.DTO;
 using Microsoft.AspNetCore.Authorization;
+using FluentValidation;
+using static ChineseAuctionAPI.DTO.CategotyDTO;
 
 
 namespace ChineseAuctionAPI.Controllers
@@ -15,9 +17,13 @@ namespace ChineseAuctionAPI.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService)
+        private readonly IValidator<CategoryCreateDTO> _createValidator;
+        private readonly IValidator<CategoryDTOWithId> _updateValidator;
+        public CategoryController(ICategoryService categoryService, IValidator<CategoryCreateDTO> createValidator, IValidator<CategoryDTOWithId> updateValidator   )
         {
             _categoryService = categoryService;
+            _createValidator = createValidator;
+            _updateValidator = updateValidator;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
@@ -29,8 +35,15 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateCategory(UpdateCategory category)
+        public async Task<IActionResult> UpdateCategory(CategoryDTOWithId category)
         {
+            var validationResult = await _updateValidator.ValidateAsync(category);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+            }
+
             await _categoryService.UpdateCategory(category);
             return Ok();
         }
@@ -38,8 +51,14 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddCategory(CategoriesDTO category)
+        public async Task<IActionResult> AddCategory(CategoryCreateDTO category)
         {
+            var validationResult = await _createValidator.ValidateAsync(category);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+            }
             await _categoryService.AddCategory(category);
             return Ok(201);
         }

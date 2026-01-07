@@ -42,6 +42,7 @@ namespace ChineseAuctionAPI.Controllers
 
 
         [HttpDelete("RemovePrizeFromCart/{prizeId}")]
+        [Authorize(Roles="User")]
         public async Task<IActionResult> RemovePrizeFromCart(int prizeId)
         {
             try

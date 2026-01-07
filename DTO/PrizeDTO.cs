@@ -1,6 +1,7 @@
 ﻿using ChineseAuctionAPI.Models;
 using System.ComponentModel.DataAnnotations;
-using static ChineseAuctionAPI.DTO.CategoryDTO;
+using ChineseAuctionAPI.DTO;
+using static ChineseAuctionAPI.DTO.CategotyDTO;
 
 namespace ChineseAuctionAPI.DTO
 {
@@ -17,7 +18,6 @@ namespace ChineseAuctionAPI.DTO
         [Required(ErrorMessage = "Donor ID is required")]
         public int DonorId { get; set; }
 
-        public bool IsPremium { get; set; }
 
         [Required(ErrorMessage = "Category ID is required")]
         public int CategoryId { get; set; }
@@ -41,11 +41,9 @@ namespace ChineseAuctionAPI.DTO
         [MaxLength(100)]
         public string Description { get; set; }
 
-
         public DonorForReadPrizesDTO Donor { get; set; }
 
-        public bool IsPremium { get; set; }
-        public CategoriesDTO Category { get; set; }
+        public CategoryDTOWithId Category { get; set; }
 
         public string ImagePath { get; set; }
 
@@ -65,8 +63,6 @@ namespace ChineseAuctionAPI.DTO
 
         public int DonorId { get; set; }
 
-        public bool IsPremium { get; set; }
-
         public int CategoryId { get; set; }
 
         public string ImagePath { get; set; }
@@ -85,8 +81,6 @@ namespace ChineseAuctionAPI.DTO
 
         [MaxLength(100)]
         public string Description { get; set; }
-
-        public bool IsPremium { get; set; }
 
         public string CategoryName { get; set; }
 
@@ -116,7 +110,6 @@ namespace ChineseAuctionAPI.DTO
         public string Name { get; set; }
         
         //donor
-        public bool IsPremium { get; set; }
 
         public string CategoryName { get; set; }
 
