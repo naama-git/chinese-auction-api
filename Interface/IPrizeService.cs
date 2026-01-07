@@ -14,6 +14,7 @@ namespace ChineseAuctionAPI.Interface
         public Task<ReadPrizeDTO> GetPrizeById(int id);
 
         public Task UpdatePrize(UpdatePrizeDTO prize);
+        public Task UpdatePrizeQty(int prizeId);
 
 
 

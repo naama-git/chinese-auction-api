@@ -77,5 +77,13 @@ namespace ChineseAuctionAPI.Controllers
             await _prizeService.UpdatePrize(prize);
             return Ok();
         }
+
+        [HttpPut("updatePrizeQty/{prizeId}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdatePrizeQty(int prizeId)
+        {
+            await _prizeService.UpdatePrizeQty(prizeId);
+            return Ok();
+        }
     }
 }

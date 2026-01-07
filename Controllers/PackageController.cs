@@ -1,6 +1,7 @@
 ﻿using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static ChineseAuctionAPI.DTO.PackageDTO;
 
@@ -40,6 +41,7 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreatePackage(CreatePackageDTO createPackageDTO)
         {
             var validationResult=await _createValidator.ValidateAsync(createPackageDTO);
@@ -52,6 +54,7 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpPut("{packageId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdatePackage(int packageId, UpdatePackageDTO updatePackageDTO)
         {
             var validationResult = await _updateValidator.ValidateAsync(updatePackageDTO);
@@ -64,7 +67,7 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpDelete("{packageId}")]
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePackage(int packageId)
         {
             await _packageService.DeletePackage(packageId);
