@@ -25,7 +25,6 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpGet]
-       
         public async Task<ActionResult<IEnumerable<ReadPrizeDTO>>> GetAllPrizes()
         {
 
@@ -33,14 +32,15 @@ namespace ChineseAuctionAPI.Controllers
             return Ok(prizes);
         }
 
+
         [HttpGet("{id}")]
-        
         public async Task<ActionResult<ReadPrizeDTO>> GetPrizeById(int id)
         {
             var prize = await _prizeService.GetPrizeById(id);
             if (prize == null) return NotFound();
             return Ok(prize);
         }
+
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -56,6 +56,7 @@ namespace ChineseAuctionAPI.Controllers
             return Ok(201);
         }
 
+
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePrize(int id)
@@ -63,6 +64,7 @@ namespace ChineseAuctionAPI.Controllers
             await _prizeService.DeletePrize(id);
             return NoContent();
         }
+
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
@@ -78,12 +80,5 @@ namespace ChineseAuctionAPI.Controllers
             return Ok();
         }
 
-        [HttpPut("updatePrizeQty/{prizeId}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdatePrizeQty(int prizeId)
-        {
-            await _prizeService.UpdatePrizeQty(prizeId);
-            return Ok();
-        }
     }
 }

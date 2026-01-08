@@ -128,7 +128,10 @@ namespace ChineseAuctionAPI.Services
                 prize.Qty -=1;
                 await _prizeRepo.UpdatePrize(prize);
             }
-            await _prizeRepo.DeletePrize(prizeId);
+            else{
+                await _prizeRepo.DeletePrize(prizeId);
+            }
+            
         }
 
         
