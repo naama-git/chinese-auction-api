@@ -36,7 +36,11 @@ namespace ChineseAuctionAPI.Repositories
         {
             try
             {
-                var orders= await _context.orders.Include(d => d.Prizes).Include(u => u.User).ToListAsync();
+                var orders= await _context.orders
+                    .Include(d => d.Prizes)
+                    .Include(u => u.User)
+                    .Include(p=>p.Packages)
+                    .ToListAsync();
                 return orders;
             }
             catch (Exception ex)

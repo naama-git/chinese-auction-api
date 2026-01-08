@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using static ChineseAuctionAPI.DTO.WinnerDTO;
 using Microsoft.AspNetCore.Authorization;
+using FluentValidation;
 
 namespace ChineseAuctionAPI.Controllers
 {
@@ -10,6 +11,7 @@ namespace ChineseAuctionAPI.Controllers
     public class WinnerController : ControllerBase
     {
         private readonly IWinnerService _winnerService;
+        
         public WinnerController(IWinnerService winnerService)
         {
             _winnerService = winnerService;
@@ -21,7 +23,7 @@ namespace ChineseAuctionAPI.Controllers
         {
             try
             {
-                await _winnerService.AddWinnerToPrize(createWinnerDTO, prizeId);
+                await _winnerService.AddWinnerToPrize(createWinnerDTO);
                 return Ok(new { message = "Winner added to prize successfully!" });
             }
             catch (Exception ex)

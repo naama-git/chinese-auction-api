@@ -14,8 +14,22 @@ namespace ChineseAuctionAPI.Data
         public DbSet<Cart> carts { get; set; }
         public DbSet<Order> orders { get; set; }
         public DbSet<Category> categories { get; set; }
+
         public DbSet<Ticket> tickets { get; set; } 
         public DbSet<Winner> winners {  get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Prize>()
+                .HasOne(p => p.Category)
+                .WithMany()
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.SetNull); 
+
+
+        }
     }
 }
