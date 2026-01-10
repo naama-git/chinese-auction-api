@@ -35,7 +35,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateCategory(CategoryDTOWithId category)
+        public async Task<IActionResult> UpdateCategory([FromBody] CategoryDTOWithId category)
         {
             var validationResult = await _updateValidator.ValidateAsync(category);
 
@@ -51,7 +51,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddCategory(CategoryCreateDTO category)
+        public async Task<IActionResult> AddCategory([FromBody] CategoryCreateDTO category)
         {
             var validationResult = await _createValidator.ValidateAsync(category);
 

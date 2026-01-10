@@ -44,7 +44,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreatePrize(CreatePrizeDTO prizeCreateDTO)
+        public async Task<IActionResult> CreatePrize([FromBody] CreatePrizeDTO prizeCreateDTO)
         {
             var validationResult = await _createValidator.ValidateAsync(prizeCreateDTO);
 
@@ -68,7 +68,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdatePrize(int id, UpdatePrizeDTO prize)
+        public async Task<IActionResult> UpdatePrize(int id, [FromBody] UpdatePrizeDTO prize)
         {
             var validationResult = await _updateValidator.ValidateAsync(prize);
 

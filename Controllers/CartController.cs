@@ -18,7 +18,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [Authorize(Roles="User")]
         [HttpPost("AddPrizeToCart/{prizeId}")]
-        public async Task<IActionResult> AddPrizeToCart(int prizeId, [FromQuery] int quantity = 1)
+        public async Task<IActionResult> AddPrizeToCart(int prizeId, [FromBody] int quantity = 1)
         {
             try
             {
