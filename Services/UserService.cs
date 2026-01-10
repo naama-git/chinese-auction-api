@@ -80,10 +80,12 @@ namespace ChineseAuctionAPI.Services
                 throw new ErrorResponse(500, "AddUser", "Internal Server Error", "JWT Token generation returned null or empty.", "POST", Location);
             }
 
-            ResponseUserDTO resUser = new ResponseUserDTO()
+            ResponseUserDTO resUser = new()
             {
+                Id = userEntity.Id,
                 Token = token,
                 Email = userEntity.Email,
+                Role = userEntity.Role,
                 Name = userEntity.FirstName + " " + userEntity.LastName
 
             };
@@ -112,7 +114,9 @@ namespace ChineseAuctionAPI.Services
 
             return new ResponseUserDTO
             {
+                Id = existingUser.Id,
                 Email = existingUser.Email,
+                Role = existingUser.Role,
                 Name = $"{existingUser.FirstName} {existingUser.LastName}",
                 Token = CreateToken(existingUser)
             };
