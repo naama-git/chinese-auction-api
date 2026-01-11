@@ -25,7 +25,9 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<SignInDTO, User>();
             CreateMap<LogInDTO, User>();
             //CreateMap<ResponseUserDTO, User>();
-            CreateMap<User, ReadUserDTO>();
+            CreateMap<User, ReadUserDTO>()
+                .ForMember(dest=>dest.Name,
+                opt=>opt.MapFrom(src=>src.FirstName +" "+ src.LastName));
 
             //Category
             CreateMap<Category, CategoryDTOWithId>().ReverseMap();
@@ -33,7 +35,9 @@ namespace ChineseAuctionAPI.Mapping
             
 
             //Prizes
-            CreateMap<Prize, ReadPrizeDTO>();
+            CreateMap<Prize, ReadPrizeDTO>()
+                .ForMember(dest => dest.NumOfTickets,
+               opt => opt.MapFrom(src => src.Tickets != null ? src.Tickets.Count : 0)); ;
             CreateMap<CreatePrizeDTO,Prize>();
             CreateMap<UpdatePrizeDTO, Prize>();
             CreateMap<Prize, ReadPrizeForDonorsDTO>();
