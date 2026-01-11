@@ -15,7 +15,7 @@ namespace ChineseAuctionAPI.DTO
 
         public class ReadCartDTO
         {
-            public ResponseUserDTO User { get; set; }
+            public ReadUserDTO User { get; set; }
 
             public List<CartItemReadDTO> CartItems { get; set; } = new List<CartItemReadDTO>();
         }

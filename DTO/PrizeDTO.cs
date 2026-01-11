@@ -49,6 +49,7 @@ namespace ChineseAuctionAPI.DTO
 
         [Range(0, 50)]
         public int Qty { get; set; }
+        public int NumOfTickets { get; set; } = 0;
     }
 
     public class UpdatePrizeDTO
@@ -99,7 +100,7 @@ namespace ChineseAuctionAPI.DTO
 
         public string ImagePath { get; set; }
 
-
+        
         
     }
     public class PrizeForWinnerDTO

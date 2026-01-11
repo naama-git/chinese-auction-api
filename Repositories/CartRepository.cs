@@ -24,10 +24,10 @@ public class CartRepository : ICartRepo
                 .Include(c => c.User)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
 
-            if (cart == null)
-            {
-                throw new ErrorResponse(404, "GetCartByUserId", "Cart not found.", $"No cart was found for User ID {userId}.", "GET", RepoLocation);
-            }
+            //if (cart == null)
+            //{
+            //    throw new ErrorResponse(404, "GetCartByUserId", "Cart not found.", $"No cart was found for User ID {userId}.", "GET", RepoLocation);
+            //}
 
             return cart;
         }

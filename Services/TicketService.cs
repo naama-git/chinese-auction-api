@@ -49,7 +49,7 @@ namespace ChineseAuctionAPI.Services
         }
 
 
-        public async Task AddTicketsRange(List<TicketCreateDTO> tickets)
+        public async Task AddTicketsRange(List<TicketCreateDTO> tickets, int prizeId)
 
         {
             if (tickets == null || !tickets.Any())
@@ -63,7 +63,7 @@ namespace ChineseAuctionAPI.Services
             {
                 throw new ErrorResponse(500, "AddTicketsRange", "Error processing ticket batch.", "Mapping tickets list failed or returned incomplete results.", "POST", Location);
             }
-            await _repo.AddTicketsRange(ticketEntities);
+            await _repo.AddTicketsRange(ticketEntities, prizeId);
         }
 
 
@@ -88,5 +88,7 @@ namespace ChineseAuctionAPI.Services
             return _mapper.Map<IEnumerable<TicketReadDTO>>(tickets);
 
         }
+
+      
     }
 }

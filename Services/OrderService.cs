@@ -71,7 +71,7 @@ namespace ChineseAuctionAPI.Services
                     var prizes=await _prizeService.GetPrizesByIds(prizesList);
 
                     // add tickets to DB
-                    List <TicketCreateDTO> tickets = new List<TicketCreateDTO>();
+                    List <TicketCreateDTO> tickets = [];
                     foreach (var item in cartItems)
                     {
                         var prizeId = item.PrizeId;
@@ -81,9 +81,10 @@ namespace ChineseAuctionAPI.Services
                             tickets.Add(new TicketCreateDTO { UserId = userId, PrizeId = prizeId });
 
                         }
-
+                        await _ticketService.AddTicketsRange(tickets, prizeId);
+                        tickets = [];
                     }
-                    await _ticketService.AddTicketsRange(tickets);
+                    
 
                     
                     // check total quantity of prizes vs total number of tickets in packages
