@@ -33,7 +33,7 @@ namespace ChineseAuctionAPI.Controllers
         }
 
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> AddUser([FromBody] SignInDTO signIn)
         {
 

@@ -125,7 +125,7 @@ namespace ChineseAuctionAPI
                                 Reference = new OpenApiReference
                                 {
                                     Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer" // çééá ìäéåú æää ìùí ùðúú á-AddSecurityDefinition
+                                    Id = "Bearer" // Ã§Ã©Ã©Ã¡ Ã¬Ã¤Ã©Ã¥Ãº Ã¦Ã¤Ã¤ Ã¬Ã¹Ã­ Ã¹Ã°ÃºÃº Ã¡-AddSecurityDefinition
                                 }
                             },
                             new string[] {}
