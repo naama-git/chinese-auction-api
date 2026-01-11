@@ -93,8 +93,5 @@ namespace ChineseAuctionAPI.Services
 
             await _packageRepo.DeletePackage(id);
         }
-
-
-
     }
 }

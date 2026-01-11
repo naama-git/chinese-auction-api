@@ -29,7 +29,7 @@ namespace ChineseAuctionAPI.Controllers
         }
 
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> AddUser([FromBody] SignInDTO signIn)
         {
 
@@ -57,7 +57,7 @@ namespace ChineseAuctionAPI.Controllers
         }
 
      
-        [HttpPost("LogIn")]
+        [HttpPost("logIn")]
         public async Task<IActionResult> LogInUser([FromBody] LogInDTO logInDTO)
         {
             var authHeader = Request.Headers["Authorization"].ToString();

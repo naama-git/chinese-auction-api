@@ -166,8 +166,13 @@ namespace ChineseAuctionAPI
             builder.Services.AddValidatorsFromAssemblyContaining<PackageValidator>();
             builder.Services.AddValidatorsFromAssemblyContaining<PackageUpdateValidator>();
 
-
-            var app = builder.Build();
+                //cors 
+                builder.Services.AddCors(options => {
+                    options.AddPolicy("AllowAll", policy => {
+                        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    });
+                });
+                var app = builder.Build();
 
             //error middleware
             app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -185,15 +190,15 @@ namespace ChineseAuctionAPI
                 }
             );
 
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+                app.UseCors("AllowAll");
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseHttpsRedirection();
+                
+                app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();
