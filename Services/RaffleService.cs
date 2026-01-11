@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Collections;
+using System.Transactions;
 using static ChineseAuctionAPI.DTO.WinnerDTO;
 
 namespace ChineseAuctionAPI.Services
@@ -14,6 +15,7 @@ namespace ChineseAuctionAPI.Services
     {
 
         private const string Location = "RaffleService";
+
         private readonly ITicketService _ticketService;
         private readonly IWinnerService _winnerService;
 
@@ -27,34 +29,73 @@ namespace ChineseAuctionAPI.Services
             _prizeService = prizeService;
             
         }
+
         public async Task<CreateWinnerDTO> PerformRaffle(int prizeId)
         {
-            var tickets = await _ticketService.GetTicketsByPrizeId(prizeId);
-
-            var prize = await _prizeService.GetPrizeById(prizeId);
-            if (prize == null)
-            {
-                throw new ErrorResponse(404, "PerformRaffle", "Prize not found.", $"Cannot fetch winners for non-existent Prize ID {prizeId}.", null, Location);
-            }
-
-            if (tickets == null || !tickets.Any())
-            {
-                throw new ErrorResponse(404, "PerformRaffle", "Tickets to this ruffle were not found.", $"Cannot fetch tickets for this Prize ID {prizeId}.", null, Location);
-            }
-
-            Random rnd = new Random();
-            int winnerIndex = rnd.Next(tickets.Count());
-            var winningTicket = tickets.ElementAt(winnerIndex);
-
-            CreateWinnerDTO winner = new()
-            {
-                UserId = winningTicket.User.Id,
-                PrizeId = prizeId,
+            var options = new TransactionOptions 
+            { 
+                IsolationLevel = IsolationLevel.ReadCommitted, 
+                Timeout = TransactionManager.DefaultTimeout 
             };
 
-            await _winnerService.AddWinnerToPrize(winner);
+            using (var scope = new TransactionScope(
+                TransactionScopeOption.Required, 
+                options, 
+                TransactionScopeAsyncFlowOption.Enabled)) // קריטי לעבודה עם async/await
+            {
+                try
+                {
+                    var prize = await _prizeService.GetPrizeById(prizeId);
+                    if (prize == null)
+                    {
+                        throw new ErrorResponse(404, "PerformRaffle", "Prize not found.", $"Cannot fetch winners for non-existent Prize ID {prizeId}.", null, Location);
+                    }
 
-            return winner;
-        }
-    }
+                    var isWinnerExists = await _winnerService.GetWinnersByPrizeId(prizeId);
+                    if (isWinnerExists != null && isWinnerExists.Any() && prize.Qty<2)
+                    {
+                        throw new ErrorResponse(400, "PerformRaffle", "Raffle already performed for this prize.", $"Raffle for Prize ID {prizeId} has already been conducted.", null, Location);
+                    }
+
+                    var tickets = await _ticketService.GetTicketsByPrizeId(prizeId);
+                    
+                    
+
+
+                    if (tickets == null || !tickets.Any())
+                    {
+                        throw new ErrorResponse(404, "PerformRaffle", "Tickets to this ruffle were not found.", $"Cannot fetch tickets for this Prize ID {prizeId}.", null, Location);
+                    }
+
+                    Random rnd = new Random();
+            
+                    int winnerIndex = rnd.Next(tickets.Count());
+                    var winningTicket = tickets.ElementAt(winnerIndex);
+
+                    CreateWinnerDTO winner = new()
+                    {
+                        UserId = winningTicket.User.Id,
+                        PrizeId = prizeId,
+                    };
+
+                    await _winnerService.AddWinnerToPrize(winner);
+
+                    // Decrease the quantity of the prize by 1
+                    if (prize.Qty > 1)
+                    {
+                        await _prizeService.UpdatePrizeQty(prizeId);
+                    }
+                    
+            
+                    scope.Complete();
+                    return winner;
+                }
+                catch (Exception ex)
+                {
+                     throw new ErrorResponse(500, "AddOrder", "Internal Server Error", $"Something went wrong: {ex.Message}", "POST", Location);
+                }
+
+             }
+                } 
+            }
 }

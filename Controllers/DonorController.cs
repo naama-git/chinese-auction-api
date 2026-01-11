@@ -37,7 +37,7 @@ public class DonorController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateDonor(DonorCreateDTO donorCreateDTO)
+    public async Task<IActionResult> CreateDonor([FromBody] DonorCreateDTO donorCreateDTO)
     {
         var validationResult = await _createValidator.ValidateAsync(donorCreateDTO);
         if (!validationResult.IsValid)
@@ -56,7 +56,7 @@ public class DonorController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDonor(DonorUpdateDTO donor)
+    public async Task<IActionResult> UpdateDonor([FromBody] DonorUpdateDTO donor)
     {
         var validationResult = await _updateValidator.ValidateAsync(donor);
         if (!validationResult.IsValid)

@@ -6,18 +6,18 @@ namespace ChineseAuctionAPI.DTO
     {
         public class SignInDTO
         {
-                [MaxLength(100)]
-                public string FirstName { get; set; }
+            [MaxLength(100)]
+            public string FirstName { get; set; }
 
-                [MaxLength(100)]
-                public string LastName { get; set; }
+            [MaxLength(100)]
+            public string LastName { get; set; }
 
-                [EmailAddress]
-                public string Email { get; set; }
-                public string Password { get; set; }
+            [EmailAddress]
+            public string Email { get; set; }
+            public string Password { get; set; }
 
-                [Phone]
-                public string PhoneNumber { get; set; }
+            [Phone]
+            public string PhoneNumber { get; set; }
         }
         public class LogInDTO
         {
@@ -32,10 +32,10 @@ namespace ChineseAuctionAPI.DTO
 
             [EmailAddress]
             public string Email { get; set; }
-
             public string Name { get; set; } = string.Empty;
 
-             public string Token { get; set; }
+            public string Role { get; set; } = string.Empty;
+            public string Token { get; set; }
         }
 
         public class ReadUserDTO
@@ -47,7 +47,7 @@ namespace ChineseAuctionAPI.DTO
 
             public string Name { get; set; } = string.Empty;
 
-           
+
         }
 
     }
