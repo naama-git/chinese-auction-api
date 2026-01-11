@@ -116,6 +116,24 @@ namespace ChineseAuctionAPI.Services
 
         }
 
+        public async Task UpdatePrizeQty(int prizeId)
+        {
+            var prize=await _prizeRepo.GetPrizeById(prizeId);
+            if (prize==null)
+            {
+                throw new ErrorResponse(404, "UpdatePrizeQty", "The requested prize was not found.", $"ID {prizeId} not found in repository.", "PUT", Location);
+            }
+            if (prize.Qty > 1)
+            {
+                prize.Qty -=1;
+                await _prizeRepo.UpdatePrize(prize);
+            }
+            else{
+                await _prizeRepo.DeletePrize(prizeId);
+            }
+            
+        }
+
         
     }
 

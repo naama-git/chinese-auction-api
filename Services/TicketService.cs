@@ -13,21 +13,23 @@ namespace ChineseAuctionAPI.Services
         private readonly ITicketRepo _repo;
 
         private readonly IUserService _userService;
-        private readonly IPrizeService _prizeService;
+        private readonly IPrizeRepo _prizeRepo;
 
         private readonly IMapper _mapper;
-        public TicketService(ITicketRepo repo, IMapper mapper, IConfiguration configuration)
+        
+        public TicketService(ITicketRepo repo, IMapper mapper, IUserService userService, IPrizeRepo prizeRepo)
         {
             _repo = repo;
             _mapper = mapper;
-          
+            _userService = userService;
+            _prizeRepo = prizeRepo;
         }
 
         
         public async Task AddTicket(TicketCreateDTO ticketDTO)
         {
             
-            var prize=_prizeService.GetPrizeById(ticketDTO.PrizeId);
+            var prize=_prizeRepo.GetPrizeById(ticketDTO.PrizeId);
             if (prize == null) {
                 throw new ErrorResponse(404, nameof(AddTicket), "Prize not found.", $"Ticket creation failed: Prize ID {ticketDTO.PrizeId} does not exist.", "POST", Location);
             }
@@ -67,7 +69,7 @@ namespace ChineseAuctionAPI.Services
 
         public async Task<IEnumerable<TicketReadDTO>> GetTicketsByPrizeId(int prizeId)
         {
-            var prize = await _prizeService.GetPrizeById(prizeId);
+            var prize = await _prizeRepo.GetPrizeById(prizeId);
             if (prize==null)
             {
                 throw new ErrorResponse(404, "GetTicketsByPrizeId", "Prize not found.", $"Cannot fetch tickets for non-existent Prize ID {prizeId}.", "GET", Location);

@@ -75,7 +75,7 @@ namespace ChineseAuctionAPI.Services
                     foreach (var item in cartItems)
                     {
                         var prizeId = item.PrizeId;
-                        if (prizeId == null) continue;
+                        if (prizeId == 0) continue;
                         for (int i = 0; i < item.Quantity; i++)
                         {
                             tickets.Add(new TicketCreateDTO { UserId = userId, PrizeId = prizeId });
