@@ -3,6 +3,7 @@ using ChineseAuctionAPI.Interface;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using static ChineseAuctionAPI.DTO.UserDTO;
 
 namespace ChineseAuctionAPI.Controllers
@@ -58,7 +59,7 @@ namespace ChineseAuctionAPI.Controllers
         [HttpPost("LogIn")]
         public async Task<ActionResult<ResponseUserDTO>> LogInUser([FromBody] LogInDTO logInDTO)
         {
-            var authHeader = Request.Headers.Authorization.ToString();
+           
 
             var validationResult = await _logInValidator.ValidateAsync(logInDTO);
 
@@ -73,6 +74,26 @@ namespace ChineseAuctionAPI.Controllers
             if (user == null || user.Token.Equals(""))
                 return Unauthorized(new { message = "Invalid username or password" });
 
+            return Ok(user);
+        }
+
+        [HttpGet("me")]
+        public async Task<ActionResult<ResponseUserDTO>> Me()
+        {
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized(new { message = "No Authorization header found" });
+            }
+            
+
+            var userEmail = User.FindFirstValue("Email");
+            if (userEmail==null)
+            {
+                return Unauthorized(new { message = "Token is not valid" });
+            }
+            var user = await _userService.Me(userEmail);
+            if (user == null || user.Token.Equals(""))
+                return Unauthorized(new { message = "Invalid username or password" });
             return Ok(user);
         }
     }

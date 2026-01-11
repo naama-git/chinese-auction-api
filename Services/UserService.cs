@@ -122,6 +122,26 @@ namespace ChineseAuctionAPI.Services
             };
 
         }
+        public async Task<ResponseUserDTO> Me(string email)
+        {
+            
+            
+            var user=await _repo.GetUserByEmail(email);
+            if (user == null)
+            {
+                throw new ErrorResponse(401, "me", "Invalid email or password", "user not found", "GET", Location);
+            }
+            return new ResponseUserDTO
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Role = user.Role,
+                Name = $"{user.FirstName} {user.LastName}",
+                Token = CreateToken(user)
+            };
+
+
+        }
 
 
         private string CreateToken(User user)
@@ -131,6 +151,7 @@ namespace ChineseAuctionAPI.Services
                 {
                     new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new(ClaimTypes.Email, user.Email),
+                    new("Email", user.Email),
                     new (ClaimTypes.Name, user.FirstName),
                     new(ClaimTypes.Role, user.Role)
                 };
@@ -151,6 +172,8 @@ namespace ChineseAuctionAPI.Services
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
+
+        
 
 
     }

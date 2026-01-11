@@ -22,7 +22,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> AddOrder(List<int> PackagesIds)
+        public async Task<IActionResult> AddOrder([FromBody] List<int> PackagesIds)
         {
             var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
 

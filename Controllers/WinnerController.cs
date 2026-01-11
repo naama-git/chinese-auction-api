@@ -19,7 +19,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPost("AddWinnerToPrize/{prizeId}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddWinnerToPrize([FromBody]CreateWinnerDTO createWinnerDTO, int prizeId)
+        public async Task<IActionResult> AddWinnerToPrize([FromBody] CreateWinnerDTO createWinnerDTO, int prizeId)
         {
             try
             {

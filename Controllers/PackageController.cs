@@ -42,7 +42,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreatePackage(CreatePackageDTO createPackageDTO)
+        public async Task<IActionResult> CreatePackage([FromBody] CreatePackageDTO createPackageDTO)
         {
             var validationResult=await _createValidator.ValidateAsync(createPackageDTO);
             if (!validationResult.IsValid)
@@ -55,7 +55,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPut("{packageId}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdatePackage(int packageId, UpdatePackageDTO updatePackageDTO)
+        public async Task<IActionResult> UpdatePackage(int packageId, [FromBody] UpdatePackageDTO updatePackageDTO)
         {
             var validationResult = await _updateValidator.ValidateAsync(updatePackageDTO);
             if (!validationResult.IsValid)

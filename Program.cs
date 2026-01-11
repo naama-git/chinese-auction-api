@@ -117,7 +117,20 @@ namespace ChineseAuctionAPI
                         In = ParameterLocation.Header,
                         Description = "Please enter ONLY the token (without the word 'Bearer')"
                     });
-
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer" // חייב להיות זהה לשם שנתת ב-AddSecurityDefinition
+                                }
+                            },
+                            new string[] {}
+                        }
+                    });
 
                     c.OperationFilter<SecurityRequirementsOperationFilter>(true, "Bearer");
                 });
