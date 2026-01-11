@@ -24,6 +24,7 @@ namespace ChineseAuctionAPI.Repositories
         {
             try
             {
+                
                 return await _context.prizes
                     .Include(p => p.Donor)
                     .Include(p => p.Category)

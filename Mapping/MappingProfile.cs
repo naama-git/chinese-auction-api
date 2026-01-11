@@ -37,7 +37,7 @@ namespace ChineseAuctionAPI.Mapping
             //Prizes
             CreateMap<Prize, ReadPrizeDTO>()
                 .ForMember(dest => dest.NumOfTickets,
-               opt => opt.MapFrom(src => src.Tickets != null ? src.Tickets.Count : 0)); ;
+               opt => opt.MapFrom(src =>  src.Tickets.Count)); 
             CreateMap<CreatePrizeDTO,Prize>();
             CreateMap<UpdatePrizeDTO, Prize>();
             CreateMap<Prize, ReadPrizeForDonorsDTO>();
@@ -47,7 +47,7 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<TicketReadDTO,Ticket>();
             CreateMap<Ticket, TicketReadDTO>();
             CreateMap<User,ResponseUserDTO>();
-            CreateMap<Prize, ReadPrizeDTO>();
+            
 
             //Package
             CreateMap<Package,ReadPackageDTO>();
