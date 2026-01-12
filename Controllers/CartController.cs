@@ -66,19 +66,19 @@ namespace ChineseAuctionAPI.Controllers
         }
 
 
-        [HttpPost("AddCart")]
-        public async Task<IActionResult> AddCart([FromBody] addCartDTO cartDTO)
-        {
-            try
-            {
-                await _cartService.addcart(cartDTO);
-                return Ok(new { message = "Cart created successfully!" });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
+        //[HttpPost("AddCart")]
+        //public async Task<IActionResult> AddCart([FromBody] addCartDTO cartDTO)
+        //{
+        //    try
+        //    {
+        //        await _cartService.addcart(cartDTO);
+        //        return Ok(new { message = "Cart created successfully!" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new { message = ex.Message });
+        //    }
+        //}
 
         [Authorize(Roles="User")]
         [HttpGet("GetCartByUserId")]
@@ -96,10 +96,7 @@ namespace ChineseAuctionAPI.Controllers
                 int userId = int.Parse(userIdClaim.Value);
 
                 var cart = await _cartService.GetCartByUserId(userId);
-                if (cart == null)
-                {
-                    return NotFound(new { message = "Cart not found for this user." });
-                }
+            
                 return Ok(cart);
             }
             catch (Exception ex)

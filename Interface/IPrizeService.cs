@@ -7,7 +7,7 @@ namespace ChineseAuctionAPI.Interface
     {
 
         public Task<IEnumerable<ReadPrizeDTO>> GetPrizes();
-        public Task<IEnumerable<Prize>> GetPrizesEntities();
+        //public Task<IEnumerable<Prize>> GetPrizesEntities();
         public Task<IEnumerable<Prize>> GetPrizesByIds(List<int> prizesIds);
         public Task AddPrize(CreatePrizeDTO prize);
         public Task DeletePrize(int id);

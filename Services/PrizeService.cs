@@ -26,17 +26,17 @@ namespace ChineseAuctionAPI.Services
         {
             var prizes = await _prizeRepo.GetPrizes();
             if (prizes == null) return Enumerable.Empty<ReadPrizeDTO>();
-
+            
             return _mapper.Map<IEnumerable<ReadPrizeDTO>>(prizes);
         }
 
-        public async Task<IEnumerable<Prize>> GetPrizesEntities()
-        {
-            var prizes = await _prizeRepo.GetPrizes();
-            if (prizes == null) return Enumerable.Empty<Prize>();
+        //public async Task<IEnumerable<Prize>> GetPrizesEntities()
+        //{
+        //    var prizes = await _prizeRepo.GetPrizes();
+        //    if (prizes == null) return Enumerable.Empty<Prize>();
 
-            return prizes;
-        }
+        //    return prizes;
+        //}
 
         public async Task AddPrize(CreatePrizeDTO prize)
         {

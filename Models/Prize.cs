@@ -25,6 +25,9 @@ namespace ChineseAuctionAPI.Models
         public int Qty { get; set; }
 
         public List<Order> Orders { get; set; }
+
+        public List<Ticket> Tickets { get; set; }
+
          
 
 
