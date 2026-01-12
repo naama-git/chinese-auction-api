@@ -125,7 +125,7 @@ namespace ChineseAuctionAPI
                                 Reference = new OpenApiReference
                                 {
                                     Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer" // çééá ìäéåú æää ìùí ùðúú á-AddSecurityDefinition
+                                    Id = "Bearer" // Ã§Ã©Ã©Ã¡ Ã¬Ã¤Ã©Ã¥Ãº Ã¦Ã¤Ã¤ Ã¬Ã¹Ã­ Ã¹Ã°ÃºÃº Ã¡-AddSecurityDefinition
                                 }
                             },
                             new string[] {}
@@ -198,6 +198,7 @@ namespace ChineseAuctionAPI
                 //error middleware
                 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+<<<<<<< HEAD
 <<<<<<< HEAD
             // dbContext
             builder.Services.AddDbContext<ChineseAuctionDBcontext>(options =>
@@ -276,6 +277,11 @@ namespace ChineseAuctionAPI
                 app.UseSerilogRequestLogging(options =>
                     options.GetLevel = (httpContext, elapsed, ex) =>
 >>>>>>> e72b92878823898f83683f46179bd59d07ddba7e
+=======
+                // log HTTP requests
+                app.UseSerilogRequestLogging(options =>
+                    options.GetLevel = (httpContext, elapsed, ex) =>
+>>>>>>> 95dab3f79f75a735183d164b091e53f55012c011
                     {
 
                         if (ex is ErrorResponse || httpContext.Response.StatusCode < 500)
@@ -295,6 +301,7 @@ namespace ChineseAuctionAPI
                 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                 app.UseCors("AllowAll");
                 // Configure the HTTP request pipeline.
                 if (app.Environment.IsDevelopment())
@@ -305,13 +312,18 @@ namespace ChineseAuctionAPI
                 
                 app.UseHttpsRedirection();
 =======
+=======
+>>>>>>> 95dab3f79f75a735183d164b091e53f55012c011
                 app.UseCors();
 
                 app.UseHttpsRedirection();
 
                 app.UseAuthentication();
                 app.UseAuthorization();
+<<<<<<< HEAD
 >>>>>>> e72b92878823898f83683f46179bd59d07ddba7e
+=======
+>>>>>>> 95dab3f79f75a735183d164b091e53f55012c011
 
                 app.MapControllers();
 
