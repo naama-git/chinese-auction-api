@@ -55,21 +55,9 @@ namespace ChineseAuctionAPI.Controllers
             return Ok(user);
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-     
-        [HttpPost("logIn")]
-        public async Task<IActionResult> LogInUser([FromBody] LogInDTO logInDTO)
-=======
 
         [HttpPost("LogIn")]
         public async Task<ActionResult<ResponseUserDTO>> LogInUser([FromBody] LogInDTO logInDTO)
->>>>>>> e72b92878823898f83683f46179bd59d07ddba7e
-=======
-
-        [HttpPost("LogIn")]
-        public async Task<ActionResult<ResponseUserDTO>> LogInUser([FromBody] LogInDTO logInDTO)
->>>>>>> 95dab3f79f75a735183d164b091e53f55012c011
         {
            
 
