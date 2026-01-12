@@ -16,6 +16,7 @@ using Serilog.Events;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
 
 
 namespace ChineseAuctionAPI
@@ -208,8 +209,7 @@ namespace ChineseAuctionAPI
                         return LogEventLevel.Error;
                     }
                 );
-
-
+                app.UseStaticFiles();
                 // Configure the HTTP request pipeline.
                 if (app.Environment.IsDevelopment())
                 {
