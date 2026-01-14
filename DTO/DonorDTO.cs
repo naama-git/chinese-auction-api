@@ -12,6 +12,7 @@ namespace ChineseAuctionAPI.DTO
 
         [MaxLength(100)]
         public string LastName { get; set; }
+        public string? Company { get; set; }
         public string Address { get; set; }
 
         [EmailAddress]
@@ -28,6 +29,7 @@ namespace ChineseAuctionAPI.DTO
 
         [MaxLength(100)]
         public string LastName { get; set; }
+        public string? Company { get; set; }
         public string Address { get; set; }
         [EmailAddress]
         public string Email { get; set; }
@@ -45,6 +47,7 @@ namespace ChineseAuctionAPI.DTO
 
         [MaxLength(100)]
         public string LastName { get; set; }
+        public string? Company { get; set; }
         public string Address { get; set; }
         [EmailAddress]
         public string Email { get; set; }
@@ -60,6 +63,7 @@ namespace ChineseAuctionAPI.DTO
 
         [MaxLength(100)]
         public string LastName { get; set; }
+        public string? Company { get; set; }
 
         [EmailAddress]
         public string Email { get; set; }
