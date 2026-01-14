@@ -43,7 +43,7 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Prize, ReadPrizeForDonorsDTO>();
 
             //Tickets
-            CreateMap<TicketCreateDTO, Ticket >();
+            CreateMap<TicketCreateDTO, Ticket>();
             CreateMap<TicketReadDTO,Ticket>();
             CreateMap<Ticket, TicketReadDTO>();
             CreateMap<User,ResponseUserDTO>();
