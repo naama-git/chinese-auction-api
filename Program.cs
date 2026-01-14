@@ -1,14 +1,14 @@
 
 using ChineseAuctionAPI.Data;
 using ChineseAuctionAPI.Interface;
+using ChineseAuctionAPI.Services;
+using Microsoft.EntityFrameworkCore;
 using ChineseAuctionAPI.Middlewares;
 using ChineseAuctionAPI.Models.Exceptions;
 using ChineseAuctionAPI.Repositories;
-using ChineseAuctionAPI.Services;
 using ChineseAuctionAPI.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -16,14 +16,13 @@ using Serilog.Events;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
 
 
 namespace ChineseAuctionAPI
 {
     public class Program
     {
-
-
         public static void Main(string[] args)
         {
 
@@ -58,36 +57,36 @@ namespace ChineseAuctionAPI
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 .AddJwtBearer(options =>
+                {
+
+                    options.Events = new JwtBearerEvents
                     {
-
-                        options.Events = new JwtBearerEvents
+                        OnAuthenticationFailed = context =>
                         {
-                            OnAuthenticationFailed = context =>
-                                {
-                                    Console.WriteLine("--- JWT Authentication Failed ---");
-                                    Console.WriteLine($"Error: {context.Exception.Message}");
-                                    return Task.CompletedTask;
-                                },
-                            OnChallenge = context =>
-                            {
-                                Console.WriteLine("--- JWT Challenge Triggered ---");
-                                return Task.CompletedTask;
-                            }
-                        };
-                        options.TokenValidationParameters = new TokenValidationParameters
+                            Console.WriteLine("--- JWT Authentication Failed ---");
+                            Console.WriteLine($"Error: {context.Exception.Message}");
+                            return Task.CompletedTask;
+                        },
+                        OnChallenge = context =>
                         {
-                            ValidateIssuerSigningKey = true,
-                            IssuerSigningKey = new SymmetricSecurityKey(key),
-                            ValidateIssuer = true,
-                            ValidIssuer = jwtSettings["Issuer"],
-                            ValidateAudience = true,
-                            ValidAudience = jwtSettings["Audience"],
-                            ValidateLifetime = true,
-                            ClockSkew = TimeSpan.Zero,
-                            RoleClaimType = ClaimTypes.Role
+                            Console.WriteLine("--- JWT Challenge Triggered ---");
+                            return Task.CompletedTask;
+                        }
+                    };
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = true,
+                        ValidIssuer = jwtSettings["Issuer"],
+                        ValidateAudience = true,
+                        ValidAudience = jwtSettings["Audience"],
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,
+                        RoleClaimType = ClaimTypes.Role
 
-                        };
-                    });
+                    };
+                });
 
                 builder.Services.AddCors(options =>
                 {
@@ -125,7 +124,7 @@ namespace ChineseAuctionAPI
                                 Reference = new OpenApiReference
                                 {
                                     Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer" // çééá ìäéåú æää ìùí ùðúú á-AddSecurityDefinition
+                                    Id = "Bearer" // ???? ????? ??? ??? ???? ?-AddSecurityDefinition
                                 }
                             },
                             new string[] {}
@@ -210,8 +209,7 @@ namespace ChineseAuctionAPI
                         return LogEventLevel.Error;
                     }
                 );
-
-
+                app.UseStaticFiles();
                 // Configure the HTTP request pipeline.
                 if (app.Environment.IsDevelopment())
                 {
