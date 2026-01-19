@@ -1,14 +1,15 @@
 
 using ChineseAuctionAPI.Data;
 using ChineseAuctionAPI.Interface;
-using ChineseAuctionAPI.Services;
-using Microsoft.EntityFrameworkCore;
 using ChineseAuctionAPI.Middlewares;
 using ChineseAuctionAPI.Models.Exceptions;
 using ChineseAuctionAPI.Repositories;
+using ChineseAuctionAPI.Services;
 using ChineseAuctionAPI.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -16,7 +17,7 @@ using Serilog.Events;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.FileProviders;
+using System.Text.Json;
 
 
 namespace ChineseAuctionAPI
@@ -100,7 +101,12 @@ namespace ChineseAuctionAPI
 
 
                 // Add services to the container
-                builder.Services.AddControllers();
+                builder.Services.AddControllers()
+                    .AddJsonOptions(options =>
+                    {
+                        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                        
+                    });
 
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddEndpointsApiExplorer();
