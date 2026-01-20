@@ -11,14 +11,16 @@ namespace ChineseAuctionAPI.Services
     {
         private const string Location = "PrizeService";
         private readonly IPrizeRepo _prizeRepo;
+        private readonly ICategoryService _categoryService;
         private readonly ITicketService _ticketService;
         private readonly IMapper _mapper;
 
-        public PrizeService(IPrizeRepo prizeRepo, IMapper mapper, ITicketService ticketService)
+        public PrizeService(IPrizeRepo prizeRepo, IMapper mapper, ITicketService ticketService, ICategoryService categoryService    )
         {
             _prizeRepo = prizeRepo;
             _mapper = mapper;
             _ticketService = ticketService;
+            _categoryService = categoryService;
         }
 
 
@@ -30,17 +32,13 @@ namespace ChineseAuctionAPI.Services
             return _mapper.Map<IEnumerable<ReadPrizeDTO>>(prizes);
         }
 
-        //public async Task<IEnumerable<Prize>> GetPrizesEntities()
-        //{
-        //    var prizes = await _prizeRepo.GetPrizes();
-        //    if (prizes == null) return Enumerable.Empty<Prize>();
-
-        //    return prizes;
-        //}
 
         public async Task AddPrize(CreatePrizeDTO prize)
         {
             Prize PrizeEntity = _mapper.Map<Prize>(prize);
+            var categories = await _categoryService.GetCategoriesByIds(prize.CategoryIds);
+            PrizeEntity.Categories.AddRange(categories);
+            
    
             if (PrizeEntity == null)
             {

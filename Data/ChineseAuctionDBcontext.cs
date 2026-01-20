@@ -20,16 +20,6 @@ namespace ChineseAuctionAPI.Data
         public DbSet<CartItem> CartItems { get; set; }
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Prize>()
-                .HasOne(p => p.Category)
-                .WithMany()
-                .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.SetNull); 
-
-
-        }
+   
     }
 }

@@ -22,6 +22,21 @@ namespace ChineseAuctionAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CategoryPrize", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PrizesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesId", "PrizesId");
+
+                    b.HasIndex("PrizesId");
+
+                    b.ToTable("CategoryPrize");
+                });
+
             modelBuilder.Entity("ChineseAuctionAPI.Models.Cart", b =>
                 {
                     b.Property<int>("Id")
@@ -177,9 +192,6 @@ namespace ChineseAuctionAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -201,8 +213,6 @@ namespace ChineseAuctionAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("DonorId");
 
@@ -325,6 +335,21 @@ namespace ChineseAuctionAPI.Migrations
                     b.ToTable("OrderPrize");
                 });
 
+            modelBuilder.Entity("CategoryPrize", b =>
+                {
+                    b.HasOne("ChineseAuctionAPI.Models.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChineseAuctionAPI.Models.Prize", null)
+                        .WithMany()
+                        .HasForeignKey("PrizesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ChineseAuctionAPI.Models.Cart", b =>
                 {
                     b.HasOne("ChineseAuctionAPI.Models.User", "User")
@@ -366,18 +391,11 @@ namespace ChineseAuctionAPI.Migrations
 
             modelBuilder.Entity("ChineseAuctionAPI.Models.Prize", b =>
                 {
-                    b.HasOne("ChineseAuctionAPI.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("ChineseAuctionAPI.Models.Donor", "Donor")
                         .WithMany("Prizes")
                         .HasForeignKey("DonorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("Donor");
                 });

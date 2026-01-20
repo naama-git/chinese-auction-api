@@ -20,7 +20,8 @@ namespace ChineseAuctionAPI.DTO
 
 
         [Required(ErrorMessage = "Category ID is required")]
-        public int CategoryId { get; set; }
+        //public int CategoryId { get; set; }
+        public List<int> CategoryIds { get; set; }
 
         public string ImagePath { get; set; }
 
@@ -43,7 +44,7 @@ namespace ChineseAuctionAPI.DTO
 
         public DonorForReadPrizesDTO Donor { get; set; }
 
-        public CategoryDTOWithId Category { get; set; }
+        public List<CategoryDTOWithId> Categories { get; set; }
 
         public string ImagePath { get; set; }
 
@@ -64,7 +65,7 @@ namespace ChineseAuctionAPI.DTO
 
         public int DonorId { get; set; }
 
-        public int CategoryId { get; set; }
+        public List<int> CategoryIds { get; set; }
 
         public string ImagePath { get; set; }
 
@@ -83,8 +84,6 @@ namespace ChineseAuctionAPI.DTO
         [MaxLength(100)]
         public string Description { get; set; }
 
-        public string CategoryName { get; set; }
-
         public string ImagePath { get; set; }
     }
     
@@ -96,7 +95,7 @@ namespace ChineseAuctionAPI.DTO
 
         [Required(ErrorMessage = "Name is required"), MaxLength(100)]
         public string Name { get; set; }
-        public string Category{ get; set; }
+        public List<string> Categories{ get; set; }
 
         public string ImagePath { get; set; }
 
@@ -112,7 +111,7 @@ namespace ChineseAuctionAPI.DTO
         
         //donor
 
-        public string CategoryName { get; set; }
+        public List<string> CategoriesNames { get; set; }
 
         public string ImagePath { get; set; }
     }

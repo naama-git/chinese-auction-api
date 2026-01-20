@@ -16,8 +16,7 @@ namespace ChineseAuctionAPI.Models
         public int DonorId { get; set; }
         public Donor Donor { get; set; }
         
-        public int? CategoryId { get; set; } 
-        public Category? Category { get; set; } 
+        public List<Category> Categories {get;set;}=new List<Category>();
 
         public string ImagePath {  get; set; }
 

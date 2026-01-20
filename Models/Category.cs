@@ -9,5 +9,7 @@ namespace ChineseAuctionAPI.Models
 
         [Required(ErrorMessage ="Name is required")]
         public string Name { get; set; }
+
+        public List<Prize> Prizes { get; set; } = new List<Prize>();
     }
 }

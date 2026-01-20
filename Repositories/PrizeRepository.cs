@@ -27,9 +27,11 @@ namespace ChineseAuctionAPI.Repositories
                 
                 return await _context.prizes
                     .Include(p => p.Donor)
-                    .Include(p => p.Category)
+                    .Include(p => p.Categories)
                     .Include(p=>p.Tickets)
                     .ToListAsync();
+
+                
             }
             catch (Exception ex)
             {
@@ -43,7 +45,7 @@ namespace ChineseAuctionAPI.Repositories
             {
                 var prize = await _context.prizes
                     .Include(p => p.Donor)
-                    .Include(p => p.Category)
+                    .Include(p => p.Categories)
                     .Include(p => p.Tickets)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
@@ -128,7 +130,7 @@ namespace ChineseAuctionAPI.Repositories
                 return await _context.prizes
                     .Where(p => prizeIds.Contains(p.Id))
                     .Include(p => p.Donor)
-                    .Include(p => p.Category)
+                    .Include(p => p.Categories)
                     .ToListAsync();
             }
             catch (Exception ex)
