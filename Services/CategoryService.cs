@@ -27,6 +27,16 @@ namespace ChineseAuctionAPI.Services
             }
             return _mapper.Map<IEnumerable<CategoryDTOWithId>>(categories);
         }
+
+        public async Task<IEnumerable<Category>> GetCategoriesByIds(List<int> ids)
+        {
+            var categories = await _repo.GetCategoriesByIds(ids);
+            if (categories == null)
+            {
+                return Enumerable.Empty<Category>();
+            }
+            return _mapper.Map<IEnumerable<Category>>(categories);
+        }
         public async Task AddCategory(CategoryCreateDTO categoryName)
         {
 

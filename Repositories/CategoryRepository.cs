@@ -29,6 +29,16 @@ namespace ChineseAuctionAPI.Repositories
             return categories;
         }
 
+        // get categories by Id's
+        public async Task<IEnumerable<Category>> GetCategoriesByIds(List<int> ids)
+        {
+            var categories = await _context.categories
+                .Where(c => ids.Contains(c.Id))
+                .ToListAsync();
+
+            return categories;
+        }
+
         // add new category
         public async Task AddCategory(Category category)
         {
@@ -47,7 +57,7 @@ namespace ChineseAuctionAPI.Repositories
         // update category
         public async Task UpdateCategory(Category category)
         {
-            var categoryInDb =  await _context.categories.FindAsync(category.Id);
+            var categoryInDb = await _context.categories.FindAsync(category.Id);
             if (categoryInDb == null)
             {
                 throw new ErrorResponse(404, "UpdateCategory", "Category not found", "Couldn't find category", "PUT", RepoLocation);

@@ -11,13 +11,13 @@ using static ChineseAuctionAPI.DTO.CategotyDTO;
 
 namespace ChineseAuctionAPI.Mapping
 {
-    public class MappingProfile:Profile
+    public class MappingProfile : Profile
     {
         public MappingProfile()
         {
             //Donors
             CreateMap<Donor, DonorReadDTO>();
-            CreateMap<DonorCreateDTO,Donor>();
+            CreateMap<DonorCreateDTO, Donor>();
             CreateMap<DonorUpdateDTO, Donor>();
             CreateMap<Donor, DonorForReadPrizesDTO>();
 
@@ -26,44 +26,44 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<LogInDTO, User>();
             //CreateMap<ResponseUserDTO, User>();
             CreateMap<User, ReadUserDTO>()
-                .ForMember(dest=>dest.Name,
-                opt=>opt.MapFrom(src=>src.FirstName +" "+ src.LastName));
+                .ForMember(dest => dest.Name,
+                opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
 
             //Category
             CreateMap<Category, CategoryDTOWithId>().ReverseMap();
             CreateMap<CategoryCreateDTO, Category>();
-            
+
 
             //Prizes
             CreateMap<Prize, ReadPrizeDTO>()
                 .ForMember(dest => dest.NumOfTickets,
-               opt => opt.MapFrom(src =>  src.Tickets.Count)); 
-            CreateMap<CreatePrizeDTO,Prize>();
+               opt => opt.MapFrom(src => src.Tickets.Count));
+            CreateMap<CreatePrizeDTO, Prize>();
             CreateMap<UpdatePrizeDTO, Prize>();
             CreateMap<Prize, ReadPrizeForDonorsDTO>();
 
             //Tickets
             CreateMap<TicketCreateDTO, Ticket>();
-            CreateMap<TicketReadDTO,Ticket>();
+            CreateMap<TicketReadDTO, Ticket>();
             CreateMap<Ticket, TicketReadDTO>();
-            CreateMap<User,ResponseUserDTO>();
-            
+            CreateMap<User, ResponseUserDTO>();
+
 
             //Package
-            CreateMap<Package,ReadPackageDTO>();
-            CreateMap<CreatePackageDTO,Package>();
+            CreateMap<Package, ReadPackageDTO>();
+            CreateMap<CreatePackageDTO, Package>();
             CreateMap<UpdatePackageDTO, Package>();
-            
+
 
             //Winner
-            CreateMap<CreateWinnerDTO,Winner>();
+            CreateMap<CreateWinnerDTO, Winner>();
             CreateMap<Winner, ReadWinnerDTO>();
             CreateMap<User, ResponseUserDTO>();
             CreateMap<Prize, PrizeForWinnerDTO>();
 
 
             //Order
-            CreateMap<Order,ReadOrderDTO>();
+            CreateMap<Order, ReadOrderDTO>();
 
             //Cart
             CreateMap<addCartDTO, Cart>();

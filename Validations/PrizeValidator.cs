@@ -16,7 +16,7 @@ namespace ChineseAuctionAPI.Validations
             RuleFor(prize => prize.DonorId)
                 .NotEmpty().WithMessage("Donor Id is required.");
 
-            RuleFor(prize=>prize.CategoryId)
+            RuleFor(prize=>prize.CategoryIds)
                 .NotEmpty().WithMessage("Category Id is required");
 
             RuleFor(prize => prize.Qty)
@@ -39,7 +39,7 @@ namespace ChineseAuctionAPI.Validations
             RuleFor(prize => prize.DonorId)
                 .NotEmpty().WithMessage("Donor Id is required.");
 
-            RuleFor(prize=>prize.CategoryId)
+            RuleFor(prize=>prize.CategoryIds)
                 .NotEmpty().WithMessage("Category Id is required");
 
             RuleFor(prize => prize.Qty)
