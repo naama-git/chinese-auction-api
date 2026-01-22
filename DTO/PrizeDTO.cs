@@ -11,7 +11,7 @@ namespace ChineseAuctionAPI.DTO
         [MaxLength(100),Required(ErrorMessage ="Name is required")]
         public string Name { get; set; }
 
-        [MaxLength(100)]
+        [MaxLength(1000)]
         public string Description { get; set; }
 
 
@@ -39,7 +39,7 @@ namespace ChineseAuctionAPI.DTO
         [MaxLength(100)]
         public string Name { get; set; }
 
-        [MaxLength(100)]
+        [MaxLength(1000)]
         public string Description { get; set; }
 
         public DonorForReadPrizesDTO Donor { get; set; }
@@ -60,7 +60,7 @@ namespace ChineseAuctionAPI.DTO
         [MaxLength(100)]
         public string Name { get; set; }
 
-        [MaxLength(100)]
+        [MaxLength(1000)]
         public string Description { get; set; }
 
         public int DonorId { get; set; }
@@ -81,7 +81,7 @@ namespace ChineseAuctionAPI.DTO
         [MaxLength(100)]
         public string Name { get; set; }
 
-        [MaxLength(100)]
+        [MaxLength(1000)]
         public string Description { get; set; }
 
         public string ImagePath { get; set; }

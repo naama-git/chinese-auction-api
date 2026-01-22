@@ -57,7 +57,8 @@ namespace ChineseAuctionAPI.DTO
 
     public class DonorForReadPrizesDTO
     {
-   
+        public int Id { get; set; }
+        
         [MaxLength(100)]
         public string FirstName { get; set; }
 
