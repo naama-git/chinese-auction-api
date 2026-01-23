@@ -125,9 +125,9 @@ namespace ChineseAuctionAPI.Services
 
         }
 
-        public async Task<IEnumerable<ReadSimpleOrderDTO>> GetOrders()
+        public async Task<IEnumerable<ReadSimpleOrderDTO>> GetOrders(OrderQParams orderQParams)
         {
-            var orders = await _orderRepo.GetOrders();
+            var orders = await _orderRepo.GetOrders(orderQParams);
             if (orders == null || !orders.Any())
             {
                 return Enumerable.Empty<ReadSimpleOrderDTO>();
