@@ -4,6 +4,7 @@ using ChineseAuctionAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChineseAuctionAPI.Migrations
 {
     [DbContext(typeof(ChineseAuctionDBcontext))]
-    partial class ChineseAuctionDBcontextModelSnapshot : ModelSnapshot
+    [Migration("20260120181901_expend_description_length")]
+    partial class expend_description_length
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace ChineseAuctionAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CategoryPrize", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PrizesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesId", "PrizesId");
-
-                    b.HasIndex("PrizesId");
-
-                    b.ToTable("CategoryPrize");
-                });
 
             modelBuilder.Entity("ChineseAuctionAPI.Models.Cart", b =>
                 {
@@ -192,6 +180,9 @@ namespace ChineseAuctionAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -213,6 +204,8 @@ namespace ChineseAuctionAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("DonorId");
 
@@ -335,21 +328,6 @@ namespace ChineseAuctionAPI.Migrations
                     b.ToTable("OrderPrize");
                 });
 
-            modelBuilder.Entity("CategoryPrize", b =>
-                {
-                    b.HasOne("ChineseAuctionAPI.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ChineseAuctionAPI.Models.Prize", null)
-                        .WithMany()
-                        .HasForeignKey("PrizesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ChineseAuctionAPI.Models.Cart", b =>
                 {
                     b.HasOne("ChineseAuctionAPI.Models.User", "User")
@@ -391,11 +369,18 @@ namespace ChineseAuctionAPI.Migrations
 
             modelBuilder.Entity("ChineseAuctionAPI.Models.Prize", b =>
                 {
+                    b.HasOne("ChineseAuctionAPI.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("ChineseAuctionAPI.Models.Donor", "Donor")
                         .WithMany("Prizes")
                         .HasForeignKey("DonorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("Donor");
                 });
