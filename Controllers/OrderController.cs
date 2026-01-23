@@ -43,9 +43,9 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<ReadSimpleOrderDTO>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<ReadSimpleOrderDTO>>> GetOrders([FromQuery] OrderQParams orderParams)
         {
-            var orders = await _orderService.GetOrders();
+            var orders = await _orderService.GetOrders(orderParams);
             return Ok(orders);
         }
 
