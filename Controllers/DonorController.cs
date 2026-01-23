@@ -56,7 +56,7 @@ public class DonorController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDonor([FromBody] DonorUpdateDTO donor)
+    public async Task<IActionResult> UpdateDonor(int id, [FromBody] DonorUpdateDTO donor)
     {
         var validationResult = await _updateValidator.ValidateAsync(donor);
         if (!validationResult.IsValid)
