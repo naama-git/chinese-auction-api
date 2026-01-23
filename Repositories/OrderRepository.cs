@@ -50,6 +50,25 @@ namespace ChineseAuctionAPI.Repositories
 
         }
 
+        public async Task<Order> GetOrderById(int id)
+        {
+            try
+            {
+                var order = await _context.orders
+                    
+                    .Include(d => d.Prizes)
+                    .Include(u => u.User)
+                    .Include(p => p.Packages)
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
+                return order;
+            }
+            catch (Exception ex)
+            {
+                throw new ErrorResponse(500, "GetOrderById", "Failed to get order with Id"+id, ex.Message, "Get", RepoLocation);
+            }
+        }
+
         
     }
 }

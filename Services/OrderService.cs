@@ -125,14 +125,26 @@ namespace ChineseAuctionAPI.Services
 
         }
 
-        public async Task<IEnumerable<ReadOrderDTO>> GetOrders()
+        public async Task<IEnumerable<ReadSimpleOrderDTO>> GetOrders()
         {
             var orders = await _orderRepo.GetOrders();
             if (orders == null || !orders.Any())
             {
-                return Enumerable.Empty<ReadOrderDTO>();
+                return Enumerable.Empty<ReadSimpleOrderDTO>();
             }
-            return _mapper.Map<IEnumerable<ReadOrderDTO>>(orders);
+            return _mapper.Map<IEnumerable<ReadSimpleOrderDTO>>(orders);
+        }
+
+        public async Task<ReadOrderDTO> GetOrderById(int id)
+        {
+            Order order = await _orderRepo.GetOrderById(id);
+
+            if (order == null)
+            {
+                throw new ErrorResponse(404, "GetOrderById", "The requested order was not found.", $"ID {id} not found in repository.", "GET", Location);
+            }
+
+            return _mapper.Map<ReadOrderDTO>(order);
         }
 
     }
