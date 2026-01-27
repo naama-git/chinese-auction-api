@@ -17,6 +17,6 @@ namespace ChineseAuctionAPI.Models
         public Range<DateTime>? OrderDate { get; set; }
 
         [CompareTo("TotalPrice")]
-        public Range<double>? MinPrice { get; set; }
+        public Range<double>? TotalPrice { get; set; }
     }
 }
