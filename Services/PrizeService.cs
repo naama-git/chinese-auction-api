@@ -85,12 +85,17 @@ namespace ChineseAuctionAPI.Services
         {
 
             var existingPrize = await _prizeRepo.GetPrizeById(prize.Id);
+            
+
             if (existingPrize == null)
             {
                 throw new ErrorResponse(404, nameof(UpdatePrize), "Prize for update not found.", $"Update failed: ID {prize.Id} not found.", "PUT", "srv");
             }
+            var categories = await _categoryService.GetCategoriesByIds(prize.CategoryIds);
+
 
             _mapper.Map(prize, existingPrize);
+            existingPrize.Categories = categories.ToList();
             await _prizeRepo.UpdatePrize(existingPrize);
             
         }

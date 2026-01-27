@@ -488,3 +488,4 @@ $RECYCLE.BIN/
 # Local specific settings
 appsettings.local.json
 appsettings.Development.json
+!appsettings.Example.json

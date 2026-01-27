@@ -3,6 +3,8 @@
   
    🚧 This project is currently under active development. 
     Expect breaking changes and incomplete features
+
+
     
    ## Tech Stack
    - Framework: .NET 8 (ASP.NET Core)
@@ -26,20 +28,17 @@ Before running this project, ensure you have the following installed:
 - EF Core Tools: install via terminal
   ```
   $ dotnet tool install --global dotnet-ef
+  
 ### Installation & Configuration
-- Clone the repository
-  ```
+- ```
   $ git clone https://github.com/naama-git/chinese-auction-api.git
-  $ cd chinese-auction-api
   $ dotnet restore
-- Copy the contents of appsettings.Example.json to a new file named appsettings.json and fill in the details.
 
+- Copy the contents of appsettings.Example.json to a new file named appsettings.json and fill in the details.
 - run:
   ```
-  $ dotnet ef database update
+   $ dotnet ef database update
 - Run the Application:
-  ```
-  $ dotnet build
-- Once the app is running, go to: https://localhost:PORT/swagger/index.html
+```
+$ dotnet build
 
-### 
