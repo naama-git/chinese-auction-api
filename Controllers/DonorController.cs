@@ -25,8 +25,8 @@ public class DonorController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<DonorReadDTO>>> GetAllDonors([FromQuery] DonorQParams donorParams)
     {
-        
-        var donors = await _donorService.GetDonors();
+        Console.WriteLine(donorParams);
+        var donors = await _donorService.GetDonors(donorParams);
         return Ok(donors);
     }
 
