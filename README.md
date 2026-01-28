@@ -4,7 +4,10 @@
    🚧 This project is currently under active development. 
     Expect breaking changes and incomplete features
 
+   This project is the backend server built with .NET. It communicates with a client frontend in the following link:
+   [Frontend Repository](https://github.com/Lea2166/ChineseAuctionClient)
 
+    
     
    ## Tech Stack
    - Framework: .NET 8 (ASP.NET Core)
