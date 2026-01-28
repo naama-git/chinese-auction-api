@@ -1,8 +1,10 @@
-﻿using ChineseAuctionAPI.Data;
+﻿using AutoFilterer.Extensions;
+using ChineseAuctionAPI.Data;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
-using Microsoft.EntityFrameworkCore;
 using ChineseAuctionAPI.Models.Exceptions;
+using ChineseAuctionAPI.Models.QueryParams;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 public class DonorRepository : IDonorRepo
@@ -16,18 +18,54 @@ public class DonorRepository : IDonorRepo
 
 
     // get all donors
-    public async Task<IEnumerable<Donor>> GetDonors()
+    public async Task<IEnumerable<Donor>> GetDonors(DonorQParams donorParams)
     {
 
+        try
+        {
+            var donors = _context.donors
+                .Include(d => d.Prizes)
+                .ApplyFilter(donorParams);
+
+
+            if (donorParams.PrizesIds?.Any() == true)
+            {
+                donors = donors.Where(d =>
+                    d.Prizes.Any(p =>
+                        donorParams.PrizesIds.Contains(p.Id)));
+
+
+            }
+
+            if (!string.IsNullOrEmpty(donorParams.Name))
+            {
+                donors = donors.Where(d =>
+               (d.FirstName + d.LastName).Contains(donorParams.Name.ToLower().Trim()));
+            }
+
+
+            return await donors.ToListAsync();
+
+        }
+        catch (Exception ex)
+        {
+
+            throw new ErrorResponse(500, "GetDonors (Params)", "Failed to retrieve the list of donors.", ex.Message, "GET", "DonorRepository");
+        }
+    }
+
+    public async Task<IEnumerable<Donor>> GetDonors()
+    {
         try
         {
             return await _context.donors
                 .Include(d => d.Prizes)
                 .ToListAsync();
+
         }
         catch (Exception ex)
         {
-            
+
             throw new ErrorResponse(500, "GetDonors", "Failed to retrieve the list of donors.", ex.Message, "GET", "DonorRepository");
         }
     }
@@ -53,15 +91,15 @@ public class DonorRepository : IDonorRepo
         try
         {
             var donorInDb = await _context.donors.FindAsync(donor.Id);
-                if (donorInDb != null)
-                {
-                    _context.Entry(donorInDb).CurrentValues.SetValues(donor);
-                    await _context.SaveChangesAsync();
-                }
-                else
-                {
-                    throw new ErrorResponse(404, "UpdateDonor", "Donor not found.", $"No donor with ID {donor.Id} exists to update.", "PUT", "DonorRepository");
-                }
+            if (donorInDb != null)
+            {
+                _context.Entry(donorInDb).CurrentValues.SetValues(donor);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new ErrorResponse(404, "UpdateDonor", "Donor not found.", $"No donor with ID {donor.Id} exists to update.", "PUT", "DonorRepository");
+            }
         }
         catch (Exception ex)
         {

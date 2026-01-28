@@ -3,6 +3,7 @@ using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.Models.Exceptions;
+using ChineseAuctionAPI.Models.QueryParams;
 using System.Drawing;
 
 namespace ChineseAuctionAPI.Services
@@ -19,10 +20,10 @@ namespace ChineseAuctionAPI.Services
             
         }
 
-        public async Task<IEnumerable<DonorReadDTO>> GetDonors()
+        public async Task<IEnumerable<DonorReadDTO>> GetDonors(DonorQParams donorParams)
         {
 
-            var donors = await _repo.GetDonors();
+            var donors = await _repo.GetDonors(donorParams);
             if (donors == null) return Enumerable.Empty<DonorReadDTO>();
             return _mapper.Map<IEnumerable<DonorReadDTO>>(donors);
         }
