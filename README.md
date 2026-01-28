@@ -34,7 +34,7 @@ Before running this project, ensure you have the following installed:
   $ git clone https://github.com/naama-git/chinese-auction-api.git
   $ dotnet restore
 
-- Copy the contents of appsettings.Example.json to a new file named appsettings.json and fill in the details.
+- Copy the contents of (https://github.com/naama-git/chinese-auction-api/blob/main/appsettings.Example.json)[appsettings.Example.json] to a new file named appsettings.json and fill in the details.
 - run:
   ```
    $ dotnet ef database update
