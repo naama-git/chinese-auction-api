@@ -1,8 +1,10 @@
 ﻿using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+using ChineseAuctionAPI.Models;
+using ChineseAuctionAPI.Models.QueryParams;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 [ApiController] 
 [Route("api/[controller]")] 
@@ -21,7 +23,7 @@ public class DonorController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<DonorReadDTO>>> GetAllDonors()
+    public async Task<ActionResult<IEnumerable<DonorReadDTO>>> GetAllDonors([FromQuery] DonorQParams donorParams)
     {
         
         var donors = await _donorService.GetDonors();
