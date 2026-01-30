@@ -1,7 +1,9 @@
-﻿using ChineseAuctionAPI.Data;
+﻿using AutoFilterer.Extensions;
+using ChineseAuctionAPI.Data;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.Models.Exceptions;
+using ChineseAuctionAPI.Models.QueryParams;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChineseAuctionAPI.Repositories
@@ -20,18 +22,32 @@ namespace ChineseAuctionAPI.Repositories
 
 
 
-        public async Task<IEnumerable<Prize>> GetPrizes()
+        public async Task<IEnumerable<Prize>> GetPrizes(PrizeQParams prizeQParams)
         {
             try
             {
-                
-                return await _context.prizes
+
+                var prizes = _context.prizes
                     .Include(p => p.Donor)
                     .Include(p => p.Categories)
-                    .Include(p=>p.Tickets)
-                    .ToListAsync();
+                    .Include(p => p.Tickets)
+                    .ApplyFilter(prizeQParams);
 
-                
+                if (prizeQParams.CategoriesIds != null && prizeQParams.CategoriesIds.Count > 0)
+                {
+                    prizes = prizes.Where(p => p.Categories.Any(c => prizeQParams.CategoriesIds.Contains(c.Id)));
+                }
+
+                if (prizeQParams.NumOfTickets.HasValue)
+                {
+                    prizes = prizes.Where(p => p.Tickets.Count() >= prizeQParams.NumOfTickets);
+                }
+
+
+
+                return await prizes.ToListAsync();
+
+
             }
             catch (Exception ex)
             {
@@ -73,7 +89,7 @@ namespace ChineseAuctionAPI.Repositories
 
                 if (donor == null)
                 {
-                    
+
                     throw new ErrorResponse(404, "AddPrize", "Donor not found.", $"Cannot add prize because donor with ID {prize.DonorId} does not exist.", "POST", RepoLocation);
                 }
 
@@ -138,7 +154,7 @@ namespace ChineseAuctionAPI.Repositories
                 throw new ErrorResponse(500, "GetPrizesByIds", "Failed to retrieve the selected prizes.", ex.Message, "GET", RepoLocation);
             }
         }
-    
+
 
     }
 }

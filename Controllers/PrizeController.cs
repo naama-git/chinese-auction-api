@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using FluentValidation;
+using ChineseAuctionAPI.Models.QueryParams;
 
 namespace ChineseAuctionAPI.Controllers
 {
@@ -25,10 +26,10 @@ namespace ChineseAuctionAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ReadPrizeDTO>>> GetAllPrizes()
+        public async Task<ActionResult<IEnumerable<ReadPrizeDTO>>> GetAllPrizes([FromQuery] PrizeQParams prizeQParams)
         {
 
-            var prizes = await _prizeService.GetPrizes();
+            var prizes = await _prizeService.GetPrizes(prizeQParams);
             return Ok(prizes);
         }
 

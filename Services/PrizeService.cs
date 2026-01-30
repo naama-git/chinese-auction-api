@@ -3,6 +3,7 @@ using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.Models.Exceptions;
+using ChineseAuctionAPI.Models.QueryParams;
 using System.Drawing;
 
 namespace ChineseAuctionAPI.Services
@@ -24,9 +25,9 @@ namespace ChineseAuctionAPI.Services
         }
 
 
-        public async Task<IEnumerable<ReadPrizeDTO>> GetPrizes()
+        public async Task<IEnumerable<ReadPrizeDTO>> GetPrizes(PrizeQParams prizeQParams)
         {
-            var prizes = await _prizeRepo.GetPrizes();
+            var prizes = await _prizeRepo.GetPrizes(prizeQParams);
             if (prizes == null) return Enumerable.Empty<ReadPrizeDTO>();
             
             return _mapper.Map<IEnumerable<ReadPrizeDTO>>(prizes);
