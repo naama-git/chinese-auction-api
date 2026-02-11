@@ -32,7 +32,9 @@ namespace ChineseAuctionAPI.Repositories
         {
             try
             {
-                return await _context.packages.ToListAsync();
+                return await _context.packages
+                    .OrderByDescending(p=>p.Price)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {

@@ -19,12 +19,15 @@ namespace ChineseAuctionAPI.Repositories
         }
 
 
-        public async Task AddOrder(Order order)
+        public async Task<Order> AddOrder(Order order)
         {
             try
             {
                 await _context.orders.AddAsync(order);
                 await _context.SaveChangesAsync();
+                return order;
+               
+                
             }
             catch (Exception ex)
             {
