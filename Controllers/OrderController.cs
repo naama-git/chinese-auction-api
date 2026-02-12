@@ -1,7 +1,6 @@
 ﻿using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
-using ChineseAuctionAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +21,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> AddOrder([FromBody] List<int> PackagesIds)
+        public async Task<ActionResult<ReadOrderDTO>> AddOrder([FromBody] List<int> PackagesIds)
         {
             var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
 
@@ -33,10 +32,9 @@ namespace ChineseAuctionAPI.Controllers
 
             int userId = int.Parse(userIdClaim.Value);
 
-            
-            await _orderService.AddOrder(userId, PackagesIds);
+            var order=await _orderService.AddOrder(userId, PackagesIds);
 
-            return Ok(new { message = "Order created successfully" });
+            return Ok(order);
         }
 
    
