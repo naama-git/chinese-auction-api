@@ -60,7 +60,7 @@ namespace ChineseAuctionAPI.Services
 
                     if (tickets == null || !tickets.Any())
                     {
-                        throw new ErrorResponse(404, "PerformRaffle", "Tickets to this ruffle were not found.", $"Cannot fetch tickets for this Prize ID {prizeId}.", null, Location);
+                        throw new ErrorResponse(404, "PerformRaffle", "No tickets found for this lottery.", $"Cannot fetch tickets for this Prize ID {prizeId}.", null, Location);
                     }
 
                     Random rnd = new Random();
@@ -85,6 +85,12 @@ namespace ChineseAuctionAPI.Services
             
                     scope.Complete();
                     return comWinner;
+                }
+
+                catch (ErrorResponse ex)
+                {
+                    
+                    throw;
                 }
                 catch (Exception ex)
                 {
