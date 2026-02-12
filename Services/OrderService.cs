@@ -4,7 +4,6 @@ using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.Models.Exceptions;
 using System.Transactions;
-using static ChineseAuctionAPI.DTO.PackageDTO;
 using static ChineseAuctionAPI.DTO.TicketDTO;
 
 namespace ChineseAuctionAPI.Services
@@ -19,11 +18,11 @@ namespace ChineseAuctionAPI.Services
         private readonly IPackageService _packageService;
         private readonly IUserService _userService;
         private readonly ICartService _cartService;
-        
+
 
         private readonly IMapper _mapper;
 
-        public OrderService(IOrderRepo orderRepo, ITicketService ticketService, IPrizeService prizeService, IPackageService packageService,ICartService cartService, IUserService userService, IMapper mapper)
+        public OrderService(IOrderRepo orderRepo, ITicketService ticketService, IPrizeService prizeService, IPackageService packageService, ICartService cartService, IUserService userService, IMapper mapper)
         {
             _orderRepo = orderRepo;
 
@@ -31,13 +30,13 @@ namespace ChineseAuctionAPI.Services
             _prizeService = prizeService;
             _userService = userService;
             _packageService = packageService;
-            _cartService=cartService;
+            _cartService = cartService;
 
             _mapper = mapper;
         }
 
 
-        public async Task AddOrder(int userId, List<int> PackagesIds)
+        public async Task<ReadOrderDTO> AddOrder(int userId, List<int> PackagesIds)
         {
             var transactionOptions = new TransactionOptions
             {
@@ -51,8 +50,9 @@ namespace ChineseAuctionAPI.Services
             {
                 try
                 {
-                    var user= await _userService.GetUserById(userId);
-                    if (user == null){
+                    var user = await _userService.GetUserById(userId);
+                    if (user == null)
+                    {
                         throw new ErrorResponse(404, "AddOrder", "User not found", $"User with the provided ID {userId} does not exist.", "POST", Location);
                     }
                     var cart = await _cartService.GetCartByUserId(userId);
@@ -68,10 +68,10 @@ namespace ChineseAuctionAPI.Services
 
                     var prizesList = cartItems.Where(ci => ci.Prize != null).Select(ci => ci.PrizeId).ToList();
 
-                    var prizes=await _prizeService.GetPrizesByIds(prizesList);
+                    var prizes = await _prizeService.GetPrizesByIds(prizesList);
 
                     // add tickets to DB
-                    List <TicketCreateDTO> tickets = [];
+                    List<TicketCreateDTO> tickets = [];
                     foreach (var item in cartItems)
                     {
                         var prizeId = item.PrizeId;
@@ -84,14 +84,14 @@ namespace ChineseAuctionAPI.Services
                         await _ticketService.AddTicketsRange(tickets, prizeId);
                         tickets = [];
                     }
-                    
 
-                    
+
+
                     // check total quantity of prizes vs total number of tickets in packages
                     var packages = await _packageService.GetPackagesByIds(PackagesIds);
-                    var totalQty= cartItems.Sum(ci => ci.Quantity);
-                    var totalNumOfTIckets=packages.Sum(p => p.NumOfTickets);
-                    if(totalQty != totalNumOfTIckets )
+                    var totalQty = cartItems.Sum(ci => ci.Quantity);
+                    var totalNumOfTIckets = packages.Sum(p => p.NumOfTickets);
+                    if (totalQty != totalNumOfTIckets)
                     {
                         throw new ErrorResponse(400, "AddOrder", $"Insufficient tickets: {totalQty} vs {totalNumOfTIckets}", $"The total quantity of prizes in the cart exceeds the total number of tickets in the selected packages.", "POST", Location);
                     }
@@ -107,11 +107,12 @@ namespace ChineseAuctionAPI.Services
                         OrderDate = DateTime.UtcNow,
                         TotalPrice = totalPrice
                     };
-                  
-                    await _orderRepo.AddOrder(order);
+
+                    var completeOrder=await _orderRepo.AddOrder(order);
                     await _cartService.PurchaseCart(userId);
 
                     scope.Complete();
+                    return _mapper.Map<ReadOrderDTO>(completeOrder);
 
                 }
 
@@ -120,7 +121,7 @@ namespace ChineseAuctionAPI.Services
                     throw new ErrorResponse(500, "AddOrder", "Internal Server Error", $"Something went wrong: {ex.Message}", "POST", Location);
                 }
 
-
+                
             }
 
         }

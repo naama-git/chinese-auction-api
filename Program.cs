@@ -9,7 +9,6 @@ using ChineseAuctionAPI.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -17,7 +16,7 @@ using Serilog.Events;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
+
 
 
 namespace ChineseAuctionAPI
@@ -105,7 +104,7 @@ namespace ChineseAuctionAPI
                     .AddJsonOptions(options =>
                     {
                         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                        
+
                     });
 
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

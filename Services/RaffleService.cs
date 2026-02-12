@@ -1,11 +1,7 @@
-﻿using AutoMapper;
+﻿
 using ChineseAuctionAPI.Interface;
-using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.Models.Exceptions;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query;
-using System.Collections;
+
 using System.Transactions;
 using static ChineseAuctionAPI.DTO.WinnerDTO;
 
@@ -41,7 +37,7 @@ namespace ChineseAuctionAPI.Services
             using (var scope = new TransactionScope(
                 TransactionScopeOption.Required, 
                 options, 
-                TransactionScopeAsyncFlowOption.Enabled)) // קריטי לעבודה עם async/await
+                TransactionScopeAsyncFlowOption.Enabled)) 
             {
                 try
                 {

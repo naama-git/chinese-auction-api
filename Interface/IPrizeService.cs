@@ -1,12 +1,13 @@
 ﻿using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Models;
+using ChineseAuctionAPI.Models.QueryParams;
 
 namespace ChineseAuctionAPI.Interface
 {
     public interface IPrizeService
     {
 
-        public Task<IEnumerable<ReadPrizeDTO>> GetPrizes();
+        public Task<IEnumerable<ReadPrizeDTO>> GetPrizes(PrizeQParams prizeQParams);
         //public Task<IEnumerable<Prize>> GetPrizesEntities();
         public Task<IEnumerable<Prize>> GetPrizesByIds(List<int> prizesIds);
         public Task AddPrize(CreatePrizeDTO prize);
