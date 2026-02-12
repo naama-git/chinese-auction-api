@@ -32,7 +32,7 @@ namespace ChineseAuctionAPI.Controllers
 
             int userId = int.Parse(userIdClaim.Value);
 
-            var order=await _orderService.AddOrder(userId, PackagesIds);
+            var order = await _orderService.AddOrder(userId, PackagesIds);
 
             return Ok(order);
         }

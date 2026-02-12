@@ -29,7 +29,7 @@ namespace ChineseAuctionAPI.Services
             _userService = userService;
             
         }
-        public async Task AddWinnerToPrize(CreateWinnerDTO createWinnerDTO)
+        public async Task<ReadWinnerDTO> AddWinnerToPrize(CreateWinnerDTO createWinnerDTO)
         {
             var user = await _userService.GetUserById(createWinnerDTO.UserId);
             if (user == null) {
@@ -48,7 +48,9 @@ namespace ChineseAuctionAPI.Services
                 throw new ErrorResponse(500, "GetWinnersByPrizeId", "Error processing winner data.", "Mapping CreateWinnerDTO failed.", "POST", Location);
             }
 
-            await _repo.addWinnerToPrize(winnerEntity);
+
+             var winner=await _repo.addWinnerToPrize(winnerEntity);
+            return _mapper.Map<ReadWinnerDTO>(winner);
         }
 
         public async Task<IEnumerable<ReadWinnerDTO>> GetWinnersByPrizeId(int prizeId)

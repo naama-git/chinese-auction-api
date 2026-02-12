@@ -26,7 +26,7 @@ namespace ChineseAuctionAPI.Services
             
         }
 
-        public async Task<CreateWinnerDTO> PerformRaffle(int prizeId)
+        public async Task<ReadWinnerDTO> PerformRaffle(int prizeId)
         {
             var options = new TransactionOptions 
             { 
@@ -74,7 +74,7 @@ namespace ChineseAuctionAPI.Services
                         PrizeId = prizeId,
                     };
 
-                    await _winnerService.AddWinnerToPrize(winner);
+                    var comWinner=await _winnerService.AddWinnerToPrize(winner);
 
                     // Decrease the quantity of the prize by 1
                     if (prize.Qty > 1)
@@ -84,7 +84,7 @@ namespace ChineseAuctionAPI.Services
                     
             
                     scope.Complete();
-                    return winner;
+                    return comWinner;
                 }
                 catch (Exception ex)
                 {

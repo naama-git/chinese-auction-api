@@ -31,6 +31,8 @@ namespace ChineseAuctionAPI.Repositories
                     .Include(p => p.Donor)
                     .Include(p => p.Categories)
                     .Include(p => p.Tickets)
+                    .Include(p=>p.Winners)
+                    .ThenInclude(w=>w.User)
                     .ApplyFilter(prizeQParams);
 
                 if (prizeQParams.CategoriesIds != null && prizeQParams.CategoriesIds.Count > 0)
@@ -63,6 +65,8 @@ namespace ChineseAuctionAPI.Repositories
                     .Include(p => p.Donor)
                     .Include(p => p.Categories)
                     .Include(p => p.Tickets)
+                    .Include (p => p.Winners)
+                    
                     .FirstOrDefaultAsync(p => p.Id == id);
 
                 if (prize == null)
@@ -147,6 +151,7 @@ namespace ChineseAuctionAPI.Repositories
                     .Where(p => prizeIds.Contains(p.Id))
                     .Include(p => p.Donor)
                     .Include(p => p.Categories)
+                    .Include(p=>p.Winners)
                     .ToListAsync();
             }
             catch (Exception ex)
