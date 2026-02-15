@@ -7,7 +7,7 @@ using static ChineseAuctionAPI.DTO.PackageDTO;
 using static ChineseAuctionAPI.DTO.WinnerDTO;
 using static ChineseAuctionAPI.DTO.CartDTO;
 using static ChineseAuctionAPI.DTO.CategotyDTO;
-
+//Update-Database
 
 namespace ChineseAuctionAPI.Mapping
 {
