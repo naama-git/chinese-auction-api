@@ -15,13 +15,14 @@ namespace ChineseAuctionAPI.Repositories
         {
             _context = context;
         }
-        public async Task addWinnerToPrize(Winner winner)
+        public async Task<Winner> addWinnerToPrize(Winner winner)
         {
 
             try
             {
                 await _context.winners.AddAsync(winner);
                 await _context.SaveChangesAsync();
+                return winner;
             }
             catch (Exception ex)
             {

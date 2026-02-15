@@ -21,7 +21,7 @@ namespace ChineseAuctionAPI.Controllers
 
         [HttpPost("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<CreateWinnerDTO>> ExecuteRaffle(int id)
+        public async Task<ActionResult<ReadWinnerDTO>> ExecuteRaffle(int id)
         {
             var winner = await _raffleService.PerformRaffle(id);
 

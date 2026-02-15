@@ -20,8 +20,14 @@ namespace ChineseAuctionAPI.DTO
         public class ReadWinnerDTO
         {
             public int Id { get; set; }
-            public ResponseUserDTO User { get; set; }
+            public ReadUserDTO User { get; set; }
             public PrizeForWinnerDTO Prize { get; set; }
+        }
+
+        public class ReadWinnerInPrizeDTO
+        {
+            public int Id { get; set; }
+            public ReadUserDTO User { get; set; }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using ChineseAuctionAPI.DTO;
 using static ChineseAuctionAPI.DTO.CategotyDTO;
+using static ChineseAuctionAPI.DTO.WinnerDTO;
 
 namespace ChineseAuctionAPI.DTO
 {
@@ -45,6 +46,7 @@ namespace ChineseAuctionAPI.DTO
         public DonorForReadPrizesDTO Donor { get; set; }
 
         public List<CategoryDTOWithId> Categories { get; set; }
+        public List<ReadWinnerInPrizeDTO> Winners { get; set; }
 
         public string ImagePath { get; set; }
 
@@ -99,8 +101,9 @@ namespace ChineseAuctionAPI.DTO
 
         public string ImagePath { get; set; }
 
-        
-        
+        public List<ReadWinnerInPrizeDTO> Winners { get; set; }
+
+
     }
     public class PrizeForWinnerDTO
     {

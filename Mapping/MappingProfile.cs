@@ -60,7 +60,8 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Winner, ReadWinnerDTO>();
             CreateMap<User, ResponseUserDTO>();
             CreateMap<Prize, PrizeForWinnerDTO>();
-            CreateMap<Winner, ReadWinnerDTO>();
+            CreateMap<Winner, ReadWinnerInPrizeDTO>();
+
 
             //Order
             CreateMap<Order, ReadOrderDTO>();

@@ -26,7 +26,7 @@ namespace ChineseAuctionAPI.Services
             
         }
 
-        public async Task<CreateWinnerDTO> PerformRaffle(int prizeId)
+        public async Task<ReadWinnerDTO> PerformRaffle(int prizeId)
         {
             var options = new TransactionOptions 
             { 
@@ -60,7 +60,7 @@ namespace ChineseAuctionAPI.Services
 
                     if (tickets == null || !tickets.Any())
                     {
-                        throw new ErrorResponse(404, "PerformRaffle", "Tickets to this ruffle were not found.", $"Cannot fetch tickets for this Prize ID {prizeId}.", null, Location);
+                        throw new ErrorResponse(404, "PerformRaffle", "No tickets found for this lottery.", $"Cannot fetch tickets for this Prize ID {prizeId}.", null, Location);
                     }
 
                     Random rnd = new Random();
@@ -74,7 +74,7 @@ namespace ChineseAuctionAPI.Services
                         PrizeId = prizeId,
                     };
 
-                    await _winnerService.AddWinnerToPrize(winner);
+                    var comWinner=await _winnerService.AddWinnerToPrize(winner);
 
                     // Decrease the quantity of the prize by 1
                     if (prize.Qty > 1)
@@ -84,7 +84,13 @@ namespace ChineseAuctionAPI.Services
                     
             
                     scope.Complete();
-                    return winner;
+                    return comWinner;
+                }
+
+                catch (ErrorResponse ex)
+                {
+                    
+                    throw;
                 }
                 catch (Exception ex)
                 {

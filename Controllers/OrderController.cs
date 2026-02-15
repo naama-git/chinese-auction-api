@@ -1,7 +1,6 @@
 ﻿using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
-using ChineseAuctionAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +32,7 @@ namespace ChineseAuctionAPI.Controllers
 
             int userId = int.Parse(userIdClaim.Value);
 
-            var order=await _orderService.AddOrder(userId, PackagesIds);
+            var order = await _orderService.AddOrder(userId, PackagesIds);
 
             return Ok(order);
         }

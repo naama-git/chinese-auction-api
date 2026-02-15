@@ -5,7 +5,7 @@ namespace ChineseAuctionAPI.Interface
 {
     public interface IRaffleService
     {
-        public Task<CreateWinnerDTO> PerformRaffle(int prizeId);
+        public Task<ReadWinnerDTO> PerformRaffle(int prizeId);
 
     }
 }

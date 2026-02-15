@@ -27,6 +27,9 @@ namespace ChineseAuctionAPI.Models
 
         public List<Ticket> Tickets { get; set; }
 
+
+        public List<Winner> Winners { get; set; }
+
          
 
 
