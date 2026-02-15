@@ -57,6 +57,19 @@ namespace ChineseAuctionAPI.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        [HttpGet("GetRevenue")]
+        public async Task<ActionResult<double>> GetRevenue()
+        {
+            try
+            {
+                var revenue = await _winnerService.GetRevanue();
+                return Ok(new { revenue });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 
 }

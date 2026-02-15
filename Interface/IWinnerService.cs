@@ -7,5 +7,7 @@ namespace ChineseAuctionAPI.Interface
         public Task<ReadWinnerDTO> AddWinnerToPrize(CreateWinnerDTO createWinnerDTO);
         public Task<IEnumerable<ReadWinnerDTO>> GetWinnersByPrizeId(int prizeId);
         public Task<IEnumerable<ReadWinnerDTO>> GetAllWinners();
+        public Task<double> GetRevanue();
+
     }
 }

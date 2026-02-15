@@ -15,18 +15,19 @@ namespace ChineseAuctionAPI.Services
 
         private readonly IUserService _userService;
         private readonly IPrizeService _prizeService;
-
+        private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
 
 
 
         
-        public WinnerService(IWinnerRepo repo, IMapper mapper, IPrizeService prizeService, IUserService userService)
+        public WinnerService(IWinnerRepo repo, IMapper mapper, IPrizeService prizeService, IUserService userService , IOrderService OrderService)
         {
             _repo = repo;
             _mapper = mapper;
             _prizeService = prizeService;
             _userService = userService;
+            _orderService = OrderService;
             
         }
         public async Task<ReadWinnerDTO> AddWinnerToPrize(CreateWinnerDTO createWinnerDTO)
@@ -71,6 +72,16 @@ namespace ChineseAuctionAPI.Services
             var winners = await _repo.getAllWinners();
             if (winners == null) return Enumerable.Empty<ReadWinnerDTO>();
             return _mapper.Map<IEnumerable<ReadWinnerDTO>>(winners);
+        }
+        public async Task<double> GetRevanue()
+        {
+            var orders = _orderService.GetOrders(new OrderQParams ());
+            double sum = 0;
+            for(int i = 0;i<orders.Result.Count();i++)
+            {
+                sum += orders.Result.ElementAt(i).TotalPrice;
+            }
+            return sum;
         }
     }
 }
