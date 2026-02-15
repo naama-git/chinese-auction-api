@@ -7,7 +7,7 @@ using static ChineseAuctionAPI.DTO.PackageDTO;
 using static ChineseAuctionAPI.DTO.WinnerDTO;
 using static ChineseAuctionAPI.DTO.CartDTO;
 using static ChineseAuctionAPI.DTO.CategotyDTO;
-
+//Update-Database
 
 namespace ChineseAuctionAPI.Mapping
 {
@@ -60,7 +60,7 @@ namespace ChineseAuctionAPI.Mapping
             CreateMap<Winner, ReadWinnerDTO>();
             CreateMap<User, ResponseUserDTO>();
             CreateMap<Prize, PrizeForWinnerDTO>();
-
+            CreateMap<Winner, ReadWinnerDTO>();
 
             //Order
             CreateMap<Order, ReadOrderDTO>();
