@@ -45,6 +45,7 @@ namespace ChineseAuctionAPI.Controllers
             }
         }
         [HttpGet("GetAllWinners")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllWinners()
         {
             try
@@ -58,12 +59,13 @@ namespace ChineseAuctionAPI.Controllers
             }
         }
         [HttpGet("GetRevenue")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<double>> GetRevenue()
         {
             try
             {
                 var revenue = await _winnerService.GetRevanue();
-                return Ok(new { revenue });
+                return Ok(revenue);
             }
             catch (Exception ex)
             {
