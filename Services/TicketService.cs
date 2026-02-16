@@ -89,6 +89,14 @@ namespace ChineseAuctionAPI.Services
 
         }
 
-      
+        public async Task<int> GetNumOfSoldTickets()
+        {
+            int numOfTickets = await _repo.GetNumOfSoldTickets();
+
+            return numOfTickets;
+        }
+
+
+
     }
 }

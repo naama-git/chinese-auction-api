@@ -117,6 +117,17 @@ namespace ChineseAuctionAPI.Repositories
             }
         }
 
+        public async Task<int> GetNumOfSoldTickets()
+        {
+            try
+            {
+                return await _context.tickets.CountAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ErrorResponse(500, "GetNumOfSoldTickets", "An error occurred while retrieving tickets.", ex.Message, "GET", RepoLocation);
+            }
+        }
 
 
     }

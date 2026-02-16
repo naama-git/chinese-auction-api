@@ -46,7 +46,7 @@ namespace ChineseAuctionAPI.Controllers
         }
         [HttpGet("GetAllWinners")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAllWinners()
+        public async Task<ActionResult<ReadWinnerDTO>> GetAllWinners()
         {
             try
             {

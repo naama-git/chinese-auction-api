@@ -11,6 +11,7 @@ namespace ChineseAuctionAPI.Interface
 
         public Task AddTicketsRange(List<Ticket> tickets, int prizeId);
         public Task<int> GetNumOfSoldTicketsByPrizeId(int prizeId);
+        public Task<int> GetNumOfSoldTickets();
 
     }
 }

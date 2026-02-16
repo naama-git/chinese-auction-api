@@ -10,6 +10,6 @@ namespace ChineseAuctionAPI.Interface
         public Task AddTicketsRange(List<TicketCreateDTO> tickets, int orizeId);
         public Task<IEnumerable<TicketReadDTO>> GetTicketsByPrizeId(int prizeId);
         public Task<IEnumerable<TicketReadDTO>> GetTicketsByUserIdAndprizeId(int userId, int prizeId);
-       
+        public Task<int> GetNumOfSoldTickets();
     }
 }

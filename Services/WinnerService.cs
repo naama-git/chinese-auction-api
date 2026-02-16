@@ -75,11 +75,11 @@ namespace ChineseAuctionAPI.Services
         }
         public async Task<double> GetRevanue()
         {
-            var orders = _orderService.GetOrders(new OrderQParams ());
+            var orders =await  _orderService.GetOrders(new OrderQParams ());
             double sum = 0;
-            for(int i = 0;i<orders.Result.Count();i++)
+            for(int i = 0;i<orders.Count();i++)
             {
-                sum += orders.Result.ElementAt(i).TotalPrice;
+                sum += orders.ElementAt(i).TotalPrice;
             }
             return sum;
         }
