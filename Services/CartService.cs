@@ -39,7 +39,7 @@ namespace ChineseAuctionAPI.Services
             }
             if (prize.Winners.Count()>0)
             {
-                throw new ErrorResponse(404, "AddPrizeToCart", "The prize has already been drawn.", $"Prize with the provided ID {prizeId} has already been drawn.", "POST", Location);
+                throw new ErrorResponse(400, "AddPrizeToCart", "The prize has already been drawn.", $"Prize with the provided ID {prizeId} has already been drawn.", "POST", Location);
             }
 
             var cart = await _repo.GetCartByUserId(userId);
