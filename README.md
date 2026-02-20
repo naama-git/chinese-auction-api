@@ -5,7 +5,7 @@
     Expect breaking changes and incomplete features
 
    This project is the backend server built with .NET. It communicates with a client frontend in the following link:
-   [Frontend Repository](https://github.com/Lea2166/ChineseAuctionClient)
+   [Frontend Repository](https://github.com/naama-git/ChineseAuctionClient)
 
   ## Project Structure
   ```
