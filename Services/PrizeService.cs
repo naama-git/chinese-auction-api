@@ -4,7 +4,9 @@ using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.Models.Exceptions;
 using ChineseAuctionAPI.Models.QueryParams;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Drawing;
+using System.Text.Json;
 
 namespace ChineseAuctionAPI.Services
 {
@@ -15,22 +17,45 @@ namespace ChineseAuctionAPI.Services
         private readonly ICategoryService _categoryService;
         private readonly ITicketService _ticketService;
         private readonly IMapper _mapper;
+        private readonly IDistributedCache _cache;
+        private readonly IConfiguration _config;
 
-        public PrizeService(IPrizeRepo prizeRepo, IMapper mapper, ITicketService ticketService, ICategoryService categoryService    )
+        public PrizeService(IPrizeRepo prizeRepo, IMapper mapper, ITicketService ticketService, ICategoryService categoryService, IDistributedCache cache, IConfiguration connfig)
         {
             _prizeRepo = prizeRepo;
             _mapper = mapper;
             _ticketService = ticketService;
             _categoryService = categoryService;
+            _cache = cache;
+            _config = connfig;
         }
 
 
         public async Task<IEnumerable<ReadPrizeDTO>> GetPrizes(PrizeQParams prizeQParams)
         {
+
+            var cachedPrizes = await _cache.GetStringAsync("prizes");
+            if (!string.IsNullOrEmpty(cachedPrizes))
+            {
+                var cprizes = JsonSerializer.Deserialize<IEnumerable<ReadPrizeDTO>>(cachedPrizes);
+                Console.WriteLine("from cache");
+                return cprizes;
+            }
             var prizes = await _prizeRepo.GetPrizes(prizeQParams);
             if (prizes == null) return Enumerable.Empty<ReadPrizeDTO>();
-            
-            return _mapper.Map<IEnumerable<ReadPrizeDTO>>(prizes);
+
+            var ttlMinutes = _config.GetValue<int>("CacheSettings:TtlMinutes");
+            var options = new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(ttlMinutes)
+            };
+
+            var prizesDto = _mapper.Map<IEnumerable<ReadPrizeDTO>>(prizes);
+            var serializedPrizes = JsonSerializer.Serialize(prizesDto);
+
+            await _cache.SetStringAsync("prizes", serializedPrizes, options);
+
+            return prizesDto;
         }
 
 

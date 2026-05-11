@@ -50,7 +50,27 @@ namespace ChineseAuctionAPI
 
                 //add Authentication
                 var jwtSettings = builder.Configuration.GetSection("Jwt");
-                var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+                string? jwtKey = jwtSettings["Key"];
+
+                if (string.IsNullOrEmpty(jwtKey))
+                {
+                    jwtKey = Environment.GetEnvironmentVariable("Jwt__Key");
+                }
+
+                if (string.IsNullOrEmpty(jwtKey))
+                {
+                    if (builder.Environment.IsDevelopment())
+                    {
+                        jwtKey = "This_Is_A_Super_Secret_Key_For_Development_Only_12345";
+                    }
+                    else
+                    {
+                        throw new Exception("FATAL: JWT Key is not configured!");
+                    }
+                }
+
+                var key = Encoding.UTF8.GetBytes(jwtKey);
+
                 builder.Services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -107,7 +127,13 @@ namespace ChineseAuctionAPI
 
                     });
 
-                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+                var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
+                builder.Services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = redisConnectionString;
+                    options.InstanceName = "MyApp_"; 
+                });
+
                 builder.Services.AddEndpointsApiExplorer();
 
                 builder.Services.AddSwaggerGen(c =>
@@ -145,7 +171,7 @@ namespace ChineseAuctionAPI
                 builder.Services.AddDbContext<ChineseAuctionDBcontext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
                 );
-
+              
                 // dbfactory
                 builder.Services.AddSingleton<DbContextFactory>();
 

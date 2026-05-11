@@ -1,0 +1,21 @@
+services:
+  redis:
+    image: redis
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    ports:
+      - "${REDIS_PORT}:6379"
+  server:
+    build:
+      context: .
+      # target: final
+    env_file:
+        - .env
+    ports:
+      - 8080:8080
+    environment: 
+        - ASPNETCORE_ENVIRONMENT=Development
+        - Jwt__Key=${JWT_KEY}
+        - ConnectionStrings__DefaultConnection=${SQL_CONNECTION_STRING_DOCKER}
+  
+
+
