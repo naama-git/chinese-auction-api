@@ -1,7 +1,7 @@
 ﻿
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models.Exceptions;
-
+using System.Text.Json;
 using System.Transactions;
 using static ChineseAuctionAPI.DTO.WinnerDTO;
 
@@ -17,12 +17,19 @@ namespace ChineseAuctionAPI.Services
 
         private readonly IPrizeService _prizeService;
 
+        private readonly IKafkaProducerService _kafkaProducer;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<RaffleService> _logger;
+
        
-        public RaffleService(ITicketService ticketService, IWinnerService winnerService, IPrizeService prizeService)
+        public RaffleService(ITicketService ticketService, IWinnerService winnerService, IPrizeService prizeService, IKafkaProducerService kafkaProducer,IConfiguration configuration, ILogger<RaffleService> logger)
         {
             _ticketService = ticketService;
             _winnerService = winnerService;
             _prizeService = prizeService;
+            _configuration=configuration;
+            _kafkaProducer = kafkaProducer;
+            _logger=logger;
             
         }
 
@@ -84,6 +91,9 @@ namespace ChineseAuctionAPI.Services
                     
             
                     scope.Complete();
+
+                    await PublishRaffleCompletedEvent(comWinner);
+
                     return comWinner;
                 }
 
@@ -97,7 +107,45 @@ namespace ChineseAuctionAPI.Services
                      throw new ErrorResponse(500, "AddOrder", "Internal Server Error", $"Something went wrong: {ex.Message}", "POST", Location);
                 }
 
-             }
-                } 
-            }
+          }
+        } 
+
+        private async Task PublishRaffleCompletedEvent(ReadWinnerDTO winner)
+        {
+            var topic = _configuration["Kafka:Topics:RaffleCompleted"];
+
+            var payload = new
+            {
+                EventType  = "RaffleCompleted",
+                Timestamp  = DateTime.UtcNow,
+                WinnerId   = winner.Id,
+                User = new
+                {
+                    winner.User.Id,
+                    winner.User.Name,
+                    winner.User.Email
+                },
+                Prize = new
+                {
+                    winner.Prize.Id,
+                    winner.Prize.Name,
+                    winner.Prize.CategoriesNames,
+                    winner.Prize.ImagePath
+                }
+            };
+
+            var message = JsonSerializer.Serialize(payload);
+
+            await _kafkaProducer.ProduceAsync(
+                topic: topic!,
+                key: winner.Prize.Id.ToString(),   
+                value: message);
+
+            _logger.LogInformation(
+                "RaffleCompleted published — PrizeId={PrizeId}, WinnerId={WinnerId}",
+                winner.Prize.Id, winner.User.Id);
+        }
+    }
+
+            
 }

@@ -149,6 +149,8 @@ namespace ChineseAuctionAPI
                     options.InstanceName = "MyApp_"; 
                 });
 
+               
+
                 // API Explorer
                 builder.Services.AddEndpointsApiExplorer();
                 
@@ -186,7 +188,15 @@ namespace ChineseAuctionAPI
 
                 // dbContext
                 builder.Services.AddDbContext<ChineseAuctionDBcontext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                    options.UseSqlServer(
+                        builder.Configuration.GetConnectionString("DefaultConnection"),
+                        sqlOptions => sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(10),
+                            errorNumbersToAdd: null
+                            )
+                        )
+                    
                 );
               
                 // dbfactory
@@ -231,6 +241,9 @@ namespace ChineseAuctionAPI
 
                 //Raffle
                 builder.Services.AddScoped<IRaffleService, RaffleService>();
+
+                // Kafka
+                builder.Services.AddSingleton<IKafkaProducerService, KafkaProducerService>();
 
                 // validations
                 builder.Services.AddValidatorsFromAssemblyContaining<UserRegisterValidator>();

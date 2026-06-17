@@ -18,14 +18,11 @@ namespace ChineseAuctionAPI.Services
         private readonly IPackageService _packageService;
         private readonly IUserService _userService;
         private readonly ICartService _cartService;
-
-
         private readonly IMapper _mapper;
 
         public OrderService(IOrderRepo orderRepo, ITicketService ticketService, IPrizeService prizeService, IPackageService packageService, ICartService cartService, IUserService userService, IMapper mapper)
         {
             _orderRepo = orderRepo;
-
             _ticketService = ticketService;
             _prizeService = prizeService;
             _userService = userService;
