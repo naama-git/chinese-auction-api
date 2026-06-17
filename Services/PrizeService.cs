@@ -4,6 +4,7 @@ using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models;
 using ChineseAuctionAPI.Models.Exceptions;
 using ChineseAuctionAPI.Models.QueryParams;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Drawing;
 using System.Text.Json;
@@ -31,6 +32,7 @@ namespace ChineseAuctionAPI.Services
         }
 
 
+        
         public async Task<IEnumerable<ReadPrizeDTO>> GetPrizes(PrizeQParams prizeQParams)
         {
 
