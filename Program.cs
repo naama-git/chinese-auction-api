@@ -8,6 +8,7 @@ using ChineseAuctionAPI.Services;
 using ChineseAuctionAPI.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -16,7 +17,6 @@ using Serilog.Events;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
 using System.Text;
-
 
 
 namespace ChineseAuctionAPI
@@ -48,7 +48,7 @@ namespace ChineseAuctionAPI
                         .Enrich.WithCorrelationId());
 
 
-                //add Authentication
+                // Authentication
                 var jwtSettings = builder.Configuration.GetSection("Jwt");
                 string? jwtKey = jwtSettings["Key"];
 
@@ -108,6 +108,7 @@ namespace ChineseAuctionAPI
                     };
                 });
 
+                // CORS
                 builder.Services.AddCors(options =>
                 {
                     options.AddDefaultPolicy(policy =>
@@ -118,6 +119,19 @@ namespace ChineseAuctionAPI
                     });
                 });
 
+                //Rate limiting
+                builder.Services.AddRateLimiter(options =>
+                {
+                    options.AddSlidingWindowLimiter("rateLimiting", opt =>
+                    {
+                        opt.Window = TimeSpan.FromMinutes(1);
+                        opt.SegmentsPerWindow = 6;           
+                        opt.PermitLimit = 100;
+                        opt.QueueLimit = 0;
+                    });
+
+                    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+                });
 
                 // Add services to the container
                 builder.Services.AddControllers()
@@ -126,7 +140,8 @@ namespace ChineseAuctionAPI
                         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
 
                     });
-
+                
+                // Redis cache
                 var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
                 builder.Services.AddStackExchangeRedisCache(options =>
                 {
@@ -134,8 +149,10 @@ namespace ChineseAuctionAPI
                     options.InstanceName = "MyApp_"; 
                 });
 
+                // API Explorer
                 builder.Services.AddEndpointsApiExplorer();
-
+                
+                // Swagger
                 builder.Services.AddSwaggerGen(c =>
                 {
                     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -155,7 +172,7 @@ namespace ChineseAuctionAPI
                                 Reference = new OpenApiReference
                                 {
                                     Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer" // ???? ????? ??? ??? ???? ?-AddSecurityDefinition
+                                    Id = "Bearer" 
                                 }
                             },
                             new string[] {}
@@ -225,6 +242,7 @@ namespace ChineseAuctionAPI
 
                 var app = builder.Build();
 
+
                 //error middleware
                 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
@@ -240,23 +258,35 @@ namespace ChineseAuctionAPI
                         return LogEventLevel.Error;
                     }
                 );
+
+                // ---- Activaion ----
+
+                // Static files
                 app.UseStaticFiles();
-                // Configure the HTTP request pipeline.
+                
+                // Swagger on
                 if (app.Environment.IsDevelopment())
                 {
                     app.UseSwagger();
                     app.UseSwaggerUI();
                 }
 
+                // cors on
                 app.UseCors();
+
+                // rate limiting on 
+                app.UseRateLimiter();
 
                 app.UseHttpsRedirection();
 
+                // auth on
                 app.UseAuthentication();
                 app.UseAuthorization();
-
+                
+                // controllers on
                 app.MapControllers();
 
+                // app on
                 app.Run();
             }
 

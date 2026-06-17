@@ -1,10 +1,11 @@
 ﻿using ChineseAuctionAPI.DTO;
 using ChineseAuctionAPI.Interface;
+using ChineseAuctionAPI.Models.QueryParams;
+using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using FluentValidation;
-using ChineseAuctionAPI.Models.QueryParams;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace ChineseAuctionAPI.Controllers
 {
@@ -25,6 +26,7 @@ namespace ChineseAuctionAPI.Controllers
             _updateValidator = updateValidator;
         }
 
+        [EnableRateLimiting("MySlidingPolicy")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ReadPrizeDTO>>> GetAllPrizes([FromQuery] PrizeQParams prizeQParams)
         {
