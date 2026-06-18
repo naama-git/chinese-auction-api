@@ -1,5 +1,4 @@
 using Confluent.Kafka;
-using Microsoft.Extensions.Options;
 using ChineseAuctionAPI.Interface;
 
 namespace ChineseAuctionAPI.Services
@@ -14,7 +13,6 @@ namespace ChineseAuctionAPI.Services
         {
             _logger = logger;
 
-            // ProducerConfig מקבל את פרטי החיבור מה-appsettings
             var config = new ProducerConfig
             {
                 BootstrapServers = configuration["Kafka:BootstrapServers"],

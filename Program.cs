@@ -47,7 +47,7 @@ namespace ChineseAuctionAPI
                         .Enrich.FromLogContext()
                         .Enrich.WithCorrelationId());
 
-
+                
                 // Authentication
                 var jwtSettings = builder.Configuration.GetSection("Jwt");
                 string? jwtKey = jwtSettings["Key"];
@@ -254,7 +254,7 @@ namespace ChineseAuctionAPI
 
 
                 var app = builder.Build();
-
+                
 
                 //error middleware
                 app.UseMiddleware<ExceptionHandlingMiddleware>();

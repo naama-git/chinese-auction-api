@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using static ChineseAuctionAPI.DTO.UserDTO;
 
 
@@ -18,11 +19,15 @@ namespace ChineseAuctionAPI.Services
         private readonly IUserRepo _repo;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        public UserService(IUserRepo repo, IMapper mapper, IConfiguration configuration)
+        private readonly IKafkaProducerService _kafkaProducer;
+        private readonly ILogger<UserService> _logger;
+        public UserService(IUserRepo repo, IMapper mapper, IConfiguration configuration, IKafkaProducerService kafkaProducer, ILogger<UserService> logger)
         {
             _repo = repo;
             _mapper = mapper;
             _configuration = configuration;
+            _kafkaProducer=kafkaProducer;
+            _logger=logger;
         }
 
         public async Task<IEnumerable<ReadUserDTO>> GetAllUsers()
@@ -91,6 +96,37 @@ namespace ChineseAuctionAPI.Services
             };
             return resUser;
 
+        }
+
+        private async Task PublishRaffleCompletedEvent(ResponseUserDTO user)
+        {
+            var topic = _configuration["Kafka:Topics:UserRegistered"];
+
+            var payload = new
+            {
+                EventType  = "userRegistered",
+                Timestamp  = DateTime.UtcNow,
+                UserId   = user.Id,
+                User = new
+                {
+                    user.Id,
+                    user.Email,
+                    user.Name,
+                    user.Role
+                },
+               
+            };
+
+            var message = JsonSerializer.Serialize(payload);
+
+            await _kafkaProducer.ProduceAsync(
+                topic: topic!,
+                key: user.Id.ToString(),   
+                value: message);
+
+            _logger.LogInformation(
+                "UserRegistered published — userId={User.Id}",
+                user.Id);
         }
 
         public async Task<ResponseUserDTO> LogInUser(LogInDTO user)

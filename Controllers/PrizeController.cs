@@ -26,7 +26,7 @@ namespace ChineseAuctionAPI.Controllers
             _updateValidator = updateValidator;
         }
 
-        [EnableRateLimiting("MySlidingPolicy")]
+        // [EnableRateLimiting("MySlidingPolicy")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ReadPrizeDTO>>> GetAllPrizes([FromQuery] PrizeQParams prizeQParams)
         {
