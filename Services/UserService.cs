@@ -94,11 +94,13 @@ namespace ChineseAuctionAPI.Services
                 Name = userEntity.FirstName + " " + userEntity.LastName
 
             };
+
+            await PublishUserRegisteredEvent(resUser);
             return resUser;
 
         }
 
-        private async Task PublishRaffleCompletedEvent(ResponseUserDTO user)
+        private async Task PublishUserRegisteredEvent(ResponseUserDTO user)
         {
             var topic = _configuration["Kafka:Topics:UserRegistered"];
 

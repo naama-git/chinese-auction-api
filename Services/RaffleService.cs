@@ -1,7 +1,6 @@
 ﻿
 using ChineseAuctionAPI.Interface;
 using ChineseAuctionAPI.Models.Exceptions;
-using System.Text.Json;
 using System.Transactions;
 using static ChineseAuctionAPI.DTO.WinnerDTO;
 
