@@ -1,8 +1,5 @@
-# Chinese Auction API (WIP)
+# Chinese Auction API 
   Web API-based Chinese Auction management system using ASP.NET Core technology.
-  
-   🚧 This project is currently under active development. 
-    Expect breaking changes and incomplete features
 
    This project is the backend server built with .NET. It communicates with a client frontend in the following link:
    [Frontend Repository](https://github.com/naama-git/ChineseAuctionClient)
